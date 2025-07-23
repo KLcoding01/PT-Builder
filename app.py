@@ -346,13 +346,6 @@ def pt_export_pdf():
 
 # ====== OT Section ======
 
-@app.route("/ot_load_template", methods=["POST"])
-@login_required
-def ot_load_template():
-    name = request.json.get("template", "")
-    text = OT_TEMPLATES.get(name, "")
-    return jsonify(ot_parse_template(text))
-
 @app.route("/pt_generate_diffdx", methods=["POST"])
 @login_required
 def pt_generate_diffdx():
