@@ -349,44 +349,46 @@ def pt_export_pdf():
 
 # ====== OT Section ======
 
-@app.route("/pt_generate_diffdx", methods=["POST"])
+# ====== OT Section ======
+
+@app.route("/ot_generate_diffdx", methods=["POST"])
 @login_required
-def pt_generate_diffdx():
+def ot_generate_diffdx():
     f = request.json.get("fields", {})
     pain = "; ".join(f"{lbl}: {f.get(key,'')}"
-                      for lbl, key in [
-                          ("Area/Location", "pain_location"),
-                          ("Onset", "pain_onset"),
-                          ("Condition", "pain_condition"),
-                          ("Mechanism", "pain_mechanism"),
-                          ("Rating", "pain_rating"),
-                          ("Frequency", "pain_frequency"),
-                          ("Description", "pain_description"),
-                          ("Aggravating", "pain_aggravating"),
-                          ("Relieved", "pain_relieved"),
-                          ("Interferes", "pain_interferes"),
-                      ])
+        for lbl, key in [
+            ("Area/Location", "ot_pain_location"),
+            ("Onset", "ot_pain_onset"),
+            ("Condition", "ot_pain_condition"),
+            ("Mechanism", "ot_pain_mechanism"),
+            ("Rating", "ot_pain_rating"),
+            ("Frequency", "ot_pain_frequency"),
+            ("Description", "ot_pain_description"),
+            ("Aggravating", "ot_pain_aggravating"),
+            ("Relieved", "ot_pain_relieved"),
+            ("Interferes", "ot_pain_interferes"),
+        ])
     prompt = (
-        "You are a PT clinical assistant. Based on the following evaluation details, "
-        "provide a concise statement of the most clinically-associated PT differential diagnosis. "
+        "You are an OT clinical assistant. Based on the following OT evaluation details, "
+        "provide a concise statement of the most clinically-associated OT differential diagnosis. "
         "Do NOT state as fact or as a medical diagnosis—use only language such as 'symptoms and clinical findings are associated with or consistent with' the diagnosis. "
-        "Keep the statement clean and PT-relevant:\n\n"
-        f"Subjective:\n{f.get('subjective','')}\n\n"
+        "Keep the statement clean and OT-relevant:\n\n"
+        f"Subjective:\n{f.get('ot_subjective','')}\n\n"
         f"Pain:\n{pain}\n\n"
-        f"Objective:\nPosture: {f.get('posture','')}\n"
-        f"ROM: {f.get('rom','')}\n"
-        f"Strength: {f.get('strength','')}\n"
+        f"Objective:\nPosture: {f.get('ot_posture','')}\n"
+        f"ROM: {f.get('ot_rom','')}\n"
+        f"Strength: {f.get('ot_strength','')}\n"
     )
     result = gpt_call(prompt, max_tokens=250)
     return jsonify({"result": result})
 
-@app.route("/pt_generate_summary", methods=["POST"])
+@app.route("/ot_generate_summary", methods=["POST"])
 @login_required
-def pt_generate_summary():
+def ot_generate_summary():
     f = request.json.get("fields", {})
     name = (
         f.get("name")
-        or f.get("pt_patient_name")
+        or f.get("ot_patient_name")
         or f.get("patient_name")
         or f.get("full_name")
         or "Pt"
@@ -406,31 +408,31 @@ def pt_generate_summary():
         age = f.get("age", "X")
 
     gender = f.get("gender", "patient").lower()
-    pmh = f.get("history", "no significant history")
+    pmh = f.get("ot_history", "no significant history")
     today = f.get("currentdate", date.today().strftime("%m/%d/%Y"))
-    subj = f.get("subjective", "")
-    moi = f.get("pain_mechanism", "")
-    meddiag = f.get("meddiag", "") or f.get("medical_diagnosis", "")
-    dx = f.get("diffdx", "")
-    strg = f.get("strength", "")
-    rom = f.get("rom", "")
-    impair = f.get("impairments", "")
-    func = f.get("functional", "")
+    subj = f.get("ot_subjective", "")
+    moi = f.get("ot_pain_mechanism", "")
+    meddiag = f.get("ot_meddiag", "") or f.get("medical_diagnosis", "")
+    dx = f.get("ot_diffdx", "")
+    strg = f.get("ot_strength", "")
+    rom = f.get("ot_rom", "")
+    impair = f.get("ot_impairments", "")
+    func = f.get("ot_functional", "")
 
     prompt = (
-        "Generate a concise, 7-8 sentence Physical Therapy assessment summary that is Medicare compliant for PT documentation. "
-        "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
+        "Generate a concise, 7-8 sentence Occupational Therapy assessment summary that is Medicare compliant for OT documentation. "
+        "Use only abbreviations (e.g., HEP, ADLs, IADLs, STM, TherEx) and NEVER spell out abbreviations. "
         "Never use 'the patient'; use 'Pt' as the subject. "
         "Do NOT use parentheses, asterisks, or markdown formatting in your response. "
         "Do NOT use 'Diagnosis:' as a label—refer directly to the diagnosis in clinical sentences. "
-        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'symptoms and clinical findings are associated with' the medical diagnosis and PT clinical impression. "
+        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'symptoms and clinical findings are associated with' the medical diagnosis and OT clinical impression. "
         f"Start with: \"{name}, a {age} y/o {gender} with relevant history of {pmh}.\" "
-        f"Include: PT initial eval on {today} for {subj}. "
+        f"Include: OT initial eval on {today} for {subj}. "
         f"If available, mention the mechanism of injury: {moi}. "
-        f"State: Pt has symptoms and clinical findings associated with the referring medical diagnosis of {meddiag}. Clinical findings are consistent with PT differential diagnosis of {dx} based on assessment. "
+        f"State: Pt has symptoms and clinical findings associated with the referring medical diagnosis of {meddiag}. Clinical findings are consistent with OT differential diagnosis of {dx} based on assessment. "
         f"Summarize current impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}). "
         f"Summarize functional/activity limitations: {func}. "
-        "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
+        "End with a professional prognosis stating that skilled OT is medically necessary to address impairments and support return to PLOF. "
         "Do NOT use bulleted or numbered lists—compose a single, well-written summary paragraph."
     )
     result = gpt_call(prompt, max_tokens=500)
