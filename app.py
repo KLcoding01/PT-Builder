@@ -392,26 +392,20 @@ def calculate_age(dob):
     return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
     
 
+@app.route("/pt_generate_summary", methods=["POST"])
+@login_required
 def pt_generate_summary():
     f = request.json.get("fields", {})
-    name = (
-        f.get("name")
-        or f.get("pt_name")
-        or f.get("patient_name")
-        or f.get("full_name")
-        or "Pt"
-    )
+    name = f.get("name") or f.get("patient_name") or "Pt"
     dob = f.get("dob")
     age = "X"
     if dob:
-        for fmt in ("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y"):
-            try:
-                dob_dt = datetime.strptime(dob, fmt)
-                today_dt = date.today()
-                age = today_dt.year - dob_dt.year - ((today_dt.month, today_dt.day) < (dob_dt.month, dob_dt.day))
-                break
-            except Exception:
-                continue
+        try:
+            dob_dt = datetime.strptime(dob, "%Y-%m-%d")
+            today_dt = date.today()
+            age = today_dt.year - dob_dt.year - ((today_dt.month, today_dt.day) < (dob_dt.month, dob_dt.day))
+        except Exception:
+            age = "X"
     else:
         age = f.get("age", "X")
     gender = f.get("gender", "patient").lower()
