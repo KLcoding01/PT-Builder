@@ -254,36 +254,6 @@ OT_TEMPLATES = {
         "frequency": "1wk1, 2wk12",
         "intervention": "STM, UE TherEx, fine motor/coordination training, adaptive equipment training (built-up utensils, pens, button aids), sensory re-ed, edema management, splinting, ADL/IADL simulation, energy conservation, safety/fall prevention, caregiver training.",
         "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97537 Community/Work Reintegration\n97112 Neuromuscular Re-ed"
-    },
-    "LBP Eval": {
-        "meddiag": "",
-        "history": "",
-        "subjective": "Pt reports low back pain limiting ability to dress, bathe, manage home tasks, and participate in IADLs. Pt would like to improve pain, safety, and independence with all self-care and household activities. Pt agrees to OT evaluation.",
-        "pain_location": "Low back, B paraspinals, B gluteals",
-        "pain_onset": "Chronic",
-        "pain_condition": "Chronic",
-        "pain_mechanism": "Degenerative changes, overuse, poor body mechanics, deconditioning",
-        "pain_rating": "5/10, 2/10, 7/10",
-        "pain_frequency": "Intermittent",
-        "pain_description": "Aching, stiff, dull, sore",
-        "pain_aggravating": "Bending, reaching, prolonged sitting/standing, household chores",
-        "pain_relieved": "Rest, frequent position changes, pacing activities, use of adaptive equipment",
-        "pain_interferes": "Dressing, bathing, toileting, meal prep, home management, sleep",
-        "meds": "See medication list",
-        "tests": "Box & Block Test, 9-Hole Peg Test (if UE involvement), ADL checklist",
-        "dme": "Reacher, sock aid, long-handled sponge, raised toilet seat, grab bars",
-        "plof": "Independent with all self-care, home management, and community activities prior to pain onset",
-        "posture": "Forward head, rounded shoulders, slouched sitting, decreased postural awareness during tasks",
-        "rom": "Trunk Flexion: 50% limited\nTrunk Extension: 50% limited\nTrunk SB L: 50% limited\nTrunk SB R: 50% limited\nTrunk Rotation L: 50% limited\nTrunk Rotation R: 50% limited",
-        "strength": "Core strength: 3/5\nLE strength: 3+/5 (gross)\nGrip strength: R 3/5, L 3/5 (if applicable)",
-        "palpation": "TTP: B lumbar paraspinals, B gluteus medius; mild muscle tightness; reduced soft tissue mobility",
-        "functional": "LB dressing: Mod A\nBathing: SBA with AE\nToileting: SBA\nMeal prep: Requires pacing, rest breaks\nLight housework: Min A\nCommunity mobility: Independent but limited by pain",
-        "special": "Functional Reach: 8 inches\nChair Stand Test: 6x with increased LBP\n9-Hole Peg Test: WNL (if UE involved)",
-        "impairments": "Limited tolerance for prolonged sitting/standing (5 min)\nDifficulty with bending, reaching, lifting, cleaning (5 min)\nImpaired trunk mobility\nReduced core strength/endurance\nADL/IADL limitations",
-        "goals": "Short-Term Goals (1–12 visits):\n1. Pt will complete UB dressing with Min A or less using adaptive techniques and pacing as needed.\n2. Pt will report decrease in LBP to ≤2/10 during basic self-care tasks.\n3. Pt will improve trunk AROM by 10% to enhance independence with bathing and dressing.\n4. Pt will demonstrate use of pacing and adaptive equipment to safely complete meal prep with SBA or less.\nLong-Term Goals (13–25 visits):\n1. Pt will complete all ADLs and IADLs (dressing, bathing, meal prep, laundry, cleaning) independently with or without AE as needed.\n2. Pt will maintain core strength ≥4/5 and trunk AROM WFL to participate in household/community activities without pain limitation.\n3. Pt will independently implement energy conservation, pacing, and safety strategies during all self-care and home management.\n4. Pt will report no more than 1/10 LBP during daily routines and demonstrate safe body mechanics for all tasks.",
-        "frequency": "1wk1, 2wk12",
-        "intervention": "STM, TherEx, TherAct, ADL/IADL retraining, adaptive equipment education, energy conservation, safety/fall prevention, functional mobility training, body mechanics instruction, postural training, environmental modifications, caregiver/family education.",
-        "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97537 Community/Work Reintegration\n97112 Neuromuscular Re-ed"
     }
 
 }
