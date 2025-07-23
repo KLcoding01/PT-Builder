@@ -1,5 +1,5 @@
 import os, io, json
-from datetime import date
+from datetime import datetime, date
 from flask import (
     Flask, request, jsonify, redirect, url_for, flash, render_template,
     send_file
@@ -371,16 +371,44 @@ def pt_generate_diffdx():
         f"ROM: {f.get('rom','')}\n"
         f"Strength: {f.get('strength','')}\n"
     )
-    result = gpt_call(prompt, max_tokens=200)
+    result = gpt_call(prompt, max_tokens=250)
     return jsonify({"result": result})
 
+def calculate_age(dob):
+    """Calculate age in years from date of birth (as string or date)."""
+    if not dob:
+        return "X"
+    if isinstance(dob, str):
+        try:
+            # Accept 'YYYY-MM-DD' or similar
+            dob = datetime.strptime(dob, "%m-%d-%Y").date()
+        except Exception:
+            # fallback: handle other common formats, or return "X"
+            try:
+                dob = datetime.strptime(dob, "%m/%d/%Y").date()
+            except Exception:
+                return "X"
+    today = date.today()
+    return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    
 
 @app.route("/pt_generate_summary", methods=["POST"])
 @login_required
 def pt_generate_summary():
     f = request.json.get("fields", {})
     name = f.get("name", "Pt Name")
-    age = f.get("age", "X")
+    dob = f.get("dob")
+    age = "X"
+    if dob:
+        try:
+            dob_dt = datetime.strptime(dob, "%Y-%m-%d")
+            today_dt = date.today()
+            age = today_dt.year - dob_dt.year - ((today_dt.month, today_dt.day) < (dob_dt.month, dob_dt.day))
+        except Exception:
+            age = "X"
+    else:
+        age = f.get("age", "X")
+
     gender = f.get("gender", "patient").lower()
     pmh = f.get("history", "no significant history")
     today = f.get("currentdate", date.today().strftime("%m/%d/%Y"))
@@ -408,7 +436,7 @@ def pt_generate_summary():
         "a professional prognosis and that skilled PT will help pt address impairments and return to PLOF. "
         "Do not use bulleted or numbered lists—just a single, well-written summary paragraph."
     )
-    result = gpt_call(prompt, max_tokens=350)
+    result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
 
 
