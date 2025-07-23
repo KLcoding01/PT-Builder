@@ -364,7 +364,7 @@ def pt_generate_diffdx():
                           ("Interferes", "pain_interferes"),
                       ])
     prompt = (
-        "You are a PT clinical assistant. Provide the single best-fit diagnosis Keep it clean.:\n\n"
+        "You are a PT clinical assistant. Provide the single best-fit and/or closely associated with diagnosis. Keep it clean.:\n\n"
         f"Subjective:\n{f.get('subjective','')}\n\n"
         f"Pain:\n{pain}\n\n"
         f"Objective:\nPosture: {f.get('posture','')}\n"
@@ -396,7 +396,7 @@ def calculate_age(dob):
 @login_required
 def pt_generate_summary():
     f = request.json.get("fields", {})
-    name = f.get("name", "Pt Name")
+    name = f.get("name") or f.get("pt_name") or "Pt"
     dob = f.get("dob")
     age = "X"
     if dob:
@@ -408,12 +408,12 @@ def pt_generate_summary():
             age = "X"
     else:
         age = f.get("age", "X")
-
     gender = f.get("gender", "patient").lower()
     pmh = f.get("history", "no significant history")
     today = f.get("currentdate", date.today().strftime("%m/%d/%Y"))
     subj = f.get("subjective", "")
     moi = f.get("pain_mechanism", "")
+    meddiag = f.get("meddiag", "") or f.get("medical_diagnosis", "")
     dx = f.get("diffdx", "")
     strg = f.get("strength", "")
     rom = f.get("rom", "")
@@ -421,20 +421,18 @@ def pt_generate_summary():
     func = f.get("functional", "")
 
     prompt = (
-        "Generate a concise, 7-8 sentence Physical Therapy assessment summary medicare compliant for PT documentation. "
-        "Use clinical, professional language and use abbreviations only (e.g., HEP, ADLs, LBP, STM, TherEx, etc.; "
-        "do not spell out the abbreviation and do not write both full term and abbreviation). "
-        "Never use the phrase 'The patient'; instead, use 'Pt' at the start of each relevant sentence. "
-        "Make sure to the summary is well written with no gramatical error and health care professional manner."
+        "Generate a concise, 7-8 sentence Physical Therapy assessment summary that is Medicare compliant for PT documentation. "
+        "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
+        "Never use 'the patient'; use 'Pt' as the subject. "
+        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'symptoms are associated with' or 'consistent with' the medical diagnosis and PT clinical impression. "
         f"Start with: \"{name}, a {age} y/o {gender} with relevant history of {pmh}.\" "
-        f"Include: "
-        f"How/when/why pt was seen (PT initial eval on {today} for {subj}), "
-        f"mechanism of injury if available ({moi}), "
-        f"main differential dx ({dx}), "
-        f"current impairments Summary, but not too specific(strength: {strg}; ROM: {rom}; balance/mobility: {impair}), "
-        f"functional/activity/participation limitations: {func}, "
-        "a professional prognosis and that skilled PT will help pt address impairments and return to PLOF. "
-        "Do not use bulleted or numbered lists—just a single, well-written summary paragraph."
+        f"Include: PT initial eval on {today} for {subj}. "
+        f"If available, mention the mechanism of injury ({moi}). "
+        f"State: 'Symptoms and clinical findings are associated with or consistent with the referring medical diagnosis ({meddiag}) and PT differential diagnosis ({dx}).' "
+        f"Summarize current impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}). "
+        f"Summarize functional/activity limitations: {func}. "
+        "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
+        "Do NOT use bulleted or numbered lists—compose a single, well-written summary paragraph."
     )
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
