@@ -8,8 +8,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from openai import OpenAI
 
-# Import your models
 from models import db, Therapist
 
 # ENV & CONFIG
@@ -859,9 +859,9 @@ def ot_export_pdf():
     
 # ========== GPT HELPER ==========
 
-def gpt_call(prompt, max_tokens=350):
+def gpt_call(prompt, max_tokens=700):
     try:
-        resp = openai.ChatCompletion.create(
+        resp = client.chat.completions.create(
             model=MODEL,
             messages=[{"role": "user", "content": prompt}],
             max_tokens=max_tokens
@@ -869,8 +869,6 @@ def gpt_call(prompt, max_tokens=350):
         return resp.choices[0].message.content.strip()
     except Exception as e:
         return f"OpenAI error: {e}"
-
-
 
 # ========== MAIN ==========
 if __name__ == "__main__":
