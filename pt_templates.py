@@ -100,71 +100,163 @@ PT_TEMPLATES = {
         "frequency": "1wk1, 2wk12",
         "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training",
         "procedures": "97161 Low Complexity\n97162 Moderate Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97116 Gait Training"
+    },
+    "LBP Eval": {
+        "meddiag": "",
+        "history": "",
+        "subjective": "Pt reports low back pain limiting ability to dress, bathe, manage home tasks, and participate in IADLs. Pt would like to improve pain, safety, and independence with all self-care and household activities. Pt agrees to OT evaluation.",
+        "pain_location": "Low back, B paraspinals, B gluteals",
+        "pain_onset": "Chronic",
+        "pain_condition": "Chronic",
+        "pain_mechanism": "Degenerative changes, overuse, poor body mechanics, deconditioning",
+        "pain_rating": "5/10, 2/10, 7/10",
+        "pain_frequency": "Intermittent",
+        "pain_description": "Aching, stiff, dull, sore",
+        "pain_aggravating": "Bending, reaching, prolonged sitting/standing, household chores",
+        "pain_relieved": "Rest, frequent position changes, pacing activities, use of adaptive equipment",
+        "pain_interferes": "Dressing, bathing, toileting, meal prep, home management, sleep",
+        "meds": "See medication list",
+        "tests": "Box & Block Test, 9-Hole Peg Test (if UE involvement), ADL checklist",
+        "dme": "Reacher, sock aid, long-handled sponge, raised toilet seat, grab bars",
+        "plof": "Independent with all self-care, home management, and community activities prior to pain onset",
+        "posture": "Forward head, rounded shoulders, slouched sitting, decreased postural awareness during tasks",
+        "rom": "Trunk Flexion: 50% limited\nTrunk Extension: 50% limited\nTrunk SB L: 50% limited\nTrunk SB R: 50% limited\nTrunk Rotation L: 50% limited\nTrunk Rotation R: 50% limited",
+        "strength": "Core strength: 3/5\nLE strength: 3+/5 (gross)\nGrip strength: R 3/5, L 3/5 (if applicable)",
+        "palpation": "TTP: B lumbar paraspinals, B gluteus medius; mild muscle tightness; reduced soft tissue mobility",
+        "functional": "LB dressing: Mod A\nBathing: SBA with AE\nToileting: SBA\nMeal prep: Requires pacing, rest breaks\nLight housework: Min A\nCommunity mobility: Independent but limited by pain",
+        "special": "Functional Reach: 8 inches\nChair Stand Test: 6x with increased LBP\n9-Hole Peg Test: WNL (if UE involved)",
+        "impairments": "Limited tolerance for prolonged sitting/standing (5 min)\nDifficulty with bending, reaching, lifting, cleaning (5 min)\nImpaired trunk mobility\nReduced core strength/endurance\nADL/IADL limitations",
+        "goals": "Short-Term Goals (1–12 visits):\n1. Pt will complete UB dressing with Min A or less using adaptive techniques and pacing as needed.\n2. Pt will report decrease in LBP to ≤2/10 during basic self-care tasks.\n3. Pt will improve trunk AROM by 10% to enhance independence with bathing and dressing.\n4. Pt will demonstrate use of pacing and adaptive equipment to safely complete meal prep with SBA or less.\nLong-Term Goals (13–25 visits):\n1. Pt will complete all ADLs and IADLs (dressing, bathing, meal prep, laundry, cleaning) independently with or without AE as needed.\n2. Pt will maintain core strength ≥4/5 and trunk AROM WFL to participate in household/community activities without pain limitation.\n3. Pt will independently implement energy conservation, pacing, and safety strategies during all self-care and home management.\n4. Pt will report no more than 1/10 LBP during daily routines and demonstrate safe body mechanics for all tasks.",
+        "frequency": "1wk1, 2wk12",
+        "intervention": "STM, TherEx, TherAct, ADL/IADL retraining, adaptive equipment education, energy conservation, safety/fall prevention, functional mobility training, body mechanics instruction, postural training, environmental modifications, caregiver/family education.",
+        "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97537 Community/Work Reintegration\n97112 Neuromuscular Re-ed"
     }
+
 }
         
 OT_TEMPLATES = {
-    "OT Eval Template": """Medical Diagnosis:
-Medical History/HNP:
-Subjective: Pt reports upper extremity pain and is limiting ADLs. Pt would like to improve function and return to PLOF. Pt agrees to OT evaluation.
-Pain:
-Area/Location of Injury: R shoulder
-Onset/Exacerbation Date: 3 weeks ago
-Condition of Injury: Acute on chronic
-Mechanism of Injury: Lifting
-Pain Rating (P/B/W): 4/10, 1/10, 7/10
-Pain Frequency: Intermittent
-Description: Sharp, throbbing
-Aggravating Factor: Overhead activity, reaching
-Relieved By: Rest, ice
-Interferes With: Grooming, dressing, bathing
-
-Current Medication(s): See medication list
-
-Diagnostic Test(s): MRI right shoulder
-
-DME/Assistive Device: None
-
-PLOF: Independent
-
-Posture: Forward head, rounded shoulders
-
-ROM: R shoulder flexion 100°, abduction 80°
-
-Muscle Strength Test: R shoulder 3+/5
-
-Palpation: TTP R supraspinatus
-
-Functional Test(s): Unable to reach overhead
-
-Special Test(s): (+) Impingement
-
-Current Functional Mobility Impairment(s): Reaching, overhead activity
-
-Goals:
-Short-Term Goals (1–12 visits):
-1. Pt will decrease pain to ≤2/10 during ADLs.
-2. Pt will improve R shoulder ROM to 140° flexion.
-3. Pt will improve strength to 4/5.
-4. Pt will perform ADLs independently.
-
-Long-Term Goals (13–25 visits):
-1. Pt will maintain pain ≤1/10 with all activity.
-2. Pt will achieve full ROM and strength in R shoulder.
-3. Pt will return to all prior ADLs independently.
-4. Pt will independently complete HEP.
-
-Frequency/Duration: 2x/wk x 6wks
-
-Intervention: Manual Therapy, TherEx, HEP training, ADL retraining
-
-Treatment Procedures:
-97165 OT Eval
-97110 Ther Ex
-97530 Ther Activity
-97535 Self-care Mgmt
-"""
+    "ADL Decline Eval": {
+        "meddiag": "",
+        "history": "",
+        "subjective": "Pt reports increased difficulty with ADLs and IADLs including dressing, bathing, and meal prep. Pt would like to regain independence and safety in self-care and home management tasks. Pt agrees to OT evaluation.",
+        "pain_location": "Shoulder, hand, UE as relevant",
+        "pain_onset": "Gradual",
+        "pain_condition": "Chronic",
+        "pain_mechanism": "Disuse, arthritis, neuropathy, injury",
+        "pain_rating": "4/10, 2/10, 6/10",
+        "pain_frequency": "Intermittent",
+        "pain_description": "Aching, stiff, weak, sore",
+        "pain_aggravating": "Reaching, lifting, grasping, fine motor tasks",
+        "pain_relieved": "Rest, adaptive equipment, energy conservation",
+        "pain_interferes": "Dressing, bathing, grooming, meal prep, cleaning",
+        "meds": "See medication list",
+        "tests": "9-Hole Peg Test, Box & Block Test",
+        "dme": "Reacher, sock aid, grab bars, tub bench, built-up utensils",
+        "plof": "Independent with all self-care and IADLs prior to decline",
+        "posture": "Mild forward head, rounded shoulders, decreased sitting/standing tolerance, slouched posture during tasks",
+        "rom": "UE ROM limited for overhead and behind-back movements; LE ROM WNL",
+        "strength": "Grip strength: R 3/5, L 3/5; Shoulder strength: R 3+/5, L 3+/5",
+        "palpation": "TTP at affected UE joints/muscles; mild swelling/stiffness, decreased tissue mobility",
+        "functional": "Buttoning/unbuttoning shirt: Min A\nDonning socks/shoes: Mod A with sock aid\nBathing: SBA with tub bench\nMeal prep: Supervision; requires rest breaks\nHandwriting: Slow, decreased legibility",
+        "special": "9-Hole Peg Test: 45 sec (R), 55 sec (L)\nBox & Block Test: 30 (R), 24 (L)",
+        "impairments": "Limited independence in self-care (dressing, bathing)\nReduced UE ROM and strength\nDecreased fine motor coordination\nLow endurance for IADLs\nMild cognitive inefficiency with complex tasks",
+        "goals":
+            "Short-Term Goals (1–12 visits):\n"
+            "1. Pt will complete upper body dressing with Min A or less using adaptive equipment.\n"
+            "2. Pt will increase grip strength by at least 1 muscle grade to improve utensil use for feeding.\n"
+            "3. Pt will perform bathing and toileting with SBA or less using adaptive devices.\n"
+            "4. Pt will complete meal prep for a simple breakfast independently using rest breaks as needed.\n"
+            "Long-Term Goals (13–25 visits):\n"
+            "1. Pt will achieve independence in all basic ADLs using energy conservation and adaptive equipment as needed.\n"
+            "2. Pt will complete all IADLs (laundry, cleaning, meal prep) without physical assistance.\n"
+            "3. Pt will button/unbutton shirt independently within 30 seconds.\n"
+            "4. Pt will manage medication setup safely and independently.",
+        "frequency": "1wk1, 2wk12",
+        "intervention": "STM, UE TherEx, TherAct, energy conservation training, adaptive equipment training (sock aid, reacher, built-up utensils), ADL/IADL simulation, fine motor/coordination training, cognitive strategy training, safety education, environmental modifications, caregiver education.",
+        "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97537 Community/Work Reintegration\n97112 Neuromuscular Re-ed"
+    },
+    "Shoulder Dysfunction": {
+        "meddiag": "",
+        "history": "",
+        "subjective": "Pt reports shoulder pain and weakness impacting dressing, bathing, and reaching for household items. Pt has difficulty lifting arm overhead, reaching behind back, and carrying objects. Pt is motivated to regain independence in ADLs. Pt agrees to OT evaluation.",
+        "pain_location": "Shoulder, upper arm",
+        "pain_onset": "Insidious",
+        "pain_condition": "Chronic",
+        "pain_mechanism": "Degeneration, repetitive strain, arthritis, possible rotator cuff involvement",
+        "pain_rating": "P: 4/10, B: 0/10, W: 6/10",
+        "pain_frequency": "Frequent with activity",
+        "pain_description": "Sharp, weak, aching",
+        "pain_aggravating": "Reaching, overhead tasks, pushing/pulling",
+        "pain_relieved": "Rest, positioning, adaptive equipment",
+        "pain_interferes": "Dressing, grooming, laundry, cleaning, carrying groceries",
+        "meds": "See medication list",
+        "tests": "Functional Reach Test, 9-Hole Peg Test",
+        "dme": "Reacher, dressing stick, long-handled sponge",
+        "plof": "Independent with self-care and home management",
+        "posture": "Rounded shoulders, mild scapular winging, decreased postural awareness during self-care",
+        "rom": "Shoulder Flex: L 110°/R 135°\nShoulder Abd: L 95°/R 120°\nShoulder ER: L 35°/R 45°\nShoulder IR: L 50°/R 65°",
+        "strength": "Shoulder Flex: L 3-/5; R 3+/5\nShoulder Abd: L 3-/5; R 3/5\nShoulder Ext: L 3/5; R 4-/5",
+        "palpation": "TTP over anterior/lateral shoulder; mild swelling, decreased muscle bulk",
+        "functional": "UB dressing: Mod A for pullover shirt\nReaching overhead: Max A\nBathing: SBA with long-handled sponge\nCarrying grocery bag: 3 lbs limited, Mod A",
+        "special": "Functional Reach Test: 8 inches\n9-Hole Peg Test: Not attempted due to pain",
+        "impairments": "Decreased ROM\nLimited UE strength\nImpaired functional reach\nDecreased independence in dressing/bathing\nDifficulty with overhead tasks",
+        "goals":
+            "Short-Term Goals (1–12 visits):\n"
+            "1. Pt will don pullover shirt with SBA or less using adaptive techniques.\n"
+            "2. Pt will increase shoulder flexion AROM by 20° to improve functional reach for ADLs.\n"
+            "3. Pt will independently bathe upper body using long-handled sponge.\n"
+            "4. Pt will carry grocery bag (5 lbs) with Mod A or less to promote home management independence.\n"
+            "Long-Term Goals (13–25 visits):\n"
+            "1. Pt will complete all UB and LB dressing independently using AE as needed.\n"
+            "2. Pt will independently retrieve and store household items from overhead shelves.\n"
+            "3. Pt will demonstrate proper body mechanics and adaptive strategies for safe home management tasks.\n"
+            "4. Pt will report pain ≤1/10 during all ADLs and IADLs.",
+        "frequency": "1wk1, 2wk12",
+        "intervention": "UE TherEx, TherAct, STM, ADL retraining, adaptive equipment training (reacher, long-handled sponge), neuromuscular re-ed, posture training, safety education, energy conservation strategies, caregiver/family education.",
+        "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97112 Neuromuscular Re-ed"
+    },
+    "Hand Injury": {
+        "meddiag": "",
+        "history": "",
+        "subjective": "Pt presents s/p hand injury with pain, weakness, and decreased fine motor ability. Pt has difficulty with buttoning, utensil use, handwriting, and other tasks requiring hand dexterity. Pt is motivated to return to PLOF for self-care, writing, and home management. Pt agrees to OT evaluation.",
+        "pain_location": "Hand, fingers, wrist",
+        "pain_onset": "Acute",
+        "pain_condition": "Acute",
+        "pain_mechanism": "Trauma, surgery, overuse",
+        "pain_rating": "P: 6/10, B: 2/10, W: 8/10",
+        "pain_frequency": "Variable, worse with use",
+        "pain_description": "Sharp, throbbing, numbness, tingling",
+        "pain_aggravating": "Gripping, pinching, fine motor, handwriting, cooking",
+        "pain_relieved": "Splint use, rest, cold pack",
+        "pain_interferes": "Buttoning, grooming, eating, writing, household chores",
+        "meds": "See medication list",
+        "tests": "Edema measurement, monofilament testing, dynamometer, pinch gauge",
+        "dme": "Wrist splint, built-up utensils, adaptive writing tools",
+        "plof": "Independent in all self-care, fine motor, and IADL tasks",
+        "posture": "Compensatory posturing for painful hand, off-loading during tasks",
+        "rom": "Wrist Flex: L 45°/R 60°\nWrist Ext: L 30°/R 50°\nMCP Flex: L 70°/R 80°",
+        "strength": "Grip: L 12 lbs/R 20 lbs\nPinch: L 5 lbs/R 7 lbs",
+        "palpation": "TTP over dorsal wrist and MCPs; mild edema, decreased intrinsic strength",
+        "functional": "Buttoning: Max A\nHandwriting: Unable\nFeeding: Mod A\nHousehold cleaning: Max A",
+        "special": "Purdue Pegboard: Unable\nJebsen Taylor: 200 sec",
+        "impairments": "Limited grip/pinch strength\nDecreased fine motor skills\nImpaired independence with dressing/eating/grooming",
+        "goals":
+            "Short-Term Goals (1–12 visits):\n"
+            "1. Pt will achieve Mod A or less for feeding and grooming tasks with adaptive equipment.\n"
+            "2. Pt will button/unbutton shirt within 1 minute using AE.\n"
+            "3. Pt will demonstrate safe and functional handwriting for signature using built-up pen.\n"
+            "4. Pt will improve grip strength by 5 lbs to support ADL independence.\n"
+            "Long-Term Goals (13–25 visits):\n"
+            "1. Pt will perform all basic self-care tasks (feeding, dressing, grooming) independently using AE as needed.\n"
+            "2. Pt will manage written tasks (signing name, writing list) without pain or assistance.\n"
+            "3. Pt will complete home management activities (cooking, cleaning) safely and independently.\n"
+            "4. Pt will maintain hand ROM and strength to participate in meaningful IADLs.",
+        "frequency": "1wk1, 2wk12",
+        "intervention": "STM, UE TherEx, fine motor/coordination training, adaptive equipment training (built-up utensils, pens, button aids), sensory re-ed, edema management, splinting, ADL/IADL simulation, energy conservation, safety/fall prevention, caregiver training.",
+        "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97537 Community/Work Reintegration\n97112 Neuromuscular Re-ed"
+    }
 }
+
 
 def pt_parse_template(template):
     key_map = {

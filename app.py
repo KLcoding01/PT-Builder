@@ -346,9 +346,9 @@ def pt_export_pdf():
 
 # ====== OT Section ======
 
-@app.route("/pt_generate_diffdx", methods=["POST"])
+@app.route("/ot_generate_diffdx", methods=["POST"])
 @login_required
-def pt_generate_diffdx():
+def ot_generate_diffdx():
     f = request.json.get("fields", {})
     pain = "; ".join(f"{lbl}: {f.get(key,'')}"
                       for lbl,key in [
@@ -364,7 +364,7 @@ def pt_generate_diffdx():
                           ("Interferes", "pain_interferes"),
                       ])
     prompt = (
-        "You are a PT clinical assistant. Provide the single best-fit and/or closely associated with diagnosis. Keep it clean.:\n\n"
+        "You are an OT clinical assistant. Provide the single best-fit and/or most closely associated occupational therapy diagnosis. Keep it clean and OT-relevant:\n\n"
         f"Subjective:\n{f.get('subjective','')}\n\n"
         f"Pain:\n{pain}\n\n"
         f"Objective:\nPosture: {f.get('posture','')}\n"
@@ -373,6 +373,7 @@ def pt_generate_diffdx():
     )
     result = gpt_call(prompt, max_tokens=250)
     return jsonify({"result": result})
+
 
 def calculate_age(dob):
     """Calculate age in years from date of birth (as string or date)."""
@@ -392,9 +393,9 @@ def calculate_age(dob):
     return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
     
 
-@app.route("/pt_generate_summary", methods=["POST"])
+@app.route("/ot_generate_summary", methods=["POST"])
 @login_required
-def pt_generate_summary():
+def ot_generate_summary():
     f = request.json.get("fields", {})
     print("FIELDS RECEIVED:", f)  # For debugging, remove in production!
 
@@ -402,7 +403,7 @@ def pt_generate_summary():
     name = (
         f.get("patient_name")
         or f.get("name")
-        or f.get("pt_name")
+        or f.get("ot_name")
         or f.get("full_name")
         or "Pt"
     )
@@ -434,62 +435,64 @@ def pt_generate_summary():
     func = f.get("functional", "")
 
     prompt = (
-        "Generate a concise, 7-8 sentence Physical Therapy assessment summary that is Medicare compliant for PT documentation. "
-        "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
+        "Generate a concise, 7-8 sentence Occupational Therapy assessment summary that is Medicare compliant for OT documentation. "
+        "Use only abbreviations (e.g., HEP, ADLs, STM, TherEx) and NEVER spell out abbreviations. "
         "Never use 'the patient'; use 'Pt' as the subject. "
         "Do NOT use parentheses, asterisks, or markdown formatting in your response. "
         "Do NOT use 'Diagnosis:' as a label—refer directly to the diagnosis in clinical sentences. "
-        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'signs and symptoms are associated with' the medical diagnosis and PT clinical impression. "
+        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'signs and symptoms are associated with' the medical diagnosis and OT clinical impression. "
         f"Start with: \"{name}, a {age} y/o {gender} with relevant history of {pmh}.\" "
-        f"Include: PT initial eval on {today} for {subj}. "
+        f"Include: OT initial eval on {today} for {subj}. "
         f"If available, mention the mechanism of injury: {moi}. "
-        f"State: Pt has signs and symptoms associated with the referring medical diagnosis of {meddiag}. Clinical findings are consistent with PT differential diagnosis of {dx} based on assessment. "
+        f"State: Pt has signs and symptoms associated with the referring medical diagnosis of {meddiag}. Clinical findings are consistent with OT differential diagnosis of {dx} based on assessment. "
         f"Summarize current impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}). "
         f"Summarize functional/activity limitations: {func}. "
-        "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
+        "End with a professional prognosis stating that skilled OT is medically necessary to address impairments and support return to PLOF. "
         "Do NOT use bulleted or numbered lists—compose a single, well-written summary paragraph."
     )
-
-
-
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
 
-
-@app.route('/pt_generate_goals', methods=['POST'])
+@app.route('/ot_generate_goals', methods=['POST'])
 @login_required
-def pt_generate_goals():
+def ot_generate_goals():
     fields = request.json.get("fields", {})
-    prompt = """
-    You are a clinical assistant helping a PT write documentation.
-    Using ONLY the provided eval info (summary, objective findings, strength, ROM, impairments, and functional limitations),
-    generate clinically-appropriate, Medicare-compliant short-term and long-term PT goals.
-    ALWAYS follow this exact format—do not add, skip, reorder, or alter any lines or labels.
-    DO NOT add any explanations, introductions, dashes, bullets, or extra indentation. Output ONLY this structure:
+    prompt = f"""
+You are a clinical assistant helping an OT write documentation.
+Using ONLY the provided evaluation info (summary, objective findings, strength, ROM, impairments, and functional limitations),
+generate clinically-appropriate, Medicare-compliant short-term and long-term OT goals.
+All goals MUST be OT-specific, functional, and measurable, focusing on ADLs (e.g., dressing, bathing, grooming, toileting, feeding, transfers) and IADLs (e.g., home management, meal prep, medication management, community mobility, safety in the home).
+Address areas such as independence, participation, safety, use of adaptive equipment, and upper extremity function as related to daily tasks.
+DO NOT include goals unrelated to OT scope (e.g., gait training). 
+DO NOT add any explanations, introductions, dashes, bullets, or extra indentation. Output ONLY this structure:
 
-    Short-Term Goals (1–12 visits):
-    1. [goal statement]
-    2. [goal statement]
-    3. [goal statement]
-    4. [goal statement]
+Short-Term Goals (1–12 visits):
+1. [goal statement]
+2. [goal statement]
+3. [goal statement]
+4. [goal statement]
 
-    Long-Term Goals (13–25 visits):
-    1. [goal statement]
-    2. [goal statement]
-    3. [goal statement]
-    4. [goal statement]
-    """
+Long-Term Goals (13–25 visits):
+1. [goal statement]
+2. [goal statement]
+3. [goal statement]
+4. [goal statement]
 
+Patient Info:
+Summary: {fields.get('summary', '')}
+Objective: Strength: {fields.get('strength', '')}; ROM: {fields.get('rom', '')}; Impairments: {fields.get('impairments', '')}; Functional: {fields.get('functional', '')}
+"""
     result = gpt_call(prompt, max_tokens=350)
     return jsonify({"result": result})
-
-@app.route('/pt_generate_daily_summary', methods=['POST'])
+    
+    
+@app.route('/ot_generate_daily_summary', methods=['POST'])
 @login_required
-def pt_generate_daily_summary():
+def ot_generate_daily_summary():
     data = request.json
     prompt = (
-        "You are a physical therapist. "
-        "Write a 6-sentence daily PT note summary in paragraph form. "
+        "You are an occupational therapist. "
+        "Write a 6-sentence daily OT note summary in paragraph form. "
         "Use professional tone, refer to 'patient' (not 'the patient' or 'patient reported'). "
         "Summarize the following:\n"
         f"Diagnosis: {data.get('diagnosis','')}\n"
@@ -498,8 +501,8 @@ def pt_generate_daily_summary():
         f"Current Progress: {data.get('progress','')}\n"
         f"Next Visit Plan: {data.get('plan','')}\n"
         "Do not use the phrases 'patient reported' or 'the patient'. "
-        "Do not spell out, use abbreviation only, avoid using both next to each other. "
-        "After summarizes skip a row write a 1-2 sentences for next visit plan of care utilizing something along Focusing on PT POC to improve strength, endurance, mechanics, activity tolerance with manual therapy, ther-ex, ther-act, IASTM. Improve activity tolerance to return to safe ADLs and community participation and ambulation."
+        "Do not spell out abbreviations; use abbreviations only and avoid using both the full term and abbreviation together. "
+        "After summary, skip a row and write 1-2 sentences for next visit plan of care focused on OT POC to improve ADL/IADL independence, safety, upper extremity function, fine motor coordination, use of adaptive equipment, cognition, energy conservation, and participation in meaningful activities. Emphasize progression toward increased independence in self-care, home management, and community integration."
     )
     try:
         completion = client.chat.completions.create(
@@ -511,6 +514,7 @@ def pt_generate_daily_summary():
         return jsonify({"result": summary})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
         
 @app.route('/ot_export_word', methods=['POST'])
 @login_required
