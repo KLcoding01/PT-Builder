@@ -394,6 +394,7 @@ def calculate_age(dob):
 
 def pt_generate_summary():
     f = request.json.get("fields", {})
+    # Patient Name logic: search all possible name keys
     name = (
         f.get("name")
         or f.get("pt_patient_name")
@@ -401,6 +402,7 @@ def pt_generate_summary():
         or f.get("full_name")
         or "Pt"
     )
+    # DOB to Age calculation with multiple formats
     dob = f.get("dob")
     age = "X"
     if dob:
@@ -419,7 +421,7 @@ def pt_generate_summary():
     today = f.get("currentdate", date.today().strftime("%m/%d/%Y"))
     subj = f.get("subjective", "")
     moi = f.get("pain_mechanism", "")
-    meddiag = f.get("meddiag", "")
+    meddiag = f.get("meddiag", "") or f.get("medical_diagnosis", "")
     dx = f.get("diffdx", "")
     strg = f.get("strength", "")
     rom = f.get("rom", "")
@@ -430,11 +432,12 @@ def pt_generate_summary():
         "Generate a concise, 7-8 sentence Physical Therapy assessment summary that is Medicare compliant for PT documentation. "
         "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
         "Never use 'the patient'; use 'Pt' as the subject. "
-        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'symptoms are associated with' or 'consistent with' the medical diagnosis and PT clinical impression. "
+        "Do NOT state or conclude a medical diagnosis. Use the following clinical phrasing ONLY: "
+        "'Pt's symptoms and clinical findings are associated with the referring medical dx and PT differential dx as described.' "
         f"Start with: \"{name}, a {age} y/o {gender} with relevant history of {pmh}.\" "
         f"Include: PT initial eval on {today} for {subj}. "
         f"If available, mention the mechanism of injury ({moi}). "
-        f"State: 'Symptoms and clinical findings are associated with or consistent with the referring medical diagnosis ({meddiag}) and PT differential diagnosis ({dx}).' "
+        f"Then: Pt's symptoms and clinical findings are associated with the referring medical dx ({meddiag}) and PT differential dx ({dx}). "
         f"Summarize current impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}). "
         f"Summarize functional/activity limitations: {func}. "
         "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
@@ -442,7 +445,6 @@ def pt_generate_summary():
     )
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
-
 
 @app.route('/pt_generate_goals', methods=['POST'])
 @login_required
