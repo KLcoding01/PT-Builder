@@ -436,7 +436,6 @@ def pt_generate_summary():
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
 
-        
 @app.route('/ot_export_word', methods=['POST'])
 @login_required
 def ot_export_word():
