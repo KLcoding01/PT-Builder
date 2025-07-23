@@ -71,8 +71,38 @@ PT_TEMPLATES = {
         "frequency": "1wk1, 2wk12",
         "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Gait Training, Balance Training, Pain Management Training, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training.",
         "procedures": "97161 Low Complexity\n97162 Moderate Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97116 Gait Training"
-    }
-}
+    },
+    "Shoulder Impingement": {
+    "meddiag": "",
+    "history": "",
+    "subjective": "Pt reports having shoulder pain and limitations with movements above shoulder level. Pt agrees to PT eval and tx.",
+    "pain_location": "Shoulder",
+    "pain_onset": "[DATE]",
+    "pain_condition": "Chronic",
+    "pain_mechanism": "AC impingement, stiffness, tension, tendonitis, possible tear/adhesion to infraspinatus/subscapularis",
+    "pain_rating": "P: 5/10, B: 0/10, W: 7/10",
+    "pain_frequency": "Intermittent",
+    "pain_description": "tingling, stiffness, weakness, ache",
+    "pain_aggravating": "lifting, reaching, pulling, prolong used",
+    "pain_relieved": "Rest, pain meds prn",
+    "pain_interferes": "Cooking, cleaning, don/doff clothes",
+    "meds": "See medication list",
+    "tests": "See MRI results",
+    "dme": "None",
+    "plof": "Indep with all ADLs without pain",
+    "posture": "Forward head lean, rounded shoulders, protracted scapular, slouch posture, decrease sitting postural awareness. Shoulder hiking during elevation.",
+    "rom": "ROM: Left / Right\nShoulder Flex: WNL/WNL\nShoulder Ext: WNL/WNL\nShoulder IR: WNL/WNL\nShoulder ER: WNL/WNL\nShoulder Abd: WNL/WNL\nShoulder Add: WNL/WNL\nGross PROM:",
+    "strength": "Manual Muscle Test: Left/Right\nShoulder Flexion: 3+/5; 3+/5\nShoulder Abd: 3+/5; 3+/5\nShoulder Add: 3+/5; 3+/5\nShoulder Ext: 3+/5; 3+/5\nShoulder IR: 3+/5; 3+/5\nShoulder ER: 3+/5; 3+/5",
+    "palpation": "TTP Supraspinatus, infraspinatus, teres min/major, lats, deltoids region. Stiffness/guarding w/ passive overpressure. Crepitus, clicking at the joint.",
+    "functional": "Reaching above shoulder level\nReaching to high cabinet\nDon/doff on t-shirt/sweater\nCarry grocery bag/lifting",
+    "special": "(+) Appley's scratch test\n(+) Painful Arc\n(+) Neer's Test\n(+) Cross-Body Adduction (Horizontal Adduction) Test\n(+) Internal Rotation Resistance Strength Test (IRRST)\n(+) Hawkin's Kennedy",
+    "impairments": "Reaching above shoulder level\nReaching to high cabinet\nDon/doff on t-shirt/sweater\nCarry grocery bag/lifting",
+    "goals": "Short-Term Goals (1–12 visits):\n1. Pt will report a decrease in shoulder pain to ≤1/10 to allow safe and comfortable participation in daily activities.\n2. Pt will demonstrate at least a 10% improvement in shoulder AROM to enhance functional mobility and reduce injury risk.\n\nLong-Term Goals (13–25 visits):\n1. Pt will improve gross upper extremity strength by at least 0.5 muscle grade to support ADL performance and decrease pain/injury risk.\n2. Pt will demonstrate independence with daily HEP, using proper body mechanics and sufficient strength to safely return to ADLs.\n3. Pt will increase activity tolerance to 15–20 minutes or more, allowing a safe return to household chores without limitation.\n4. Pt will demonstrate improved sitting and standing posture to reduce or prevent neck and shoulder pain, supporting a return to normal activities and ADLs.",
+    "frequency": "1wk1, 2wk12",
+    "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training",
+    "procedures": "97161 Low Complexity\n97162 Moderate Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97116 Gait Training"
+     }
+   },
 
 OT_TEMPLATES = {
     "OT Eval Template": """Medical Diagnosis:
