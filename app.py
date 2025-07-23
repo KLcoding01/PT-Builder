@@ -1,8 +1,8 @@
 import os, io, json
-from datetime import date, datetime
+from datetime import date
 from flask import (
     Flask, request, jsonify, redirect, url_for, flash, render_template,
-    send_file, session
+    send_file
 )
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -11,21 +11,24 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from openai import OpenAI
 from io import BytesIO
 from docx import Document
-from pt_templates import PT_TEMPLATES, OT_TEMPLATES, pt_parse_template, ot_parse_template
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
+# Import templates and parsers
+from pt_templates import PT_TEMPLATES, OT_TEMPLATES, pt_parse_template, ot_parse_template
 
 from models import db, Therapist
 
 # ENV & CONFIG
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key_change_me")
-db_path = '/tmp/db.sqlite3'   # Use a path that's writeable in the cloud!
+db_path = '/tmp/db.sqlite3'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-# --- OPENAI SETUP (optional, if used elsewhere) ---
+# --- OPENAI SETUP ---
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 client = OpenAI(api_key=OPENAI_API_KEY)
 MODEL = "gpt-4o-mini"
@@ -99,7 +102,6 @@ def register():
         password = request.form['password']
         email = request.form['email']
 
-        # Add more fields as needed
         if Therapist.query.filter_by(username=username).first():
             flash("Username already exists", "danger")
             return render_template('register.html')
@@ -128,19 +130,17 @@ def forgot_password():
         email = request.form['email'].strip().lower()
         user = Therapist.query.filter_by(email=email).first()
         if user:
-            # Generate token
             token = s.dumps(user.id, salt='password-reset')
             reset_url = url_for('reset_password', token=token, _external=True)
-            print(f"Reset link for {email}: {reset_url}")  # In production, send by email!
+            print(f"Reset link for {email}: {reset_url}")  # Send by email in production
         flash("If this email exists, a reset link has been sent.", "success")
         return redirect(url_for('forgot_password'))
     return render_template('forgot_password.html')
 
-# --- PASSWORD RESET ---
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     try:
-        user_id = s.loads(token, salt='password-reset', max_age=3600)  # valid for 1 hour
+        user_id = s.loads(token, salt='password-reset', max_age=3600)
     except SignatureExpired:
         flash("Reset link expired. Please try again.", "danger")
         return redirect(url_for('forgot_password'))
@@ -164,8 +164,9 @@ def reset_password(token):
         flash("Password reset successful. You can log in now.", "success")
         return redirect(url_for('login'))
     return render_template('reset_password.html')
-    
-# ====== PT Section ======
+
+# ==== PT & OT Endpoints (NO DUPLICATE ROUTES) ====
+
 @app.route("/pt_load_template", methods=["POST"])
 @login_required
 def pt_load_template():
@@ -176,6 +177,14 @@ def pt_load_template():
     else:
         return jsonify(PT_TEMPLATES.get(template_name, {}))
 
+@app.route("/ot_load_template", methods=["POST"])
+@login_required
+def ot_load_template():
+    name = request.json.get("template", "")
+    text = OT_TEMPLATES.get(name, "")
+    return jsonify(ot_parse_template(text))
+
+# ==== Export Section ====
 
 @app.route('/pt_export_word', methods=['POST'])
 @login_required
