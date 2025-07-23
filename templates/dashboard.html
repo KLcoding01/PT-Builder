@@ -209,33 +209,47 @@
     .catch(() => ptSetStatus('AI error', 'red'));
   };
 
-  document.getElementById('pt-generate-daily-summary').onclick = () => {
-    document.getElementById('pt-daily-summary-status').textContent = 'Generating summary…';
-    fetch('/pt_generate_daily_summary', {
+  // ==== FIXED EXPORT BUTTONS (working Blob logic) ====
+  document.getElementById('pt-save-word-btn').onclick = () => {
+    ptSetStatus('Exporting Word...', 'orange');
+    fetch('/pt_export_word', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        diagnosis: document.getElementById('pt_daily_diagnosis').value,
-        interventions: document.getElementById('pt_daily_interventions').value,
-        tolerance: document.getElementById('pt_daily_tolerance').value,
-        progress: document.getElementById('pt_daily_progress').value,
-        plan: document.getElementById('pt_daily_plan').value
+      body: JSON.stringify(ptGetFields())
+    })
+      .then(r => r.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'PT_Eval.docx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        ptSetStatus('Word downloaded!', 'green');
       })
+      .catch(() => ptSetStatus('Error exporting Word!', 'red'));
+  };
+
+  document.getElementById('pt-save-pdf-btn').onclick = () => {
+    ptSetStatus('Exporting PDF...', 'orange');
+    fetch('/pt_export_pdf', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(ptGetFields())
     })
-    .then(r => r.json())
-    .then(data => {
-      if (data.result) {
-        document.getElementById('pt_daily_summary').value = data.result;
-        document.getElementById('pt-daily-summary-status').textContent = 'Summary generated!';
-      } else if (data.error) {
-        document.getElementById('pt-daily-summary-status').textContent = 'AI error: ' + data.error;
-      } else {
-        document.getElementById('pt-daily-summary-status').textContent = 'Unexpected AI response';
-      }
-    })
-    .catch(() => {
-      document.getElementById('pt-daily-summary-status').textContent = 'AI error';
-    });
+      .then(r => r.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'PT_Eval.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        ptSetStatus('PDF downloaded!', 'green');
+      })
+      .catch(() => ptSetStatus('Error exporting PDF!', 'red'));
   };
 </script>
 {% endblock %}

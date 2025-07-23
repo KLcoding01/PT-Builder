@@ -24,7 +24,7 @@ db.init_app(app)
 # --- OPENAI SETUP (optional, if used elsewhere) ---
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 client = OpenAI(api_key=OPENAI_API_KEY)
-MODEL = "gpt-4-1-mini"
+MODEL = "gpt-4o-mini"
 
 # --- LOGIN MANAGER ---
 login_manager = LoginManager()
