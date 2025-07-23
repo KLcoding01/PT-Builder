@@ -85,7 +85,7 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('pt_builder.html')
 
 # --- REGISTER ---
 @app.route('/register', methods=['GET', 'POST'])
