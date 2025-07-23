@@ -7,29 +7,26 @@ from flask import (
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from openai import OpenAI
-from docx import Document
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 
-# MODELS (from models.py, only Therapist needed for login)
+# Import your models
 from models import db, Therapist
 
-# ====== ENV & CONFIG ======
+# ENV & CONFIG
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key_change_me")
-basedir = os.path.abspath(os.path.dirname(__file__))
-db_path = '/tmp/db.sqlite3'
+db_path = '/tmp/db.sqlite3'   # Use a path that's writeable in the cloud!
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
+# --- OPENAI SETUP (optional, if used elsewhere) ---
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 client = OpenAI(api_key=OPENAI_API_KEY)
-MODEL = "gpt-4o"
+MODEL = "gpt-4-1-mini"
 
-# ====== LOGIN MANAGER ======
+# --- LOGIN MANAGER ---
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
@@ -38,7 +35,7 @@ login_manager.init_app(app)
 def load_user(user_id):
     return Therapist.query.get(int(user_id))
 
-# ====== CREATE TABLES & ADMIN IF NONE ======
+# --- CREATE TABLES & ADMIN IF NONE ---
 with app.app_context():
     db.create_all()
     if not Therapist.query.filter_by(username="admin").first():
@@ -59,13 +56,14 @@ with app.app_context():
         db.session.commit()
         print("Default admin user created: username=admin, password=admin123")
 
-# ========== LOGIN/LOGOUT/DASH ==========
+# --- INDEX REDIRECT ---
 @app.route('/')
 def index():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     return redirect(url_for('login'))
 
+# --- LOGIN ---
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -79,29 +77,33 @@ def login():
             flash("Invalid username or password", "danger")
     return render_template('login.html')
 
+# --- LOGOUT ---
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
+# --- DASHBOARD ---
 @app.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html')
 
-# ========== REGISTER ==========
+# --- REGISTER ---
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Pull these from the form
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        # ...other fields...
 
+        # Add more fields as needed
         if Therapist.query.filter_by(username=username).first():
-            flash("Username already exists")
+            flash("Username already exists", "danger")
+            return render_template('register.html')
+        if Therapist.query.filter_by(email=email).first():
+            flash("Email already registered", "danger")
             return render_template('register.html')
 
         hashed_pw = generate_password_hash(password)
@@ -109,13 +111,58 @@ def register():
             username=username,
             password=hashed_pw,
             email=email,
-            # ...other fields...
         )
         db.session.add(therapist)
         db.session.commit()
-        flash("Registration successful! Please log in.")
+        flash("Registration successful! Please log in.", "success")
         return redirect(url_for('login'))
     return render_template('register.html')
+
+# --- FORGOT PASSWORD ---
+s = URLSafeTimedSerializer(app.secret_key)
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form['email'].strip().lower()
+        user = Therapist.query.filter_by(email=email).first()
+        if user:
+            # Generate token
+            token = s.dumps(user.id, salt='password-reset')
+            reset_url = url_for('reset_password', token=token, _external=True)
+            print(f"Reset link for {email}: {reset_url}")  # In production, send by email!
+        flash("If this email exists, a reset link has been sent.", "success")
+        return redirect(url_for('forgot_password'))
+    return render_template('forgot_password.html')
+
+# --- PASSWORD RESET ---
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    try:
+        user_id = s.loads(token, salt='password-reset', max_age=3600)  # valid for 1 hour
+    except SignatureExpired:
+        flash("Reset link expired. Please try again.", "danger")
+        return redirect(url_for('forgot_password'))
+    except BadSignature:
+        flash("Invalid or tampered link.", "danger")
+        return redirect(url_for('forgot_password'))
+
+    user = Therapist.query.get(user_id)
+    if not user:
+        flash("User not found.", "danger")
+        return redirect(url_for('forgot_password'))
+
+    if request.method == 'POST':
+        password = request.form['password']
+        confirm = request.form['confirm']
+        if not password or password != confirm:
+            flash("Passwords do not match.", "danger")
+            return render_template('reset_password.html')
+        user.password = generate_password_hash(password)
+        db.session.commit()
+        flash("Password reset successful. You can log in now.", "success")
+        return redirect(url_for('login'))
+    return render_template('reset_password.html')
     
 # ====== PT Section ======
 
