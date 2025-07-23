@@ -223,8 +223,47 @@ OT_TEMPLATES = {
         "frequency": "1wk1, 2wk12",
         "intervention": "STM, UE TherEx, fine motor/coordination training, adaptive equipment training (built-up utensils, pens, button aids), sensory re-ed, edema management, splinting, ADL/IADL simulation, energy conservation, safety/fall prevention, caregiver training.",
         "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97537 Community/Work Reintegration\n97112 Neuromuscular Re-ed"
+    },
+    "Knee Pain": {
+        "meddiag": "",
+        "history": "",
+        "subjective": "Pt reports B knee pain resulting in difficulty with daily tasks such as transfers, dressing, bathing, and home management. Pt is agreeable to OT evaluation and would like to improve activity tolerance, safety, and independence with ADLs/IADLs.",
+        "pain_location": "Bilateral knees",
+        "pain_onset": "",
+        "pain_condition": "Chronic knee OA",
+        "pain_mechanism": "Degenerative joint changes consistent with osteoarthritis; joint space narrowing and inflammation.",
+        "pain_rating": "P: 5/10, B: 0/10, W: 7/10",
+        "pain_frequency": "Intermittent; increased after prolonged activity, standing, or transfers.",
+        "pain_description": "Sharp, aching, tension, heaviness.",
+        "pain_aggravating": "Prolonged walking, sit-to-stand transfers, standing, negotiating stairs, housework.",
+        "pain_relieved": "Rest, pain meds, ice, pacing activities, adaptive equipment use.",
+        "pain_interferes": "ADLs (dressing, bathing, toileting), IADLs (meal prep, housekeeping), sleep, leisure participation.",
+        "meds": "See medication list.",
+        "tests": "N/A",
+        "dme": "Walker, reacher, sock aid, long-handled shoehorn, tub bench, elevated toilet seat as needed.",
+        "plof": "Independent with all mobility, ADLs, and IADLs prior to onset of symptoms.",
+        "posture": "Tendency toward forward trunk lean and poor sitting posture due to pain avoidance. Decreased postural awareness with prolonged tasks.",
+        "rom": "Hip: WNL\nKnee Flexion/Extension: Limited with pain\nAnkle: WNL",
+        "strength": "Hip: 4/5\nKnee Flex: 3/5\nKnee Ext: 3/5\nAnkle: 4/5",
+        "palpation": "TTP at medial/lateral joint lines, periarticular swelling and tenderness, warmth, mild effusion noted.",
+        "functional": "Transfers: Min A/SBA for toilet, tub, and car transfers\nBed Mobility: SBA\nStair Management: Difficulty with single steps, increased pain\nADL Tasks: Difficulty lower body dressing, standing for grooming\n30 sec Sit-to-Stand: 2 reps with knee pain\nFunctional Squat: Unable",
+        "special": "Not tested (refer to ortho as needed)",
+        "impairments": "Decreased knee AROM and strength; impaired balance and mobility; pain with weight-bearing and transfers; limited endurance for daily activities.",
+        "goals":
+            "Short-Term Goals (1–12 visits):\n"
+            "1. Pt will report a reduction in knee pain to ≤1/10 to improve ADL task performance and safety.\n"
+            "2. Pt will demonstrate ≥10% improvement in knee AROM for greater ease with dressing and self-care tasks.\n"
+            "3. Pt will improve LE strength by ≥0.5 muscle grade to facilitate safe transfers and standing ADLs.\n"
+            "4. Pt will utilize adaptive strategies/equipment for self-care, reducing pain and risk of falls by 50%.\n"
+            "Long-Term Goals (13–25 visits):\n"
+            "1. Pt will independently perform all basic ADLs and IADLs with safe body mechanics and minimal pain.\n"
+            "2. Pt will complete ≥14 reps on the 30-sec chair sit-to-stand test for improved household mobility.\n"
+            "3. Pt will tolerate ≥30 minutes of continuous ADL participation without significant pain or fatigue.\n"
+            "4. Pt will demonstrate independence with home exercise/activity modifications and correct adaptive equipment use.",
+        "frequency": "1wk1, 2wk12",
+        "intervention": "Pain management (education on joint protection, activity pacing), therapeutic exercise for strength and flexibility, ADL/IADL retraining with adaptive equipment, neuromuscular re-education, balance training, functional mobility training, fall prevention strategies, energy conservation, modalities (ice/heat as appropriate), HEP instruction.",
+        "procedures": "97165 OT Eval: Low Complexity\n97166 OT Eval: Moderate Complexity\n97167 OT Eval: High Complexity\n97535 Self-Care/Home Management Training\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97140 Manual Therapy (if trained)"
     }
-
 }
 
 
