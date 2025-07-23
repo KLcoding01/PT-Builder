@@ -9,6 +9,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from openai import OpenAI
+from io import BytesIO
+from docx import Document
 
 from models import db, Therapist
 
