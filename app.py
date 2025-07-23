@@ -437,16 +437,17 @@ def pt_generate_summary():
         "Generate a concise, 7-8 sentence Physical Therapy assessment summary that is Medicare compliant for PT documentation. "
         "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
         "Never use 'the patient'; use 'Pt' as the subject. "
-        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'symptoms are associated with' or 'consistent with' the medical diagnosis and PT clinical impression. "
+        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'signs and symptoms are associated with' the medical diagnosis and PT clinical impression. "
         f"Start with: \"{name}, a {age} y/o {gender} with relevant history of {pmh}.\" "
         f"Include: PT initial eval on {today} for {subj}. "
         f"If available, mention the mechanism of injury ({moi}). "
-        f"State: 'Symptoms and clinical findings are associated with or consistent with the referring medical diagnosis ({meddiag}) and PT differential diagnosis ({dx}).' "
+        f"State: 'Pt has signs and symptoms associated with the referring medical diagnosis of {meddiag}. Clinical findings are consistent with PT differential diagnosis of {dx} based on assessment.' "
         f"Summarize current impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}). "
         f"Summarize functional/activity limitations: {func}. "
         "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
         "Do NOT use bulleted or numbered lists—compose a single, well-written summary paragraph."
     )
+
 
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
