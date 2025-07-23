@@ -38,8 +38,84 @@
       </ul>
       <form id="pt-evalform">
         <div class="tab-content">
-          <!-- PT FORM TABS HERE (unchanged from your input) -->
-          <!-- ... -->
+          <!-- PT Eval Tabs -->
+          <div class="tab-pane fade show active" id="pt-patientinfo" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Patient Name:</label>
+              <input type="text" class="form-control" name="patient_name" id="pt_patient_name">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">DOB:</label>
+              <input type="date" class="form-control" name="dob" id="pt_dob">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">MRN:</label>
+              <input type="text" class="form-control" name="mrn" id="pt_mrn">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Referring MD:</label>
+              <input type="text" class="form-control" name="ref_md" id="pt_ref_md">
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pt-history" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Medical/Surgical History:</label>
+              <textarea class="form-control" name="history" id="pt_history"></textarea>
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Social History:</label>
+              <textarea class="form-control" name="social_history" id="pt_social_history"></textarea>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pt-pain" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Pain Location:</label>
+              <input type="text" class="form-control" name="pain_location" id="pt_pain_location">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Pain Intensity (0-10):</label>
+              <input type="number" min="0" max="10" class="form-control" name="pain_intensity" id="pt_pain_intensity">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Pain Description:</label>
+              <input type="text" class="form-control" name="pain_description" id="pt_pain_description">
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pt-objective" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">ROM/Muscle Strength:</label>
+              <textarea class="form-control" name="rom" id="pt_rom"></textarea>
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Functional Mobility:</label>
+              <textarea class="form-control" name="functional_mobility" id="pt_functional_mobility"></textarea>
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Other Objective Findings:</label>
+              <textarea class="form-control" name="objective" id="pt_objective"></textarea>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pt-diffdx" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Differential Diagnosis:</label>
+              <textarea class="form-control" name="diffdx" id="pt_diffdx"></textarea>
+              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="pt-ai-generate-diffdx">AI Generate Diff Dx</button>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pt-summary" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Assessment Summary:</label>
+              <textarea class="form-control" name="summary" id="pt_summary"></textarea>
+              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="pt-ai-generate-summary">AI Generate Summary</button>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pt-plan" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Plan of Care / Goals:</label>
+              <textarea class="form-control" name="goals" id="pt_goals"></textarea>
+              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="pt-ai-generate-goals">AI Generate Goals</button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -66,8 +142,87 @@
       </ul>
       <form id="ot-evalform">
         <div class="tab-content">
-          <!-- OT FORM TABS HERE (unchanged from your input) -->
-          <!-- ... -->
+          <!-- OT Eval Tabs -->
+          <div class="tab-pane fade show active" id="ot-patientinfo" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Patient Name:</label>
+              <input type="text" class="form-control" name="patient_name" id="ot_patient_name">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">DOB:</label>
+              <input type="date" class="form-control" name="dob" id="ot_dob">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">MRN:</label>
+              <input type="text" class="form-control" name="mrn" id="ot_mrn">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Referring MD:</label>
+              <input type="text" class="form-control" name="ref_md" id="ot_ref_md">
+            </div>
+          </div>
+          <div class="tab-pane fade" id="ot-history" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Medical/Surgical History:</label>
+              <textarea class="form-control" name="history" id="ot_history"></textarea>
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Social History:</label>
+              <textarea class="form-control" name="social_history" id="ot_social_history"></textarea>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="ot-pain" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Pain Location:</label>
+              <input type="text" class="form-control" name="pain_location" id="ot_pain_location">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Pain Intensity (0-10):</label>
+              <input type="number" min="0" max="10" class="form-control" name="pain_intensity" id="ot_pain_intensity">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Pain Description:</label>
+              <input type="text" class="form-control" name="pain_description" id="ot_pain_description">
+            </div>
+          </div>
+          <div class="tab-pane fade" id="ot-objective" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">ROM/Muscle Strength:</label>
+              <textarea class="form-control" name="rom" id="ot_rom"></textarea>
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Functional Mobility:</label>
+              <textarea class="form-control" name="functional_mobility" id="ot_functional_mobility"></textarea>
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Other Objective Findings:</label>
+              <textarea class="form-control" name="objective" id="ot_objective"></textarea>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="ot-diffdx" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Differential Diagnosis:</label>
+              <textarea class="form-control" name="diffdx" id="ot_diffdx"></textarea>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="ot-summary" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Assessment Summary:</label>
+              <textarea class="form-control" name="summary" id="ot_summary"></textarea>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="ot-plan" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Plan of Care / Goals:</label>
+              <textarea class="form-control" name="goals" id="ot_goals"></textarea>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="ot-dailynote" role="tabpanel">
+            <div class="mb-2">
+              <label class="form-label fw-bold">Daily Note:</label>
+              <textarea class="form-control" name="dailynote" id="ot_dailynote" rows="5"></textarea>
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -109,7 +264,6 @@
     </div>
   </div>
 </div>
-
 <script>
   // ===== PT Functions =====
   function ptGetFields() {
