@@ -1,171 +1,127 @@
-import os, io, json
-from datetime import date, datetime
-from flask import (
-    Flask, request, jsonify, redirect, url_for, flash, render_template,
-    send_file, session
-)
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
-from openai import OpenAI
-from io import BytesIO
-from docx import Document
-from pt_templates import PT_TEMPLATES, OT_TEMPLATES, pt_parse_template, ot_parse_template
 
-
-from models import db, Therapist
-
-# ENV & CONFIG
-app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key_change_me")
-db_path = '/tmp/db.sqlite3'   # Use a path that's writeable in the cloud!
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db.init_app(app)
-
-# --- OPENAI SETUP (optional, if used elsewhere) ---
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-client = OpenAI(api_key=OPENAI_API_KEY)
-MODEL = "gpt-4o-mini"
-
-# --- LOGIN MANAGER ---
-login_manager = LoginManager()
-login_manager.login_view = 'login'
-login_manager.init_app(app)
-
-@login_manager.user_loader
-def load_user(user_id):
-    return Therapist.query.get(int(user_id))
-
-# --- CREATE TABLES & ADMIN IF NONE ---
-with app.app_context():
-    db.create_all()
-    if not Therapist.query.filter_by(username="admin").first():
-        hashed_pw = generate_password_hash("admin123")
-        admin = Therapist(
-            username="admin",
-            password=hashed_pw,
-            first_name="Admin",
-            last_name="User",
-            credentials="PT",
-            email="admin@example.com",
-            phone="555-555-5555",
-        )
-        db.session.add(admin)
-        db.session.commit()
-        print("Default admin user created: username=admin, password=admin123")
-
-# --- INDEX REDIRECT ---
-@app.route('/')
-def index():
-    if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
-    return redirect(url_for('login'))
-
-# --- LOGIN ---
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = Therapist.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for('dashboard'))
-        else:
-            flash("Invalid username or password", "danger")
-    return render_template('login.html')
-
-# --- LOGOUT ---
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-# --- DASHBOARD ---
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
-
-# --- REGISTER ---
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-
-        # Add more fields as needed
-        if Therapist.query.filter_by(username=username).first():
-            flash("Username already exists", "danger")
-            return render_template('register.html')
-        if Therapist.query.filter_by(email=email).first():
-            flash("Email already registered", "danger")
-            return render_template('register.html')
-
-        hashed_pw = generate_password_hash(password)
-        therapist = Therapist(
-            username=username,
-            password=hashed_pw,
-            email=email,
-        )
-        db.session.add(therapist)
-        db.session.commit()
-        flash("Registration successful! Please log in.", "success")
-        return redirect(url_for('login'))
-    return render_template('register.html')
-
-# --- FORGOT PASSWORD ---
-s = URLSafeTimedSerializer(app.secret_key)
-
-@app.route('/forgot_password', methods=['GET', 'POST'])
-def forgot_password():
-    if request.method == 'POST':
-        email = request.form['email'].strip().lower()
-        user = Therapist.query.filter_by(email=email).first()
-        if user:
-            # Generate token
-            token = s.dumps(user.id, salt='password-reset')
-            reset_url = url_for('reset_password', token=token, _external=True)
-            print(f"Reset link for {email}: {reset_url}")  # In production, send by email!
-        flash("If this email exists, a reset link has been sent.", "success")
-        return redirect(url_for('forgot_password'))
-    return render_template('forgot_password.html')
-
-# --- PASSWORD RESET ---
-@app.route('/reset_password/<token>', methods=['GET', 'POST'])
-def reset_password(token):
-    try:
-        user_id = s.loads(token, salt='password-reset', max_age=3600)  # valid for 1 hour
-    except SignatureExpired:
-        flash("Reset link expired. Please try again.", "danger")
-        return redirect(url_for('forgot_password'))
-    except BadSignature:
-        flash("Invalid or tampered link.", "danger")
-        return redirect(url_for('forgot_password'))
-
-    user = Therapist.query.get(user_id)
-    if not user:
-        flash("User not found.", "danger")
-        return redirect(url_for('forgot_password'))
-
-    if request.method == 'POST':
-        password = request.form['password']
-        confirm = request.form['confirm']
-        if not password or password != confirm:
-            flash("Passwords do not match.", "danger")
-            return render_template('reset_password.html')
-        user.password = generate_password_hash(password)
-        db.session.commit()
-        flash("Password reset successful. You can log in now.", "success")
-        return redirect(url_for('login'))
-    return render_template('reset_password.html')
-    
 # ====== PT Section ======
+
+PT_TEMPLATES = {
+    "LBP Eval": {
+        "meddiag": "",
+        "history": "",
+        "subjective": "Pt reports having LBP and is limiting daily functional activities. Pt would like to decrease pain and improve activity tolerance and return to PLOF. Pt agrees to PT evaluation.",
+        "pain_location": "L-spine paraspinal, B QL, B gluteus medius",
+        "pain_onset": "Chronic",
+        "pain_condition": "Chronic",
+        "pain_mechanism": "Muscle tension, stenosis, increased tone, structural changes",
+        "pain_rating": "5/10, 0/10, 7/10",
+        "pain_frequency": "Intermittent",
+        "pain_description": "Sharp, Tense, Aching.",
+        "pain_aggravating": "Sitting, standing, walking, forward bending, lifting/pulling.",
+        "pain_relieved": "Pain meds prn and rest.",
+        "pain_interferes": "Functional mobility, ADLs, sleep.",
+        "meds": "See medication list",
+        "tests": "N/A",
+        "dme": "N/A",
+        "plof": "Independent with mobility and ADLs",
+        "posture": "Forward head lean, rounded shoulders, protracted scapular, slouch posture, decrease sitting postural awareness, loss of lumbar lordosis.",
+        "rom": "Trunk Flexion: 50% limited\nTrunk Extension: 50% limited\nTrunk SB Left: 50% limited\nTrunk SB Right: 50% limited\nTrunk Rotation Left: 50% limited\nTrunk Rotation Right: 50% limited",
+        "strength": "Gross Core Strength: 3/5\nGross Hip Strength: L/R  3/5; 3/5\nGross Knee Strength: L/R  3/5; 3/5\nGross Ankle Strength: L/R  3/5; 3/5",
+        "palpation": "TTP: B QL, B gluteus medius, B piriformis, B paraspinal.\nJoint hypomobility: L1-L5 with central PA.\nIncreased paraspinal and gluteus medius tone",
+        "functional": "Supine Sit Up Test: Unable\n30 seconds Chair Sit to Stand: 6x w/ increase LBP\nSingle Leg Balance Test: B LE: <1 sec with loss of balance.\nSingle Heel Raises Test: Unremarkable\nWalking on Toes:\nWalking on Heels:\nFunctional Squat:",
+        "special": "(-) Slump Test\n(-) Unilateral SLR Test\n(-) Double SLR\n(-) Spring/Central PA\n(-) Piriformis test\n(-) SI Cluster Test",
+        "impairments": "Prolonged sitting: 5 min\nStanding: 5 min\nWalking: 5 min\nBending, sweeping, cleaning, lifting: 5 min.",
+        "goals": "Short-Term Goals (1–12 visits):\n1. Pt will report a reduction in low back pain to ≤1/10 to allow comfortable participation in functional activities.\n2. Pt will demonstrate a ≥10% improvement in trunk AROM to enhance mobility and reduce risk of reinjury during daily tasks.\n3. Pt will improve gross LE strength by at least 0.5 muscle grade to enhance safety during ADLs and minimize pain/injury risk.\n4. Pt will self-report ≥50% improvement in functional limitations related to ADLs.\nLong-Term Goals (13–25 visits):\n1. Pt will demonstrate B LE strength of ≥4/5 to independently and safely perform all ADLs.\n2. Pt will complete ≥14 repetitions on the 30-second chair sit-to-stand test to reduce fall risk.\n3. Pt will tolerate ≥30 minutes of activity to safely resume household tasks without limitation.\n4. Pt will demonstrate independence with HEP, using proper body mechanics and strength to support safe return to ADLs without difficulty.",
+        "frequency": "1wk1, 2wk12",
+        "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Gait Training, Balance Training, Pain Management Training, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training.",
+        "procedures": "97161 Low Complexity\n97162 Moderate Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97116 Gait Training"
+    },
+    "Knee TKA Eval": {
+        "meddiag": "",
+        "history": "",
+        "subjective": "Pt states s/p TKA and agreeable to PT evaluation. Pt reports having pain and swelling to the knee region and hasn't been using ice too much.",
+        "pain_location": "Knee",
+        "pain_onset": "",
+        "pain_condition": "Acute",
+        "pain_mechanism": "Post op swelling due to surgery",
+        "pain_rating": "5/10, 3/10, 7/10",
+        "pain_frequency": "Intermittent",
+        "pain_description": "Sharp, Tension, Aching, dull/heaviness",
+        "pain_aggravating": "Sitting, standing, walking, bed mobility.",
+        "pain_relieved": "Pain meds prn, ice, rest, elevation",
+        "pain_interferes": "Functional mobility, ADLs, sleep.",
+        "meds": "See medication list",
+        "tests": "N/A",
+        "dme": "FWW",
+        "plof": "Independent with mobility and ADLs.",
+        "posture": "Forward head lean, rounded shoulders, protracted scapular, slouch posture, decrease sitting postural awareness, loss of lumbar lordosis.",
+        "rom": "Hip Gross: WNL / WNL\nKnee Flex: \nKnee Ext:\nAnkle Gross: WNL / WNL",
+        "strength": "Hip Gross: 4/5 / 4/5\nKnee Flex: 3/5* / 3/5*\nKnee Ext: 3/5* / 3/5*\nAnkle Gross: 4/5 / 4/5",
+        "palpation": "TTP: B Quads, hamstring, knee swelling, warmth, tenderness periarticular",
+        "functional": "Bed Mobility: SBA\n30 seconds Chair Sit to Stand: 2x w/ Knee pain\nSLB Test: Unable loss of balance\nSingle Heel Raises Test: 50% from full range, guarding at knee\nFunctional Squat: Unable",
+        "special": "NT",
+        "impairments": "Prolonged sitting: 5 min\nStanding: 5 min\nWalking: 5 min\nStep/stairs: 1 step",
+        "goals": (
+            "Short-Term Goals (1–12 visits):\n"
+            "1. Pt will report a reduction in knee pain to ≤1/10 to allow safe and comfortable participation in functional activities.\n"
+            "2. Pt will demonstrate a ≥10% improvement in knee AROM to enhance mobility and reduce risk of reinjury during daily tasks.\n"
+            "3. Pt will improve gross LE strength by at least 0.5 muscle grade to enhance safety during ADLs and minimize pain/injury risk.\n"
+            "4. Pt will self-report ≥50% improvement in functional limitations related to ADLs.\n"
+            "Long-Term Goals (13–25 visits):\n"
+            "1. Pt will demonstrate B LE strength of ≥4/5 to independently and safely perform all ADLs.\n"
+            "2. Pt will complete ≥14 repetitions on the 30-second chair sit-to-stand test to reduce fall risk.\n"
+            "3. Pt will tolerate ≥30 minutes of activity to safely resume household tasks without limitation.\n"
+            "4. Pt will demonstrate independence with HEP, using proper body mechanics and strength to support safe return to ADLs without difficulty."
+        ),
+        "frequency": "1wk1, 2wk12",
+        "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Gait Training, Balance Training, Pain Management Training, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training.",
+        "procedures": "97161 Low Complexity\n97162 Moderate Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97116 Gait Training"
+    }
+}
+
+def pt_parse_template(template):
+    key_map = {
+        "Medical Diagnosis": "meddiag",
+        "Medical History/HNP": "history",
+        "Subjective": "subjective",
+        "Current Medication(s)": "meds",
+        "Diagnostic Test(s)": "tests",
+        "DME/Assistive Device": "dme",
+        "PLOF": "plof",
+        "Posture": "posture",
+        "ROM": "rom",
+        "Muscle Strength Test": "strength",
+        "Palpation": "palpation",
+        "Functional Test(s)": "functional",
+        "Special Test(s)": "special",
+        "Current Functional Mobility Impairment(s)": "impairments",
+        "Goals": "goals",
+        "Frequency/Duration": "frequency",
+        "Intervention": "intervention",
+        "Treatment Procedures": "procedures",
+        "Area/Location of Injury": "pain_location",
+        "Onset/Exacerbation Date": "pain_onset",
+        "Condition of Injury": "pain_condition",
+        "Mechanism of Injury": "pain_mechanism",
+        "Pain Rating (P/B/W)": "pain_rating",
+        "Pain Frequency": "pain_frequency",
+        "Description": "pain_description",
+        "Aggravating Factor": "pain_aggravating",
+        "Relieved By": "pain_relieved",
+        "Interferes With": "pain_interferes"
+    }
+    fields = {v: "" for v in key_map.values()}
+    curr = None
+    for line in template.splitlines():
+        stripped = line.strip()
+        matched = False
+        for label, key in key_map.items():
+            if stripped.startswith(label + ":"):
+                curr = key
+                _, val = stripped.split(":", 1)
+                fields[key] = val.strip()
+                matched = True
+                break
+        if not matched and curr and stripped:
+            fields[curr] += "\n" + stripped
+    return fields
+
 @app.route("/pt_load_template", methods=["POST"])
 @login_required
 def pt_load_template():
@@ -337,6 +293,116 @@ def pt_export_pdf():
 
 # ====== OT Section ======
 
+OT_TEMPLATES = {
+    "OT Eval Template": """Medical Diagnosis:
+Medical History/HNP:
+Subjective: Pt reports upper extremity pain and is limiting ADLs. Pt would like to improve function and return to PLOF. Pt agrees to OT evaluation.
+Pain:
+Area/Location of Injury: R shoulder
+Onset/Exacerbation Date: 3 weeks ago
+Condition of Injury: Acute on chronic
+Mechanism of Injury: Lifting
+Pain Rating (P/B/W): 4/10, 1/10, 7/10
+Pain Frequency: Intermittent
+Description: Sharp, throbbing
+Aggravating Factor: Overhead activity, reaching
+Relieved By: Rest, ice
+Interferes With: Grooming, dressing, bathing
+
+Current Medication(s): See medication list
+
+Diagnostic Test(s): MRI right shoulder
+
+DME/Assistive Device: None
+
+PLOF: Independent
+
+Posture: Forward head, rounded shoulders
+
+ROM: R shoulder flexion 100°, abduction 80°
+
+Muscle Strength Test: R shoulder 3+/5
+
+Palpation: TTP R supraspinatus
+
+Functional Test(s): Unable to reach overhead
+
+Special Test(s): (+) Impingement
+
+Current Functional Mobility Impairment(s): Reaching, overhead activity
+
+Goals:
+Short-Term Goals (1–12 visits):
+1. Pt will decrease pain to ≤2/10 during ADLs.
+2. Pt will improve R shoulder ROM to 140° flexion.
+3. Pt will improve strength to 4/5.
+4. Pt will perform ADLs independently.
+
+Long-Term Goals (13–25 visits):
+1. Pt will maintain pain ≤1/10 with all activity.
+2. Pt will achieve full ROM and strength in R shoulder.
+3. Pt will return to all prior ADLs independently.
+4. Pt will independently complete HEP.
+
+Frequency/Duration: 2x/wk x 6wks
+
+Intervention: Manual Therapy, TherEx, HEP training, ADL retraining
+
+Treatment Procedures:
+97165 OT Eval
+97110 Ther Ex
+97530 Ther Activity
+97535 Self-care Mgmt
+"""
+}
+
+def ot_parse_template(template):
+    key_map = {
+        "Medical Diagnosis": "ot_meddiag",
+        "Medical History/HNP": "ot_history",
+        "Subjective": "ot_subjective",
+        "Current Medication(s)": "ot_meds",
+        "Diagnostic Test(s)": "ot_tests",
+        "DME/Assistive Device": "ot_dme",
+        "PLOF": "ot_plof",
+        "Posture": "ot_posture",
+        "ROM": "ot_rom",
+        "Muscle Strength Test": "ot_strength",
+        "Palpation": "ot_palpation",
+        "Functional Test(s)": "ot_functional",
+        "Special Test(s)": "ot_special",
+        "Current Functional Mobility Impairment(s)": "ot_impairments",
+        "Goals": "ot_goals",
+        "Frequency/Duration": "ot_frequency",
+        "Intervention": "ot_intervention",
+        "Treatment Procedures": "ot_procedures",
+        "Area/Location of Injury": "ot_pain_location",
+        "Onset/Exacerbation Date": "ot_pain_onset",
+        "Condition of Injury": "ot_pain_condition",
+        "Mechanism of Injury": "ot_pain_mechanism",
+        "Pain Rating (P/B/W)": "ot_pain_rating",
+        "Pain Frequency": "ot_pain_frequency",
+        "Description": "ot_pain_description",
+        "Aggravating Factor": "ot_pain_aggravating",
+        "Relieved By": "ot_pain_relieved",
+        "Interferes With": "ot_pain_interferes"
+    }
+    fields = {v: "" for v in key_map.values()}
+    curr = None
+    for line in template.splitlines():
+        stripped = line.strip()
+        matched = False
+        for label, key in key_map.items():
+            if stripped.startswith(label + ":"):
+                curr = key
+                _, val = stripped.split(":", 1)
+                fields[key] = val.strip()
+                matched = True
+                break
+        if not matched and curr and stripped:
+            fields[curr] += "\n" + stripped
+    return fields
+
 @app.route("/ot_load_template", methods=["POST"])
 @login_required
 def ot_load_template():
@@ -436,6 +502,8 @@ def pt_generate_goals():
 
     result = gpt_call(prompt, max_tokens=350)
     return jsonify({"result": result})
+    
+
 
 @app.route('/pt_generate_daily_summary', methods=['POST'])
 @login_required
@@ -622,21 +690,8 @@ def ot_export_pdf():
         as_attachment=True,
         download_name="OT_Eval.pdf",
         mimetype="application/pdf"
-    )
+
     
-# ========== GPT HELPER ==========
-
-def gpt_call(prompt, max_tokens=700):
-    try:
-        resp = client.chat.completions.create(
-            model=MODEL,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=max_tokens
-        )
-        return resp.choices[0].message.content.strip()
-    except Exception as e:
-        return f"OpenAI error: {e}"
-
 # ========== MAIN ==========
 if __name__ == "__main__":
     with app.app_context():
