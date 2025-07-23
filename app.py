@@ -396,18 +396,31 @@ def calculate_age(dob):
 @login_required
 def pt_generate_summary():
     f = request.json.get("fields", {})
-    name = f.get("name") or f.get("patient_name") or "Pt"
+    print("FIELDS RECEIVED:", f)  # For debugging, remove in production!
+
+    # Try all possible patient name keys, most likely first
+    name = (
+        f.get("patient_name")
+        or f.get("name")
+        or f.get("pt_name")
+        or f.get("full_name")
+        or "Pt"
+    )
+
     dob = f.get("dob")
     age = "X"
     if dob:
-        try:
-            dob_dt = datetime.strptime(dob, "%Y-%m-%d")
-            today_dt = date.today()
-            age = today_dt.year - dob_dt.year - ((today_dt.month, today_dt.day) < (dob_dt.month, dob_dt.day))
-        except Exception:
-            age = "X"
+        for fmt in ("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y"):
+            try:
+                dob_dt = datetime.strptime(dob, fmt)
+                today_dt = date.today()
+                age = today_dt.year - dob_dt.year - ((today_dt.month, today_dt.day) < (dob_dt.month, dob_dt.day))
+                break
+            except Exception:
+                continue
     else:
         age = f.get("age", "X")
+
     gender = f.get("gender", "patient").lower()
     pmh = f.get("history", "no significant history")
     today = f.get("currentdate", date.today().strftime("%m/%d/%Y"))
@@ -434,6 +447,7 @@ def pt_generate_summary():
         "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
         "Do NOT use bulleted or numbered lists—compose a single, well-written summary paragraph."
     )
+
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
 
