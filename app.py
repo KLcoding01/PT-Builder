@@ -180,10 +180,13 @@ def pt_load_template():
 @app.route("/ot_load_template", methods=["POST"])
 @login_required
 def ot_load_template():
-    name = request.json.get("template", "")
-    text = OT_TEMPLATES.get(name, "")
-    return jsonify(ot_parse_template(text))
-
+    req = request.get_json() or {}
+    template = req.get("template", "")
+    if template:
+        return jsonify(OT_TEMPLATES.get(template, {}))
+    else:
+        return jsonify(list(OT_TEMPLATES.keys()))
+        
 # ==== Export Section ====
 
 @app.route('/pt_export_word', methods=['POST'])
