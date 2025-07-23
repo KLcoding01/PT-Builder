@@ -40,103 +40,69 @@
         <div class="tab-content">
           <!-- PATIENT INFO TAB -->
           <div class="tab-pane fade show active" id="pt-patientinfo" role="tabpanel">
-            <div class="mb-2"><label class="form-label fw-bold">Patient Name:</label>
-              <input type="text" class="form-control" name="patient_name" id="pt_patient_name"></div>
-            <div class="mb-2"><label class="form-label fw-bold">DOB:</label>
-              <input type="date" class="form-control" name="dob" id="pt_dob"></div>
-            <div class="mb-2"><label class="form-label fw-bold">MRN:</label>
-              <input type="text" class="form-control" name="mrn" id="pt_mrn"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Referring MD:</label>
-              <input type="text" class="form-control" name="ref_md" id="pt_ref_md"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Date of Eval:</label>
-              <input type="date" class="form-control" name="eval_date" id="pt_eval_date"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Therapist:</label>
-              <input type="text" class="form-control" name="therapist" id="pt_therapist"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Visit Type:</label>
-              <select class="form-select" name="visit_type" id="pt_visit_type">
-                <option>Evaluation</option>
-                <option>Re-Evaluation</option>
-                <option>Discharge</option>
-                <option>Other</option>
-              </select>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Patient Name:</label>
+              <input type="text" class="form-control" name="patient_name" id="pt_patient_name">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">DOB:</label>
+              <input type="date" class="form-control" name="dob" id="pt_dob">
+            </div>
+            <div class="mb-2">
+              <label class="form-label fw-bold">Date of Eval:</label>
+              <input type="date" class="form-control" name="eval_date" id="pt_eval_date">
             </div>
           </div>
           <!-- HISTORY TAB -->
           <div class="tab-pane fade" id="pt-history" role="tabpanel">
-            <div class="mb-2"><label class="form-label fw-bold">Medical/Surgical History:</label>
-              <textarea class="form-control" name="history" id="pt_history"></textarea></div>
-            <div class="mb-2"><label class="form-label fw-bold">Social History:</label>
-              <textarea class="form-control" name="social_history" id="pt_social_history"></textarea></div>
-            <div class="mb-2"><label class="form-label fw-bold">Work/School History:</label>
-              <textarea class="form-control" name="work_history" id="pt_work_history"></textarea></div>
-            <div class="mb-2"><label class="form-label fw-bold">Living Situation:</label>
-              <input type="text" class="form-control" name="living_situation" id="pt_living_situation"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Prior Level of Function:</label>
-              <input type="text" class="form-control" name="prior_function" id="pt_prior_function"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Precautions:</label>
-              <input type="text" class="form-control" name="precautions" id="pt_precautions"></div>
+            <textarea name="meddiag" id="pt_meddiag" class="form-control mb-2" placeholder="Medical Diagnosis"></textarea>
+            <textarea name="history" id="pt_history" class="form-control mb-2" placeholder="Medical History/HNP"></textarea>
+            <textarea name="subjective" id="pt_subjective" class="form-control mb-2" placeholder="Subjective (HPI)"></textarea>
+            <textarea name="meds" id="pt_meds" class="form-control mb-2" placeholder="Current Medication(s)"></textarea>
+            <textarea name="tests" id="pt_tests" class="form-control mb-2" placeholder="Diagnostic Test(s)"></textarea>
+            <textarea name="dme" id="pt_dme" class="form-control mb-2" placeholder="DME/Assistive Device"></textarea>
+            <textarea name="plof" id="pt_plof" class="form-control mb-2" placeholder="PLOF"></textarea>
           </div>
           <!-- PAIN TAB -->
           <div class="tab-pane fade" id="pt-pain" role="tabpanel">
-            <div class="mb-2"><label class="form-label fw-bold">Pain Location(s):</label>
-              <input type="text" class="form-control" name="pain_location" id="pt_pain_location"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Pain Intensity (0-10):</label>
-              <input type="number" min="0" max="10" class="form-control" name="pain_intensity" id="pt_pain_intensity"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Pain Quality/Description:</label>
-              <input type="text" class="form-control" name="pain_description" id="pt_pain_description"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Aggravating Factors:</label>
-              <input type="text" class="form-control" name="aggravating" id="pt_aggravating"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Alleviating Factors:</label>
-              <input type="text" class="form-control" name="alleviating" id="pt_alleviating"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Pain Duration/Frequency:</label>
-              <input type="text" class="form-control" name="pain_duration" id="pt_pain_duration"></div>
+            <input name="pain_location" id="pt_pain_location" class="form-control mb-2" placeholder="Area/Location of Injury">
+            <input name="pain_onset" id="pt_pain_onset" class="form-control mb-2" placeholder="Onset/Exacerbation Date">
+            <input name="pain_condition" id="pt_pain_condition" class="form-control mb-2" placeholder="Condition of Injury">
+            <input name="pain_mechanism" id="pt_pain_mechanism" class="form-control mb-2" placeholder="Mechanism of Injury">
+            <input name="pain_rating" id="pt_pain_rating" class="form-control mb-2" placeholder="Pain Rating (P/B/W)">
+            <input name="pain_frequency" id="pt_pain_frequency" class="form-control mb-2" placeholder="Pain Frequency">
+            <input name="pain_description" id="pt_pain_description" class="form-control mb-2" placeholder="Description">
+            <input name="pain_aggravating" id="pt_pain_aggravating" class="form-control mb-2" placeholder="Aggravating Factor">
+            <input name="pain_relieved" id="pt_pain_relieved" class="form-control mb-2" placeholder="Relieved By">
+            <input name="pain_interferes" id="pt_pain_interferes" class="form-control mb-2" placeholder="Interferes With">
           </div>
           <!-- OBJECTIVE TAB -->
           <div class="tab-pane fade" id="pt-objective" role="tabpanel">
-            <div class="mb-2"><label class="form-label fw-bold">Vitals:</label>
-              <input type="text" class="form-control" name="vitals" id="pt_vitals"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Observation/Posture:</label>
-              <textarea class="form-control" name="observation" id="pt_observation"></textarea></div>
-            <div class="mb-2"><label class="form-label fw-bold">ROM (Active/Passive):</label>
-              <textarea class="form-control" name="rom" id="pt_rom"></textarea></div>
-            <div class="mb-2"><label class="form-label fw-bold">Muscle Strength:</label>
-              <textarea class="form-control" name="strength" id="pt_strength"></textarea></div>
-            <div class="mb-2"><label class="form-label fw-bold">Functional Mobility (Bed, Transfers, Gait):</label>
-              <textarea class="form-control" name="functional_mobility" id="pt_functional_mobility"></textarea></div>
-            <div class="mb-2"><label class="form-label fw-bold">Balance:</label>
-              <input type="text" class="form-control" name="balance" id="pt_balance"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Assistive Devices:</label>
-              <input type="text" class="form-control" name="assistive_devices" id="pt_assistive_devices"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Other Objective Findings:</label>
-              <textarea class="form-control" name="objective" id="pt_objective"></textarea></div>
+            <textarea name="posture" id="pt_posture" class="form-control mb-2" rows="7" placeholder="Posture"></textarea>
+            <textarea name="rom" id="pt_rom" class="form-control mb-2" rows="7" placeholder="ROM"></textarea>
+            <textarea name="strength" id="pt_strength" class="form-control mb-2" rows="7" placeholder="Muscle Strength Test"></textarea>
+            <textarea name="palpation" id="pt_palpation" class="form-control mb-2" rows="7" placeholder="Palpation"></textarea>
+            <textarea name="functional" id="pt_functional" class="form-control mb-2" rows="7" placeholder="Functional Test(s)"></textarea>
+            <textarea name="special" id="pt_special" class="form-control mb-2" rows="7" placeholder="Special Test(s)"></textarea>
+            <textarea name="impairments" id="pt_impairments" class="form-control mb-2" rows="7" placeholder="Current Functional Mobility Impairment(s)"></textarea>
           </div>
           <!-- DIFF DX TAB -->
           <div class="tab-pane fade" id="pt-diffdx" role="tabpanel">
-            <div class="mb-2"><label class="form-label fw-bold">Differential Diagnosis:</label>
-              <textarea class="form-control" name="diffdx" id="pt_diffdx"></textarea>
-              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="pt-ai-generate-diffdx">AI Generate Diff Dx</button>
-            </div>
+            <button type="button" id="pt-ai-generate-diffdx" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
+            <textarea name="diffdx" id="pt_diffdx" class="form-control" rows="8"></textarea>
           </div>
           <!-- ASSESSMENT SUMMARY TAB -->
           <div class="tab-pane fade" id="pt-summary" role="tabpanel">
-            <div class="mb-2"><label class="form-label fw-bold">Assessment Summary:</label>
-              <textarea class="form-control" name="summary" id="pt_summary"></textarea>
-              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="pt-ai-generate-summary">AI Generate Summary</button>
-            </div>
+            <button type="button" id="pt-ai-generate-summary" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
+            <textarea name="summary" id="pt_summary" class="form-control" rows="10"></textarea>
           </div>
           <!-- PLAN TAB -->
           <div class="tab-pane fade" id="pt-plan" role="tabpanel">
-            <div class="mb-2"><label class="form-label fw-bold">Plan of Care / Goals:</label>
-              <textarea class="form-control" name="goals" id="pt_goals"></textarea>
-              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="pt-ai-generate-goals">AI Generate Goals</button>
-            </div>
-            <div class="mb-2"><label class="form-label fw-bold">Treatment Frequency:</label>
-              <input type="text" class="form-control" name="frequency" id="pt_frequency" placeholder="e.g. 2x/week x 4 weeks"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Duration:</label>
-              <input type="text" class="form-control" name="duration" id="pt_duration" placeholder="e.g. 4 weeks"></div>
-            <div class="mb-2"><label class="form-label fw-bold">Skilled Interventions:</label>
-              <textarea class="form-control" name="skilled_interventions" id="pt_skilled_interventions"></textarea>
-            </div>
+            <button type="button" id="pt-ai-generate-goals" class="btn btn-outline-success btn-sm mb-2">AI Generate Goals</button>
+            <textarea name="goals" id="pt_goals" class="form-control mb-2" rows="10"></textarea>
+            <input name="frequency" id="pt_frequency" class="form-control mb-2" placeholder="Frequency/Duration">
+            <textarea name="intervention" id="pt_intervention" class="form-control mb-2" placeholder="Intervention"></textarea>
+            <textarea name="procedures" id="pt_procedures" class="form-control mb-2" placeholder="Treatment Procedures"></textarea>
           </div>
         </div>
       </form>
