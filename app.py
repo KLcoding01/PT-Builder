@@ -538,60 +538,60 @@ def ot_export_to_word(data):
     doc = Document()
     def add_separator():
         doc.add_paragraph('-' * 114)
-    doc.add_paragraph(f"Medical Diagnosis: {data.get('meddiag', '')}")
+    doc.add_paragraph(f"Medical Diagnosis: {data.get('ot_meddiag', '')}")
     add_separator()
-    doc.add_paragraph(f"Medical History/HNP:\n{data.get('history', '')}")
+    doc.add_paragraph(f"Medical History/HNP:\n{data.get('ot_history', '')}")
     add_separator()
-    doc.add_paragraph(f"Subjective:\n{data.get('subjective', '')}")
+    doc.add_paragraph(f"Subjective:\n{data.get('ot_subjective', '')}")
     add_separator()
     doc.add_paragraph("Pain:")
     pain_fields = [
-        ("Area/Location of Pain", "pain_location"),
-        ("Onset/Exacerbation Date", "pain_onset"),
-        ("Condition of Pain", "pain_condition"),
-        ("Mechanism of Pain", "pain_mechanism"),
-        ("Pain Rating (Present/Best/Worst)", "pain_rating"),
-        ("Frequency", "pain_frequency"),
-        ("Description", "pain_description"),
-        ("Aggravating Factor", "pain_aggravating"),
-        ("Relieved By", "pain_relieved"),
-        ("Interferes With", "pain_interferes"),
+        ("Area/Location of Injury", "ot_pain_location"),
+        ("Onset/Exacerbation Date", "ot_pain_onset"),
+        ("Condition of Injury", "ot_pain_condition"),
+        ("Mechanism of Injury", "ot_pain_mechanism"),
+        ("Pain Rating (Present/Best/Worst)", "ot_pain_rating"),
+        ("Frequency", "ot_pain_frequency"),
+        ("Description", "ot_pain_description"),
+        ("Aggravating Factor", "ot_pain_aggravating"),
+        ("Relieved By", "ot_pain_relieved"),
+        ("Interferes With", "ot_pain_interferes"),
     ]
     for label, key in pain_fields:
         doc.add_paragraph(f"{label}: {data.get(key, '')}")
-    doc.add_paragraph(f"Current Medication(s): {data.get('meds', '')}")
-    doc.add_paragraph(f"Diagnostic Test(s): {data.get('tests', '')}")
-    doc.add_paragraph(f"DME/Assistive Device: {data.get('dme', '')}")
-    doc.add_paragraph(f"PLOF: {data.get('plof', '')}")
+    doc.add_paragraph(f"Current Medication(s): {data.get('ot_meds', '')}")
+    doc.add_paragraph(f"Diagnostic Test(s): {data.get('ot_tests', '')}")
+    doc.add_paragraph(f"DME/Assistive Device: {data.get('ot_dme', '')}")
+    doc.add_paragraph(f"PLOF: {data.get('ot_plof', '')}")
     add_separator()
     doc.add_paragraph("Objective:")
     obj_fields = [
-        ("Posture", "posture"),
-        ("ROM", "rom"),
-        ("Muscle Strength Test", "strength"),
-        ("Palpation", "palpation"),
-        ("Functional Test(s)", "functional"),
-        ("Special Test(s)", "special"),
-        ("Current Functional Impairment(s)", "impairments"),
+        ("Posture", "ot_posture"),
+        ("ROM", "ot_rom"),
+        ("Muscle Strength Test", "ot_strength"),
+        ("Palpation", "ot_palpation"),
+        ("Functional Test(s)", "ot_functional"),
+        ("Special Test(s)", "ot_special"),
+        ("Current Functional Mobility Impairment(s)", "ot_impairments"),
     ]
     for label, key in obj_fields:
         doc.add_paragraph(f"{label}:")
         doc.add_paragraph(f"{data.get(key, '')}")
     add_separator()
     doc.add_paragraph("Assessment Summary:")
-    doc.add_paragraph(data.get('summary', ''))
+    doc.add_paragraph(data.get('ot_summary', ''))
     add_separator()
     doc.add_paragraph("Goals:")
-    doc.add_paragraph(data.get('goals', ''))
+    doc.add_paragraph(data.get('ot_goals', ''))
     add_separator()
     doc.add_paragraph("Frequency:")
-    doc.add_paragraph(data.get('frequency', ''))
+    doc.add_paragraph(data.get('ot_frequency', ''))
     add_separator()
     doc.add_paragraph("Intervention:")
-    doc.add_paragraph(data.get('intervention', ''))
+    doc.add_paragraph(data.get('ot_intervention', ''))
     add_separator()
     doc.add_paragraph("Treatment Procedures:")
-    doc.add_paragraph(data.get('procedures', ''))
+    doc.add_paragraph(data.get('ot_procedures', ''))
     add_separator()
     return doc
 
@@ -625,48 +625,48 @@ def ot_export_pdf():
     c.drawString(40, y, "Occupational Therapy Evaluation")
     y -= 30
 
-    add_section("Medical Diagnosis:", data.get("meddiag", ""))
-    add_section("Medical History/HNP:", data.get("history", ""))
-    add_section("Subjective:", data.get("subjective", ""))
+    add_section("Medical Diagnosis:", data.get("ot_meddiag", ""))
+    add_section("Medical History/HNP:", data.get("ot_history", ""))
+    add_section("Subjective:", data.get("ot_subjective", ""))
     pain_lines = [
-        f"Area/Location of Pain: {data.get('pain_location','')}",
-        f"Onset/Exacerbation Date: {data.get('pain_onset','')}",
-        f"Condition of Pain: {data.get('pain_condition','')}",
-        f"Mechanism of Pain: {data.get('pain_mechanism','')}",
-        f"Pain Rating (Present/Best/Worst): {data.get('pain_rating','')}",
-        f"Frequency: {data.get('pain_frequency','')}",
-        f"Description: {data.get('pain_description','')}",
-        f"Aggravating Factor: {data.get('pain_aggravating','')}",
-        f"Relieved By: {data.get('pain_relieved','')}",
-        f"Interferes With: {data.get('pain_interferes','')}",
+        f"Area/Location of Injury: {data.get('ot_pain_location','')}",
+        f"Onset/Exacerbation Date: {data.get('ot_pain_onset','')}",
+        f"Condition of Injury: {data.get('ot_pain_condition','')}",
+        f"Mechanism of Injury: {data.get('ot_pain_mechanism','')}",
+        f"Pain Rating (Present/Best/Worst): {data.get('ot_pain_rating','')}",
+        f"Frequency: {data.get('ot_pain_frequency','')}",
+        f"Description: {data.get('ot_pain_description','')}",
+        f"Aggravating Factor: {data.get('ot_pain_aggravating','')}",
+        f"Relieved By: {data.get('ot_pain_relieved','')}",
+        f"Interferes With: {data.get('ot_pain_interferes','')}",
         "",
-        f"Current Medication(s): {data.get('meds','')}",
-        f"Diagnostic Test(s): {data.get('tests','')}",
-        f"DME/Assistive Device: {data.get('dme','')}",
-        f"PLOF: {data.get('plof','')}",
+        f"Current Medication(s): {data.get('ot_meds','')}",
+        f"Diagnostic Test(s): {data.get('ot_tests','')}",
+        f"DME/Assistive Device: {data.get('ot_dme','')}",
+        f"PLOF: {data.get('ot_plof','')}",
     ]
     add_section("Pain:", "\n".join(pain_lines))
     obj_lines = [
-        f"Posture: {data.get('posture','')}",
+        f"Posture: {data.get('ot_posture','')}",
         "",
-        f"ROM: \n{data.get('rom','')}",
+        f"ROM: \n{data.get('ot_rom','')}",
         "",
-        f"Muscle Strength Test: \n{data.get('strength','')}",
+        f"Muscle Strength Test: \n{data.get('ot_strength','')}",
         "",
-        f"Palpation: \n{data.get('palpation','')}",
+        f"Palpation: \n{data.get('ot_palpation','')}",
         "",
-        f"Functional Test(s): \n{data.get('functional','')}",
+        f"Functional Test(s): \n{data.get('ot_functional','')}",
         "",
-        f"Special Test(s): \n{data.get('special','')}",
+        f"Special Test(s): \n{data.get('ot_special','')}",
         "",
-        f"Current Functional Impairment(s): \n{data.get('impairments','')}",
+        f"Current Functional Mobility Impairment(s): \n{data.get('ot_impairments','')}",
     ]
     add_section("Objective:", "\n".join(obj_lines))
-    add_section("Assessment Summary:", data.get("summary", ""))
-    add_section("Goals:", data.get("goals", ""))
-    add_section("Frequency:", data.get("frequency", ""))
-    add_section("Intervention:", data.get("intervention", ""))
-    add_section("Treatment Procedures:", data.get("procedures", ""))
+    add_section("Assessment Summary:", data.get("ot_summary", ""))
+    add_section("Goals:", data.get("ot_goals", ""))
+    add_section("Frequency:", data.get("ot_frequency", ""))
+    add_section("Intervention:", data.get("ot_intervention", ""))
+    add_section("Treatment Procedures:", data.get("ot_procedures", ""))
 
     c.save()
     buffer.seek(0)
@@ -676,7 +676,7 @@ def ot_export_pdf():
         download_name="OT_Eval.pdf",
         mimetype="application/pdf"
     )
-
+    
 # ========== GPT HELPER ==========
 
 def gpt_call(prompt, max_tokens=700):
