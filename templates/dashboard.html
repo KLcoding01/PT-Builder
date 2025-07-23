@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+  <hr>
+  <!-- MAIN PT/OT SELECTOR -->
+  <ul class="nav nav-tabs mb-3" id="mainTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="pt-tab-link" data-bs-toggle="tab" href="#pt-tab-panel" role="tab">PT Eval Builder</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="ot-tab-link" data-bs-toggle="tab" href="#ot-tab-panel" role="tab">OT Eval Builder</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="pt-soap-tab-link" data-bs-toggle="tab" href="#pt-soap-tab-panel" role="tab">PT SOAP - Daily Note</a>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="mainTabContent">
+    <!-- PT EVAL BUILDER TAB -->
+    <div class="tab-pane fade show active" id="pt-tab-panel" role="tabpanel">
+      <h2>PT Eval Builder</h2>
+      <div class="d-flex align-items-center mb-3">
+        <label class="fw-bold me-2">Template:</label>
+        <select id="pt-template-select" class="form-select w-auto me-2"></select>
+        <button id="pt-load-template-btn" class="btn btn-outline-primary btn-sm">Load</button>
+        <button id="pt-save-word-btn" class="btn btn-info btn-sm">Export Word</button>
+        <button id="pt-save-pdf-btn" class="btn btn-danger btn-sm">Export PDF</button>
+        <span id="pt-status-msg" class="ms-3"></span>
+      </div>
+      <ul class="nav nav-tabs mb-2" id="pt-inner-tab" role="tablist">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#pt-patientinfo" role="tab">Patient Info</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-history" role="tab">History</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-pain" role="tab">Pain</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-objective" role="tab">Objective</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-diffdx" role="tab">Diff Dx</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-summary" role="tab">Assessment Summary</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-plan" role="tab">Plan</a></li>
+      </ul>
+      <form id="pt-evalform">
+        <div class="tab-content">
+          <!-- PT FORM TABS HERE (unchanged from your input) -->
+          <!-- ... -->
+        </div>
+      </form>
+    </div>
+    <!-- OT EVAL BUILDER TAB -->
+    <div class="tab-pane fade" id="ot-tab-panel" role="tabpanel">
+      <h2>OT Eval Builder</h2>
+      <div class="d-flex align-items-center mb-3">
+        <label class="fw-bold me-2">Template:</label>
+        <select id="ot-template-select" class="form-select w-auto me-2"></select>
+        <button id="ot-load-template-btn" class="btn btn-outline-primary btn-sm">Load</button>
+        <button id="ot-save-word-btn" class="btn btn-info btn-sm">Export Word</button>
+        <button id="ot-save-pdf-btn" class="btn btn-danger btn-sm">Export PDF</button>
+        <span id="ot-status-msg" class="ms-3"></span>
+      </div>
+      <ul class="nav nav-tabs mb-2" id="ot-inner-tab" role="tablist">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#ot-patientinfo" role="tab">Patient Info</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-history" role="tab">History</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-pain" role="tab">Pain</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-objective" role="tab">Objective</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-diffdx" role="tab">Diff Dx</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-summary" role="tab">Assessment Summary</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-plan" role="tab">Plan</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-dailynote" role="tab">Daily Note</a></li>
+      </ul>
+      <form id="ot-evalform">
+        <div class="tab-content">
+          <!-- OT FORM TABS HERE (unchanged from your input) -->
+          <!-- ... -->
+        </div>
+      </form>
+    </div>
+    <!-- PT SOAP Tab -->
+    <div class="tab-pane fade" id="pt-soap-tab-panel" role="tabpanel">
+      <h2>PT SOAP - Daily Note</h2>
+      <form id="pt-soap-form">
+        <div class="mb-2">
+          <label class="fw-bold">Diagnosis:</label>
+          <input type="text" id="pt_daily_diagnosis" class="form-control" placeholder="Enter Diagnosis">
+        </div>
+        <div class="mb-2">
+          <label class="fw-bold">Interventions:</label>
+          <textarea id="pt_daily_interventions" class="form-control" rows="2" placeholder="Enter Interventions"></textarea>
+        </div>
+        <div class="mb-2">
+          <label class="fw-bold">Tx Tolerance:</label>
+          <textarea id="pt_daily_tolerance" class="form-control" rows="2" placeholder="Enter Tx Tolerance"></textarea>
+        </div>
+        <div class="mb-2">
+          <label class="fw-bold">Current Progress:</label>
+          <textarea id="pt_daily_progress" class="form-control" rows="2" placeholder="Enter Current Progress"></textarea>
+        </div>
+        <div class="mb-2">
+          <label class="fw-bold">Next Visit Plan:</label>
+          <textarea id="pt_daily_plan" class="form-control" rows="2" placeholder="Enter Next Visit Plan"></textarea>
+        </div>
+        <div class="mb-2">
+          <label class="fw-bold">Summary:</label>
+          <textarea id="pt_daily_summary" class="form-control" rows="4" placeholder="Daily summary will appear here"></textarea>
+        </div>
+        <button type="button" id="pt-generate-daily-summary" class="btn btn-outline-success btn-sm">Generate Daily Summary</button>
+        <span id="pt-daily-summary-status" class="ms-2"></span>
+        <div class="mt-3">
+          <button type="button" id="pt-soap-save-btn" class="btn btn-success">Save PT SOAP Note</button>
+          <span id="pt-soap-save-status" class="ms-3"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== PT Functions =====
+  function ptGetFields() {
+    const data = {};
+    document.querySelectorAll('#pt-evalform [name]').forEach(el => data[el.name] = el.value);
+    return data;
+  }
+  function ptSetStatus(msg, color='green') {
+    const s = document.getElementById('pt-status-msg');
+    s.textContent = msg;
+    s.style.color = color;
+  }
+
+  fetch('/pt_load_template', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({template: ''})
+  })
+    .then(r => r.json())
+    .then(names => {
+      document.getElementById('pt-template-select').innerHTML =
+        names.map(n => `<option>${n}</option>`).join('');
+    });
+
+  document.getElementById('pt-load-template-btn').onclick = () => {
+    fetch('/pt_load_template', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({template: document.getElementById('pt-template-select').value})
+    })
+      .then(r => r.json())
+      .then(data => {
+        Object.entries(data).forEach(([k,v]) => {
+          const fld = document.getElementById('pt_'+k) || document.querySelector(`#pt-evalform [name="${k}"]`);
+          if (fld) fld.value = v;
+        });
+      });
+  };
+
+  document.getElementById('pt-ai-generate-diffdx').onclick = () => {
+    ptSetStatus('Generating Diff Dx…', 'orange');
+    fetch('/pt_generate_diffdx', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({fields: ptGetFields()})
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.result) {
+        document.getElementById('pt_diffdx').value = data.result;
+        ptSetStatus('Done','green');
+      } else if (data.error) {
+        ptSetStatus('AI error: ' + data.error, 'red');
+      } else {
+        ptSetStatus('Unexpected AI response', 'red');
+      }
+    })
+    .catch(() => ptSetStatus('AI error','red'));
+  };
+
+  document.getElementById('pt-ai-generate-summary').onclick = () => {
+    ptSetStatus('Generating summary…', 'orange');
+    fetch('/pt_generate_summary', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({fields: ptGetFields()})
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.result) {
+        document.getElementById('pt_summary').value = data.result;
+        ptSetStatus('Done','green');
+      } else if (data.error) {
+        ptSetStatus('AI error: ' + data.error, 'red');
+      } else {
+        ptSetStatus('Unexpected AI response', 'red');
+      }
+    })
+    .catch(() => ptSetStatus('AI error','red'));
+  };
+
+  document.getElementById('pt-ai-generate-goals').onclick = () => {
+    ptSetStatus('Generating goals…', 'orange');
+    fetch('/pt_generate_goals', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({fields: ptGetFields()})
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result) {
+        document.getElementById('pt_goals').value = data.result;
+        ptSetStatus('Done', 'green');
+      } else if (data.error) {
+        ptSetStatus('AI error: ' + data.error, 'red');
+      } else {
+        ptSetStatus('Unexpected AI response', 'red');
+      }
+    })
+    .catch(() => ptSetStatus('AI error', 'red'));
+  };
+
+  document.getElementById('pt-generate-daily-summary').onclick = () => {
+    document.getElementById('pt-daily-summary-status').textContent = 'Generating summary…';
+    fetch('/pt_generate_daily_summary', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        diagnosis: document.getElementById('pt_daily_diagnosis').value,
+        interventions: document.getElementById('pt_daily_interventions').value,
+        tolerance: document.getElementById('pt_daily_tolerance').value,
+        progress: document.getElementById('pt_daily_progress').value,
+        plan: document.getElementById('pt_daily_plan').value
+      })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.result) {
+        document.getElementById('pt_daily_summary').value = data.result;
+        document.getElementById('pt-daily-summary-status').textContent = 'Summary generated!';
+      } else if (data.error) {
+        document.getElementById('pt-daily-summary-status').textContent = 'AI error: ' + data.error;
+      } else {
+        document.getElementById('pt-daily-summary-status').textContent = 'Unexpected AI response';
+      }
+    })
+    .catch(() => {
+      document.getElementById('pt-daily-summary-status').textContent = 'AI error';
+    });
+  };
+</script>
+{% endblock %}

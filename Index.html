@@ -1,0 +1,692 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+  <hr>
+  <!-- MAIN PT/OT SELECTOR -->
+  <ul class="nav nav-tabs mb-3" id="mainTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="pt-tab-link" data-bs-toggle="tab" href="#pt-tab-panel" role="tab">PT Eval Builder</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="ot-tab-link" data-bs-toggle="tab" href="#ot-tab-panel" role="tab">OT Eval Builder</a>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="mainTabContent">
+    <!-- PT EVAL BUILDER TAB -->
+    <div class="tab-pane fade show active" id="pt-tab-panel" role="tabpanel">
+      <h2>PT Eval Builder</h2>
+      <div class="d-flex align-items-center mb-3">
+        <label class="fw-bold me-2">Template:</label>
+        <select id="pt-template-select" class="form-select w-auto me-2"></select>
+        <button id="pt-load-template-btn" class="btn btn-outline-primary btn-sm">Load</button>
+        <button id="pt-save-word-btn" class="btn btn-info btn-sm">Export Word</button>
+        <button id="pt-save-pdf-btn" class="btn btn-danger btn-sm">Export PDF</button>
+        <span id="pt-status-msg" class="ms-3"></span>
+      </div>
+      <ul class="nav nav-tabs mb-2" id="pt-inner-tab" role="tablist">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#pt-patientinfo" role="tab">Patient Info</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-history" role="tab">History</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-pain" role="tab">Pain</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-objective" role="tab">Objective</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-diffdx" role="tab">Diff Dx</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-summary" role="tab">Assessment Summary</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-plan" role="tab">Plan</a></li>
+      </ul>
+      <form id="pt-evalform">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="pt-patientinfo" role="tabpanel">
+            <div class="row mb-2">
+              <div class="col"><input name="name" id="pt_name" class="form-control" placeholder="Patient Name"></div>
+              <div class="col">
+                <select name="gender" id="pt_gender" class="form-select">
+                  <option>Female</option>
+                  <option>Male</option>
+                </select>
+              </div>
+              <div class="col"><input name="dob" id="pt_dob" class="form-control" placeholder="DOB (MM/DD/YYYY)"></div>
+              <div class="col"><input name="age" id="pt_age" class="form-control" placeholder="Age"></div>
+            </div>
+            <div class="row">
+              <div class="col"><input name="currentdate" id="pt_currentdate" class="form-control" placeholder="Current Date"></div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="pt-history" role="tabpanel">
+            <textarea name="meddiag" id="pt_meddiag" class="form-control mb-2" placeholder="Medical Diagnosis"></textarea>
+            <textarea name="history" id="pt_history" class="form-control mb-2" placeholder="Medical History/HNP"></textarea>
+            <textarea name="subjective" id="pt_subjective" class="form-control mb-2" placeholder="Subjective (HPI)"></textarea>
+            <textarea name="meds" id="pt_meds" class="form-control mb-2" placeholder="Current Medication(s)"></textarea>
+            <textarea name="tests" id="pt_tests" class="form-control mb-2" placeholder="Diagnostic Test(s)"></textarea>
+            <textarea name="dme" id="pt_dme" class="form-control mb-2" placeholder="DME/Assistive Device"></textarea>
+            <textarea name="plof" id="pt_plof" class="form-control mb-2" placeholder="PLOF"></textarea>
+          </div>
+
+          <div class="tab-pane fade" id="pt-pain" role="tabpanel">
+            <input name="pain_location" id="pt_pain_location" class="form-control mb-2" placeholder="Area/Location of Injury">
+            <input name="pain_onset" id="pt_pain_onset" class="form-control mb-2" placeholder="Onset/Exacerbation Date">
+            <input name="pain_condition" id="pt_pain_condition" class="form-control mb-2" placeholder="Condition of Injury">
+            <input name="pain_mechanism" id="pt_pain_mechanism" class="form-control mb-2" placeholder="Mechanism of Injury">
+            <input name="pain_rating" id="pt_pain_rating" class="form-control mb-2" placeholder="Pain Rating (P/B/W)">
+            <input name="pain_frequency" id="pt_pain_frequency" class="form-control mb-2" placeholder="Pain Frequency">
+            <input name="pain_description" id="pt_pain_description" class="form-control mb-2" placeholder="Description">
+            <input name="pain_aggravating" id="pt_pain_aggravating" class="form-control mb-2" placeholder="Aggravating Factor">
+            <input name="pain_relieved" id="pt_pain_relieved" class="form-control mb-2" placeholder="Relieved By">
+            <input name="pain_interferes" id="pt_pain_interferes" class="form-control mb-2" placeholder="Interferes With">
+          </div>
+
+          <div class="tab-pane fade" id="pt-objective" role="tabpanel">
+            <textarea name="posture" id="pt_posture" class="form-control mb-2" rows="7" placeholder="Posture"></textarea>
+            <textarea name="rom" id="pt_rom" class="form-control mb-2" rows="7" placeholder="ROM"></textarea>
+            <textarea name="strength" id="pt_strength" class="form-control mb-2" rows="7" placeholder="Muscle Strength Test"></textarea>
+            <textarea name="palpation" id="pt_palpation" class="form-control mb-2" rows="7" placeholder="Palpation"></textarea>
+            <textarea name="functional" id="pt_functional" class="form-control mb-2" rows="7" placeholder="Functional Test(s)"></textarea>
+            <textarea name="special" id="pt_special" class="form-control mb-2" rows="7" placeholder="Special Test(s)"></textarea>
+            <textarea name="impairments" id="pt_impairments" class="form-control mb-2" rows="7" placeholder="Current Functional Mobility Impairment(s)"></textarea>
+          </div>
+
+          <div class="tab-pane fade" id="pt-diffdx" role="tabpanel">
+            <button type="button" id="pt-ai-generate-diffdx" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
+            <textarea name="diffdx" id="pt_diffdx" class="form-control" rows="8"></textarea>
+          </div>
+
+          <div class="tab-pane fade" id="pt-summary" role="tabpanel">
+            <button type="button" id="pt-ai-generate-summary" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
+            <textarea name="summary" id="pt_summary" class="form-control" rows="10"></textarea>
+          </div>
+
+          <div class="tab-pane fade" id="pt-plan" role="tabpanel">
+            <button type="button" id="pt-ai-generate-goals" class="btn btn-outline-success btn-sm mb-2">AI Generate Goals</button>
+            <textarea name="goals" id="pt_goals" class="form-control mb-2" rows="20"></textarea>
+            <input name="frequency" id="pt_frequency" class="form-control mb-2" placeholder="Frequency/Duration">
+            <textarea name="intervention" id="pt_intervention" class="form-control mb-2" placeholder="Intervention"></textarea>
+            <textarea name="procedures" id="pt_procedures" class="form-control mb-2" placeholder="Treatment Procedures"></textarea>
+          </div>
+        </div>
+        <!-- PT Save Eval -->
+        <div class="mb-3">
+          <button type="button" id="pt-save-btn" class="btn btn-success">Save Evaluation to Patient</button>
+          <span id="pt-save-status" class="ms-3"></span>
+        </div>
+      </form>
+    </div>
+    <!-- OT EVAL BUILDER TAB -->
+    <div class="tab-pane fade" id="ot-tab-panel" role="tabpanel">
+      <h2>OT Eval Builder</h2>
+      <<div class="d-flex align-items-center mb-3">
+          <label class="fw-bold me-2">Template:</label>
+          <select id="ot-template-select" class="form-select w-auto me-2"></select>
+          <button id="ot-load-template-btn" class="btn btn-outline-primary btn-sm">Load</button>
+          <button id="ot-save-word-btn" class="btn btn-info btn-sm">Export Word</button>
+          <button id="ot-save-pdf-btn" class="btn btn-danger btn-sm">Export PDF</button>
+          <span id="ot-status-msg" class="ms-3"></span>
+        </div>
+        <ul class="nav nav-tabs mb-2" id="ot-inner-tab" role="tablist">
+          <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#ot-patientinfo" role="tab">Patient Info</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-history" role="tab">History</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-pain" role="tab">Pain</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-objective" role="tab">Objective</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-diffdx" role="tab">Diff Dx</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-summary" role="tab">Assessment Summary</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-plan" role="tab">Plan</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-dailynote" role="tab">Daily Note</a></li>
+        </ul>
+        <form id="ot-evalform">
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="ot-patientinfo" role="tabpanel">
+              <div class="row mb-2">
+                <div class="col"><input name="name" id="ot_name" class="form-control" placeholder="Patient Name"></div>
+                <div class="col">
+                  <select name="gender" id="ot_gender" class="form-select">
+                    <option>Female</option>
+                    <option>Male</option>
+                  </select>
+                </div>
+                <div class="col"><input name="dob" id="ot_dob" class="form-control" placeholder="DOB (MM/DD/YYYY)"></div>
+                <div class="col"><input name="age" id="ot_age" class="form-control" placeholder="Age"></div>
+              </div>
+              <div class="row">
+                <div class="col"><input name="currentdate" id="ot_currentdate" class="form-control" placeholder="Current Date"></div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="ot-history" role="tabpanel">
+              <textarea name="meddiag" id="ot_meddiag" class="form-control mb-2" placeholder="Medical Diagnosis"></textarea>
+              <textarea name="history" id="ot_history" class="form-control mb-2" placeholder="Medical History/HNP"></textarea>
+              <textarea name="subjective" id="ot_subjective" class="form-control mb-2" placeholder="Subjective (HPI)"></textarea>
+              <textarea name="meds" id="ot_meds" class="form-control mb-2" placeholder="Current Medication(s)"></textarea>
+              <textarea name="tests" id="ot_tests" class="form-control mb-2" placeholder="Diagnostic Test(s)"></textarea>
+              <textarea name="dme" id="ot_dme" class="form-control mb-2" placeholder="DME/Assistive Device"></textarea>
+              <textarea name="plof" id="ot_plof" class="form-control mb-2" placeholder="PLOF"></textarea>
+            </div>
+
+            <div class="tab-pane fade" id="ot-pain" role="tabpanel">
+              <input name="pain_location" id="ot_pain_location" class="form-control mb-2" placeholder="Area/Location of Injury">
+              <input name="pain_onset" id="ot_pain_onset" class="form-control mb-2" placeholder="Onset/Exacerbation Date">
+              <input name="pain_condition" id="ot_pain_condition" class="form-control mb-2" placeholder="Condition of Injury">
+              <input name="pain_mechanism" id="ot_pain_mechanism" class="form-control mb-2" placeholder="Mechanism of Injury">
+              <input name="pain_rating" id="ot_pain_rating" class="form-control mb-2" placeholder="Pain Rating (P/B/W)">
+              <input name="pain_frequency" id="ot_pain_frequency" class="form-control mb-2" placeholder="Pain Frequency">
+              <input name="pain_description" id="ot_pain_description" class="form-control mb-2" placeholder="Description">
+              <input name="pain_aggravating" id="ot_pain_aggravating" class="form-control mb-2" placeholder="Aggravating Factor">
+              <input name="pain_relieved" id="ot_pain_relieved" class="form-control mb-2" placeholder="Relieved By">
+              <input name="pain_interferes" id="ot_pain_interferes" class="form-control mb-2" placeholder="Interferes With">
+            </div>
+
+            <div class="tab-pane fade" id="ot-objective" role="tabpanel">
+              <textarea name="posture" id="ot_posture" class="form-control mb-2" rows="7" placeholder="Posture"></textarea>
+              <textarea name="rom" id="ot_rom" class="form-control mb-2" rows="7" placeholder="ROM"></textarea>
+              <textarea name="strength" id="ot_strength" class="form-control mb-2" rows="7" placeholder="Muscle Strength Test"></textarea>
+              <textarea name="palpation" id="ot_palpation" class="form-control mb-2" rows="7" placeholder="Palpation"></textarea>
+              <textarea name="functional" id="ot_functional" class="form-control mb-2" rows="7" placeholder="Functional Test(s)"></textarea>
+              <textarea name="special" id="ot_special" class="form-control mb-2" rows="7" placeholder="Special Test(s)"></textarea>
+              <textarea name="impairments" id="ot_impairments" class="form-control mb-2" rows="7" placeholder="Current Functional Mobility Impairment(s)"></textarea>
+            </div>
+
+            <div class="tab-pane fade" id="ot-diffdx" role="tabpanel">
+              <button type="button" id="ot-ai-generate-diffdx" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
+              <textarea name="diffdx" id="ot_diffdx" class="form-control" rows="8"></textarea>
+            </div>
+
+            <div class="tab-pane fade" id="ot-summary" role="tabpanel">
+              <button type="button" id="ot-ai-generate-summary" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
+              <textarea name="summary" id="ot_summary" class="form-control" rows="10"></textarea>
+            </div>
+
+            <div class="tab-pane fade" id="ot-plan" role="tabpanel">
+              <button type="button" id="ot-ai-generate-goals" class="btn btn-outline-success btn-sm mb-2">AI Generate Goals</button>
+              <textarea name="goals" id="ot_goals" class="form-control mb-2" rows="20"></textarea>
+              <input name="frequency" id="ot_frequency" class="form-control mb-2" placeholder="Frequency/Duration">
+              <textarea name="intervention" id="ot_intervention" class="form-control mb-2" placeholder="Intervention"></textarea>
+              <textarea name="procedures" id="ot_procedures" class="form-control mb-2" placeholder="Treatment Procedures"></textarea>
+            </div>
+          </div>
+          <!-- OT Save Eval -->
+          <div class="mb-3">
+            <button type="button" id="ot-save-btn" class="btn btn-success">Save Evaluation to Patient</button>
+            <span id="ot-save-status" class="ms-3"></span>
+          </div>
+        </form>
+      </div>
+     </div>
+    <!-- PT SOAP Tab -->
+     <div class="tab-pane fade" id="pt-soap-tab-panel" role="tabpanel">
+       <h2>PT SOAP - Daily Note</h2>
+       <form id="pt-soap-form">
+         <div class="mb-2">
+           <label class="fw-bold">Diagnosis:</label>
+           <input type="text" id="pt_daily_diagnosis" class="form-control" placeholder="Enter Diagnosis">
+         </div>
+         <div class="mb-2">
+           <label class="fw-bold">Interventions:</label>
+           <textarea id="pt_daily_interventions" class="form-control" rows="2" placeholder="Enter Interventions"></textarea>
+         </div>
+         <div class="mb-2">
+           <label class="fw-bold">Tx Tolerance:</label>
+           <textarea id="pt_daily_tolerance" class="form-control" rows="2" placeholder="Enter Tx Tolerance"></textarea>
+         </div>
+         <div class="mb-2">
+           <label class="fw-bold">Current Progress:</label>
+           <textarea id="pt_daily_progress" class="form-control" rows="2" placeholder="Enter Current Progress"></textarea>
+         </div>
+         <div class="mb-2">
+           <label class="fw-bold">Next Visit Plan:</label>
+           <textarea id="pt_daily_plan" class="form-control" rows="2" placeholder="Enter Next Visit Plan"></textarea>
+         </div>
+         <div class="mb-2">
+           <label class="fw-bold">Summary:</label>
+           <textarea id="pt_daily_summary" class="form-control" rows="4" placeholder="Daily summary will appear here"></textarea>
+         </div>
+         <button type="button" id="pt-generate-daily-summary" class="btn btn-outline-success btn-sm">Generate Daily Summary</button>
+         <span id="pt-daily-summary-status" class="ms-2"></span>
+         <div class="mt-3">
+           <button type="button" id="pt-soap-save-btn" class="btn btn-success">Save PT SOAP Note</button>
+           <span id="pt-soap-save-status" class="ms-3"></span>
+         </div>
+       </form>
+     </div>
+    </div>
+
+    <!-- PT Signature Modal -->
+    <div class="modal fade" id="ptSignatureModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Draw Your PT Signature</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body text-center">
+            <canvas id="pt-signature-pad" style="width:100%; height:120px; border:1px solid #ccc; border-radius:10px;"></canvas>
+            <button type="button" id="pt-clear-signature" class="btn btn-secondary btn-sm mt-2">Clear</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="pt-save-signature" class="btn btn-success" data-bs-dismiss="modal">Save Signature</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Patient Select Modal -->
+    <div class="modal fade" id="ptSelectPatientModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Select Patient and Therapist to Save Eval</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <label class="fw-bold mb-1">Patient:</label>
+            <select id="pt-patient-select" class="form-select mb-2"></select>
+            <label class="fw-bold mb-1">Therapist:</label>
+            <select id="pt-therapist-select" class="form-select">
+              <!-- Dynamically filled with therapist names from backend -->
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="pt-save-patient-confirm" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Save Button (somewhere on your form) -->
+    <button id="pt-save-btn" class="btn btn-success btn-sm">Save to Patient</button>
+    <div id="pt-save-status" style="margin-top:10px;"></div>
+
+    <!-- Your script goes at the bottom! -->
+    <script>
+      // ==== Save to Patient: Show Modal and Populate List ====
+      document.getElementById('pt-save-btn').onclick = () => {
+        // Fetch patient list
+        fetch('/api/patient_list')
+          .then(r => r.json())
+          .then(list => {
+            document.getElementById('pt-patient-select').innerHTML =
+              list.map(p => `<option value="${p.id}">${p.last_name}, ${p.first_name} (DOB: ${p.dob})</option>`).join('');
+          });
+
+        // Fetch therapist list
+        fetch('/api/therapist_list')
+          .then(r => r.json())
+          .then(list => {
+            document.getElementById('pt-therapist-select').innerHTML =
+              list.map(t => `<option value="${t.id}">${t.last_name}, ${t.first_name}</option>`).join('');
+          });
+
+        // Show modal after both lists are loaded
+        new bootstrap.Modal(document.getElementById('ptSelectPatientModal')).show();
+      };
+
+      document.getElementById('pt-save-patient-confirm').onclick = () => {
+        const patientId = document.getElementById('pt-patient-select').value;
+        const therapistId = document.getElementById('pt-therapist-select').value;
+        const fields = ptGetFields();
+        fields['patient_id'] = patientId;
+        fields['therapist_id'] = therapistId;
+
+        fetch('/pt_save_to_patient', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(fields)
+        })
+        .then(r => r.json())
+        .then(res => {
+          ptSetStatus(res.message || "Saved!", 'green');
+          document.getElementById('pt-save-status').textContent = "Saved!";
+        })
+        .catch(() => {
+          ptSetStatus('Error saving!', 'red');
+          document.getElementById('pt-save-status').textContent = "Error saving!";
+        });
+      };
+    </script>
+    <script>
+      // ===== SignaturePad Setup (PT) =====
+      let ptSignaturePad;
+      const ptCanvas = document.getElementById('pt-signature-pad');
+      const ptSignatureModal = document.getElementById('ptSignatureModal');
+
+      ptSignatureModal.addEventListener('shown.bs.modal', () => {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        ptCanvas.width = ptCanvas.offsetWidth * ratio;
+        ptCanvas.height = ptCanvas.offsetHeight * ratio;
+        ptCanvas.getContext('2d').scale(ratio, ratio);
+        if (!ptSignaturePad) ptSignaturePad = new SignaturePad(ptCanvas);
+        ptSignaturePad.clear();
+      });
+      document.getElementById('pt-clear-signature').onclick = () => ptSignaturePad.clear();
+      document.getElementById('pt-save-signature').onclick = () => {
+        if (!ptSignaturePad.isEmpty()) {
+          const dataURL = ptSignaturePad.toDataURL('image/png');
+          document.getElementById('pt-signature-preview').src = dataURL;
+          document.getElementById('pt-signature-preview').style.display = 'block';
+          document.getElementById('pt_signature').value = dataURL;
+        }
+      };
+
+      // ===== PT Functions =====
+      function ptGetFields() {
+        const data = {};
+        document.querySelectorAll('#pt-evalform [name]').forEach(el => data[el.name] = el.value);
+        return data;
+      }
+      function ptSetStatus(msg, color='green') {
+        const s = document.getElementById('pt-status-msg');
+        s.textContent = msg;
+        s.style.color = color;
+      }
+
+      fetch('/pt_load_template', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({template: ''})
+      })
+        .then(r => r.json())
+        .then(names => {
+          document.getElementById('pt-template-select').innerHTML =
+            names.map(n => `<option>${n}</option>`).join('');
+        });
+
+      document.getElementById('pt-load-template-btn').onclick = () => {
+        fetch('/pt_load_template', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({template: document.getElementById('pt-template-select').value})
+        })
+          .then(r => r.json())
+          .then(data => {
+            Object.entries(data).forEach(([k,v]) => {
+              const fld = document.getElementById('pt_'+k) || document.querySelector(`#pt-evalform [name="${k}"]`);
+              if (fld) fld.value = v;
+            });
+          });
+        };
+        document.getElementById('pt-ai-generate-diffdx').onclick = () => {
+          ptSetStatus('Generating Diff Dx…', 'orange');
+          fetch('/pt_generate_diffdx', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({fields: ptGetFields()})
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.result) {
+              document.getElementById('pt_diffdx').value = data.result;
+              ptSetStatus('Done','green');
+            } else if (data.error) {
+              ptSetStatus('AI error: ' + data.error, 'red');
+            } else {
+              ptSetStatus('Unexpected AI response', 'red');
+            }
+          })
+          .catch(() => ptSetStatus('AI error','red'));
+        };
+
+        document.getElementById('pt-ai-generate-summary').onclick = () => {
+          ptSetStatus('Generating summary…', 'orange');
+          fetch('/pt_generate_summary', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({fields: ptGetFields()})
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.result) {
+              document.getElementById('pt_summary').value = data.result;
+              ptSetStatus('Done','green');
+            } else if (data.error) {
+              ptSetStatus('AI error: ' + data.error, 'red');
+            } else {
+              ptSetStatus('Unexpected AI response', 'red');
+            }
+          })
+          .catch(() => ptSetStatus('AI error','red'));
+        };
+        document.getElementById('pt-ai-generate-goals').onclick = () => {
+          ptSetStatus('Generating goals…', 'orange');
+          fetch('/pt_generate_goals', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({fields: ptGetFields()})
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.result) {
+              document.getElementById('pt_goals').value = data.result;
+              ptSetStatus('Done', 'green');
+            } else if (data.error) {
+              ptSetStatus('AI error: ' + data.error, 'red');
+            } else {
+              ptSetStatus('Unexpected AI response', 'red');
+            }
+          })
+          .catch(() => ptSetStatus('AI error', 'red'));
+        };
+        document.getElementById('pt-generate-daily-summary').onclick = () => {
+          document.getElementById('pt-daily-summary-status').textContent = 'Generating summary…';
+          fetch('/pt_generate_daily_summary', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+              diagnosis: document.getElementById('pt_daily_diagnosis').value,
+              interventions: document.getElementById('pt_daily_interventions').value,
+              tolerance: document.getElementById('pt_daily_tolerance').value,
+              progress: document.getElementById('pt_daily_progress').value,
+              plan: document.getElementById('pt_daily_plan').value
+            })
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.result) {
+              document.getElementById('pt_daily_summary').value = data.result;
+              document.getElementById('pt-daily-summary-status').textContent = 'Summary generated!';
+            } else if (data.error) {
+              document.getElementById('pt-daily-summary-status').textContent = 'AI error: ' + data.error;
+            } else {
+              document.getElementById('pt-daily-summary-status').textContent = 'Unexpected AI response';
+            }
+          })
+          .catch(() => {
+            document.getElementById('pt-daily-summary-status').textContent = 'AI error';
+          });
+        };
+      document.getElementById('pt-save-word-btn').onclick = () => {
+        ptSetStatus('Exporting Word...', 'orange');
+        fetch('/pt_export_word', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(ptGetFields())
+        })
+          .then(r => r.blob())
+          .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'PT_Eval.docx';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            ptSetStatus('Word downloaded!', 'green');
+          });
+      };
+
+      document.getElementById('pt-save-pdf-btn').onclick = () => {
+        ptSetStatus('Exporting PDF...', 'orange');
+        fetch('/pt_export_pdf', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(ptGetFields())
+        })
+          .then(r => r.blob())
+          .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'PT_Eval.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            ptSetStatus('PDF downloaded!', 'green');
+          });
+      };
+
+      document.getElementById('pt-generate-daily-summary').onclick = () => {
+        document.getElementById('pt-daily-summary-status').textContent = 'Generating summary…';
+        fetch('/pt_generate_daily_summary', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            diagnosis: document.getElementById('pt_daily_diagnosis').value,
+            interventions: document.getElementById('pt_daily_interventions').value,
+            tolerance: document.getElementById('pt_daily_tolerance').value,
+            progress: document.getElementById('pt_daily_progress').value,
+            plan: document.getElementById('pt_daily_plan').value
+          })
+        })
+          .then(r => r.text())
+          .then(text => {
+            document.getElementById('pt_daily_summary').value = text;
+            document.getElementById('pt-daily-summary-status').textContent = 'Summary generated!';
+          })
+          .catch(() => {
+            document.getElementById('pt-daily-summary-status').textContent = 'AI error';
+          });
+      };
+
+      // ===== OT Functions (only if OT elements exist) =====
+      if (document.getElementById('ot-load-template-btn')) {
+        function otGetFields() {
+          const data = {};
+          document.querySelectorAll('#ot-evalform [name]').forEach(el => data[el.name] = el.value);
+          return data;
+        }
+        function otSetStatus(msg, color='green') {
+          const s = document.getElementById('ot-status-msg');
+          s.textContent = msg;
+          s.style.color = color;
+        }
+
+        fetch('/ot_load_template', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({template: ''})
+        })
+          .then(r => r.json())
+          .then(() => {
+            document.getElementById('ot-template-select').innerHTML = `<option>OT Eval Template</option>`;
+          });
+
+        document.getElementById('ot-load-template-btn').onclick = () => {
+          fetch('/ot_load_template', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({template: document.getElementById('ot-template-select').value})
+          })
+            .then(r => r.json())
+            .then(data => {
+              Object.entries(data).forEach(([k,v]) => {
+                const fld = document.getElementById('ot_'+k) || document.querySelector(`#ot-evalform [name="${k}"]`);
+                if (fld) fld.value = v;
+              });
+            });
+        };
+
+        document.getElementById('ot-ai-generate-diffdx').onclick = () => {
+          otSetStatus('Generating Diff Dx…', 'orange');
+          fetch('/ot_generate_diffdx', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({fields: otGetFields()})
+          })
+            .then(r => r.text())
+            .then(t => { document.getElementById('ot_diffdx').value = t; otSetStatus('Done','green'); })
+            .catch(() => otSetStatus('AI error','red'));
+        };
+
+        document.getElementById('ot-ai-generate-summary').onclick = () => {
+          otSetStatus('Generating summary…', 'orange');
+          fetch('/ot_generate_summary', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({fields: otGetFields()})
+          })
+            .then(r => r.text())
+            .then(t => { document.getElementById('ot_summary').value = t; otSetStatus('Done','green'); })
+            .catch(() => otSetStatus('AI error','red'));
+        };
+
+        document.getElementById('ot-ai-generate-goals').onclick = () => {
+          otSetStatus('Generating goals…', 'orange');
+          fetch('/ot_generate_goals', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({fields: otGetFields()})
+          })
+            .then(r => r.text())
+            .then(t => { document.getElementById('ot_goals').value = t; otSetStatus('Done','green'); })
+            .catch(() => otSetStatus('AI error','red'));
+        };
+
+        document.getElementById('ot-save-word-btn').onclick = () => {
+          otSetStatus('Exporting Word...', 'orange');
+          fetch('/ot_export_word', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(otGetFields())
+          })
+            .then(r => r.blob())
+            .then(blob => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'OT_Eval.docx';
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              otSetStatus('Word downloaded!', 'green');
+            });
+        };
+
+        document.getElementById('ot-save-pdf-btn').onclick = () => {
+          otSetStatus('Exporting PDF...', 'orange');
+          fetch('/ot_export_pdf', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(otGetFields())
+          })
+            .then(r => r.blob())
+            .then(blob => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'OT_Eval.pdf';
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              otSetStatus('PDF downloaded!', 'green');
+            });
+        };
+
+        document.getElementById('ot-generate-daily-summary').onclick = () => {
+          document.getElementById('ot-daily-summary-status').textContent = 'Generating summary…';
+          fetch('/ot_generate_daily_summary', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+              diagnosis: document.getElementById('ot_daily_diagnosis').value,
+              interventions: document.getElementById('ot_daily_interventions').value,
+              tolerance: document.getElementById('ot_daily_tolerance').value,
+              progress: document.getElementById('ot_daily_progress').value,
+              plan: document.getElementById('ot_daily_plan').value
+            })
+          })
+            .then(r => r.text())
+            .then(text => {
+              document.getElementById('ot_daily_summary').value = text;
+              document.getElementById('ot-daily-summary-status').textContent = 'Summary generated!';
+            })
+            .catch(() => {
+              document.getElementById('ot-daily-summary-status').textContent = 'AI error';
+            });
+        };
+      }
+</script>
+{% endblock %}
