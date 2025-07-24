@@ -1,5 +1,3 @@
-# pt_templates.py
-
 PT_TEMPLATES = {
     "LBP Eval": {
         "meddiag": "",
@@ -263,7 +261,38 @@ OT_TEMPLATES = {
         "frequency": "1wk1, 2wk12",
         "intervention": "Pain management (education on joint protection, activity pacing), therapeutic exercise for strength and flexibility, ADL/IADL retraining with adaptive equipment, neuromuscular re-education, balance training, functional mobility training, fall prevention strategies, energy conservation, modalities (ice/heat as appropriate), HEP instruction.",
         "procedures": "97165 OT Eval: Low Complexity\n97166 OT Eval: Moderate Complexity\n97167 OT Eval: High Complexity\n97535 Self-Care/Home Management Training\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97140 Manual Therapy (if trained)"
+    },
+    "Neck Pain": {
+        "meddiag": "",
+        "history": "",
+        "subjective": "Pt reports a recent increase in neck pain with goals to reduce pain, decrease tension, and improve ease of movement during ADLs. Pt agrees to OT eval and tx.",
+        "pain_location": "Posterior neck, upper trapezius, levator scapulae, suboccipital regions",
+        "pain_onset": "Chronic",
+        "pain_condition": "Muscle tension, joint hypomobility, postural changes, increased muscle tone, spinal structural changes, and overuse.",
+        "pain_mechanism": "Likely related to poor posture, repetitive strain with ADLs, and chronic overuse.",
+        "pain_rating": "P: 5/10, B: 0/10, W: 7/10",
+        "pain_frequency": "Intermittent",
+        "pain_description": "Sharp, tense, aching",
+        "pain_aggravating": "Prolonged sitting, screen use, cooking, cleaning, overhead activities",
+        "pain_relieved": "Pain medication, rest",
+        "pain_interferes": "ADLs (grooming, dressing, cooking, cleaning), sleep",
+        "meds": "See medication list",
+        "tests": "N/A",
+        "dme": "N/A",
+        "plof": "Independent with mobility and all ADLs",
+        "posture": "Forward head, rounded shoulders, protracted scapulae, slouched posture, decreased postural awareness in sitting.",
+        "rom": "Cervical ROM:\nFlexion: 45°\nExtension: 45°\nL SB: 45°\nR SB: 45°\nL Rotation: 80°\nR Rotation: 80°",
+        "strength": "Manual Muscle Test:\nCervical flexors/extensors: 3+/5\nR/L Lateral Flexors: 3+/5\nR/L Rotations: 3+/5\nUpper trapezius: R 3+/5, L 3+/5",
+        "palpation": "C1–C7 joint hypomobility, decreased segmental rolling/gliding, TTP and myotension in levator scapulae, upper trapezius, suboccipital muscles.",
+        "functional": "Looking over shoulder\nLooking at ceiling\nGrooming, washing, don/doff upper garments\nCooking, cleaning\nUsing iPad/cell phone\nSitting tolerance ~5 min with pain",
+        "special": "Segmental mobility/PAIVMs: Positive\nSpurling’s: Negative\nDistraction: Negative\nCervical Flexion-Rotation: Negative\nVBI: Negative",
+        "impairments": "Limited sitting tolerance, pain with grooming, cleaning, dressing, use of tech devices, difficulty with overhead and repetitive ADLs.",
+        "goals": "Short-Term Goals (1–12 visits):\n1. Pt will report neck pain ≤1/10 with functional activities such as dressing, grooming, or household chores.\n2. Pt will improve cervical rotation by ≥10° bilaterally to allow for safe ADL participation.\n3. Pt will demonstrate ≥50% adherence to ergonomic postural corrections during ADLs (computer work, reading, cooking).\n\nLong-Term Goals (13–25 visits):\n1. Pt will increase neck muscle strength by ≥0.5 grade to support safe lifting and carrying for ADLs.\n2. Pt will restore cervical ROM to within 10° of normal, enabling participation in all self-care and mobility tasks.\n3. Pt will demonstrate 100% adherence to ergonomic posture during prolonged sitting and repetitive tasks.\n4. Pt will independently perform neck mobility and strengthening HEP daily to maintain function and prevent recurrence.",
+        "frequency": "1wk1, 2wk12",
+        "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, MET, Modalities (ice/heat 10-15min, E-Stim, Ultrasound), fall/injury prevention, safety education/training, pain management, balance training, mechanical traction, HEP education/training.",
+        "procedures": "97161 Low Complexity\n97162 Mod Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed"
     }
+
 }
 
 
