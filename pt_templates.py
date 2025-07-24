@@ -345,9 +345,9 @@ def pt_parse_template(template):
 
 def ot_parse_template(template):
     key_map = {
-        "Medical Diagnosis": "meddiag",
+        "Medical Diagnosis": "meddiag",    
         "Medical History/HNP": "history",
-        "Subjective": "ot_subjective",
+        "Subjective": "subjective",
         "Current Medication(s)": "meds",
         "Diagnostic Test(s)": "tests",
         "DME/Assistive Device": "dme",
@@ -373,6 +373,23 @@ def ot_parse_template(template):
         "Aggravating Factor": "pain_aggravating",
         "Relieved By": "pain_relieved",
         "Interferes With": "pain_interferes"
+    }
+    fields = {v: "" for v in key_map.values()}
+    curr = None
+    for line in template.splitlines():
+        stripped = line.strip()
+        matched = False
+        for label, key in key_map.items():
+            if stripped.startswith(label + ":"):
+                curr = key
+                _, val = stripped.split(":", 1)
+                fields[key] = val.strip()
+                matched = True
+                break
+        if not matched and curr and stripped:
+            fields[curr] += "\n" + stripped
+    return fields
+
     }
     fields = {v: "" for v in key_map.values()}
     curr = None
