@@ -467,30 +467,33 @@ def pt_export_pdf():
 
 
 # ====== OT Section ======
-
-dx = f.get("diffdx", "")
-if not dx:
-    # Generate a default diff dx prompt on the fly
-    pain = "; ".join(f"{lbl}: {f.get(key,'')}"
-        for lbl, key in [
-            ("Area/Location", "pain_location"),
-            ("Onset", "pain_onset"),
-            ("Condition", "pain_condition"),
-            ("Mechanism", "pain_mechanism"),
-            ("Rating", "pain_rating"),
-            ("Frequency", "pain_frequency"),
-            ("Description", "pain_description"),
-            ("Aggravating", "pain_aggravating"),
-            ("Relieved", "pain_relieved"),
-            ("Interferes", "pain_interferes"),
-        ])
-    dx_prompt = (
-        "You are an OT clinical assistant. Based on the following OT evaluation details, "
-        "provide a concise statement of the most clinically-associated OT differential diagnosis. "
-        "Do NOT state as fact or as a medical diagnosis—use only language such as 'symptoms and clinical findings are associated with or consistent with' the diagnosis. "
-        f"Subjective:\n{f.get('subjective','')}\nPain:\n{pain}\n"
-    )
-    dx = gpt_call(dx_prompt, max_tokens=200)
+@app.route("/ot_generate_diffdx", methods=["POST"])
+@login_required
+def ot_generate_diffdx():
+    f = request.json.get("fields", {})   # <-- define f here
+    dx = f.get("diffdx", "")
+    if not dx:
+        pain = "; ".join(f"{lbl}: {f.get(key,'')}"
+            for lbl, key in [
+                ("Area/Location", "pain_location"),
+                ("Onset", "pain_onset"),
+                ("Condition", "pain_condition"),
+                ("Mechanism", "pain_mechanism"),
+                ("Rating", "pain_rating"),
+                ("Frequency", "pain_frequency"),
+                ("Description", "pain_description"),
+                ("Aggravating", "pain_aggravating"),
+                ("Relieved", "pain_relieved"),
+                ("Interferes", "pain_interferes"),
+            ])
+        dx_prompt = (
+            "You are an OT clinical assistant. Based on the following OT evaluation details, "
+            "provide a concise statement of the most clinically-associated OT differential diagnosis. "
+            "Do NOT state as fact or as a medical diagnosis—use only language such as 'symptoms and clinical findings are associated with or consistent with' the diagnosis. "
+            f"Subjective:\n{f.get('subjective','')}\nPain:\n{pain}\n"
+        )
+        dx = gpt_call(dx_prompt, max_tokens=200)
+    return jsonify({"result": dx})
 
 
 @app.route("/ot_generate_summary", methods=["POST"])
