@@ -308,11 +308,11 @@ Short-Term Goals (1–12 visits):
 1. Pt will report [symptom, e.g., neck pain] ≤[target]/10 with [functional activity].
 2. Pt will improve [objective finding, e.g., cervical rotation] by ≥[measurable target] to allow [activity].
 3. Pt will demonstrate ≥[percent]% adherence to [strategy/technique] during [ADL].
-4. Pt will perform HEP with independent to support ADLs safely.
+4. Pt will perform HEP, transfer, or mobility] with [level of independence] to support [function].
 
 Long-Term Goals (13–25 visits):
 1. Pt will increase [strength or ability] by ≥[amount] to support safe [ADL/task].
-2. Pt will restore [ROM/ability %] to within [target] of normal, enabling [activity].
+2. Pt will restore [ROM/ability] to within [target] of normal, enabling [activity].
 3. Pt will demonstrate 100% adherence to [technique/precaution] during [ADL/IADL].
 4. Pt will independently perform [home program or self-management] to maintain function and prevent recurrence.
 
