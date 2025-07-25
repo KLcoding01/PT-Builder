@@ -282,30 +282,46 @@ def pt_generate_summary():
 @login_required
 def pt_generate_goals():
     fields = request.json.get("fields", {})
-    prompt = """
-    You are a clinical assistant helping a PT write documentation.
-    Using ONLY the provided eval info (summary, objective findings, strength, ROM, impairments, and functional limitations),
-    generate clinically-appropriate, Medicare-compliant short-term and long-term PT goals.
-    ALWAYS follow this exact format—do not add, skip, reorder, or alter any lines or labels.
-    DO NOT add any explanations, introductions, dashes, bullets, or extra indentation. Output ONLY this structure:
 
-    Short-Term Goals (1–12 visits):
-    1. [goal statement]
-    2. [goal statement]
-    3. [goal statement]
-    4. [goal statement]
+    summary = fields.get("summary", "")
+    strength = fields.get("strength", "")
+    rom = fields.get("rom", "")
+    impairments = fields.get("impairments", "")
+    functional = fields.get("functional", "")
+    meddiag = fields.get("meddiag", "")
+    pain_location = fields.get("pain_location", "")
 
-    Long-Term Goals (13–25 visits):
-    1. [goal statement]
-    2. [goal statement]
-    3. [goal statement]
-    4. [goal statement]
-    """
+    prompt = f"""
+You are a clinical assistant helping a PT write documentation.
+Below is a summary of the patient's evaluation and findings:
+Diagnosis/Region: {meddiag or pain_location}
+Summary: {summary}
+Strength: {strength}
+ROM: {rom}
+Impairments: {impairments}
+Functional Limitations: {functional}
 
-    result = gpt_call(prompt, max_tokens=350)
+Using ONLY the above provided eval info, generate clinically-appropriate, Medicare-compliant short-term and long-term PT goals for the region/problem described.
+Each goal must be functionally focused and follow this EXACT format, time frame, and language example (do NOT copy example content, use it as a style guide):
+
+Short-Term Goals (1–12 visits):
+1. Pt will report [symptom, e.g., neck pain] ≤[target]/10 with [functional activity].
+2. Pt will improve [objective finding, e.g., cervical rotation] by ≥[measurable target] to allow [activity].
+3. Pt will demonstrate ≥[percent]% adherence to [strategy/technique] during [ADL].
+4. Pt will perform HEP with independent to support ADLs safely.
+
+Long-Term Goals (13–25 visits):
+1. Pt will increase [strength or ability] by ≥[amount] to support safe [ADL/task].
+2. Pt will restore [ROM/ability %] to within [target] of normal, enabling [activity].
+3. Pt will demonstrate 100% adherence to [technique/precaution] during [ADL/IADL].
+4. Pt will independently perform [home program or self-management] to maintain function and prevent recurrence.
+
+ALWAYS use this structure, always begin each statement with 'Pt will', and do NOT add any extra text, dashes, bullets, or lines. Use only info from the above findings.
+"""
+
+    result = gpt_call(prompt, max_tokens=400)
     return jsonify({"result": result})
-    
-    
+
 # ====== PT Export ======
 @app.route('/pt_export_word', methods=['POST'])
 @login_required
