@@ -322,8 +322,39 @@ OT_TEMPLATES = {
         "frequency": "1wk1, 2wk12",
         "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, MET, Modalities (ice/heat 10-15min, E-Stim, Ultrasound), fall/injury prevention, safety education/training, pain management, balance training, mechanical traction, HEP education/training.",
         "procedures": "97161 Low Complexity\n97162 Mod Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed"
+    },
+    
+    "Lumbar Radiculopathy": {
+      "meddiag": "Lumbar Radiculopathy",
+      "history": "",
+      "ot_subjective": "Pt reports having LBP with radiating symptoms to the B LE and is limiting daily functional activities. Pt would like to decrease pain/radiating symptoms while improve activity tolerance and return to PLOF. Pt agrees to OT evaluation.",
+      "pain_location": "B QL, B gluteus medius, B feet/toes numbness",
+      "pain_onset": "Chronic",
+      "pain_condition": "Chronic",
+      "pain_mechanism": "Muscle tension, stenosis, increased tone, structural changes",
+      "pain_rating": "P: 5/10, B: 0/10, W: 7/10",
+      "pain_frequency": "Intermittent",
+      "pain_description": "Sharp, Tense, Aching.",
+      "pain_aggravating": "Sitting, standing, walking, forward bending, lifting/pulling.",
+      "pain_relieved": "Pain meds prn and rest.",
+      "pain_interferes": "Functional mobility, ADLs, sleep.",
+      "meds": "See medication list",
+      "tests": "N/A",
+      "dme": "N/A",
+      "plof": "Independent with mobility and ADLs",
+      "posture": "Forward head lean, rounded shoulders, protracted scapulae, slouch posture, decreased sitting postural awareness, loss of lumbar lordosis.",
+      "rom": "Trunk Flexion: 50% limited\nTrunk Extension: 50% limited\nTrunk SB Left: 50% limited\nTrunk SB Right: 50% limited\nTrunk Rotation Left: 50% limited\nTrunk Rotation Right: 50% limited",
+      "strength": "Gross Core Strength: 3/5\nGross Hip Strength: L/R  3+/5; 3+/5\nGross Knee Strength: L/R  3+/5; 3+/5\nGross Ankle Strength: L/R  3+/5; 3+/5",
+      "palpation": "TTP: B QL, B gluteus medius, B piriformis, B paraspinals\nJoint hypomobility: L1-L5 with central PA\nIncreased paraspinal and gluteus medius tone",
+      "functional": "Supine Sit Up Test: Unable\n30 seconds Chair Sit to Stand: 6x w/ increase LBP\nSingle Leg Balance Test: B LE: <1 sec with loss of balance.\nSingle Heel Raises Test: Unremarkable\nWalking on Toes: Unremarkable\nWalking on Heels: Unremarkable\nFunctional Squat: Impaired",
+      "special": "(-) McKenzie Repeated Ext/Flexion\n(-) Slump Test\n(-) Unilateral SLR Test\n(-) Double SLR\n(-) Spring/Central PA\n(-) Distraction/traction Test\n(-) Piriformis test\n(-) SI Cluster Test",
+      "impairments": "Prolonged sitting: 5 min\nStanding: 5 min\nWalking: 5 min\nBending, sweeping, cleaning, lifting: 5 min.",
+      "summary": "Pt meets criteria for the symptom modulation classification and was seen for an initial outpatient occupational therapy evaluation, including a comprehensive physical examination, functional mobility assessment, and pain assessment. The evaluation findings are consistent with lumbar radiculopathy, characterized by chronic low back pain with radiating symptoms, likely due to nerve root irritation and degenerative lumbar spine changes. Pt received education on movement strategies to minimize neural provocation, pain management techniques, activity modification, and instruction in a tailored home exercise program. Functional impairments are primarily related to nerve-related pain, limited trunk mobility, and guarded movement patterns, all of which restrict performance of ADLs. Given the patient's motivation and active participation, the prognosis is favorable. Skilled OT is indicated to reduce radicular symptoms, restore pain-free mobility, improve functional capacity, and facilitate return to prior level of function.",
+      "goals": "Short-Term Goals (1–12 visits):\n1. Pt will report low back and leg pain reduced to 1/10 to safely perform mobility tasks.\n2. Pt will improve trunk and lumbar mobility by 10% without symptom peripheralization.\n3. Pt will improve LE motor control and strength by 0.5 grade to support safe ADLs.\n4. Pt will report 50% improvement in activity tolerance and fewer radicular symptoms with ADLs.\n\nLong-Term Goals (13–25 visits):\n1. Pt will demonstrate B LE strength of 4/5 to perform ADLs without triggering symptoms.\n2. Pt will complete 14 reps on 30-second sit-to-stand test without increased pain.\n3. Pt will tolerate 30 minutes of activity (e.g., standing, walking, chores) without symptom flare-up.\n4. Pt will independently follow a directional-preference HEP with proper posture and mechanics.",
+      "frequency": "1wk1, 2wk12",
+      "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Gait Training, Balance Training, Pain Management Training, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training.",
+      "procedures": "97161 Low Complexity\n97162 Moderate Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97116 Gait Training"
     }
-
 }
 
 
