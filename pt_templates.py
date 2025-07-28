@@ -28,7 +28,7 @@ PT_TEMPLATES = {
       "frequency": "2wk5",
       "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, MET, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, pain management, balance training, mechanical traction, HEP education/training.",
       "procedures": "97162 Mod Complexity\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed"
-    }
+    },
 
     "LBP Eval": {
         "meddiag": "",
