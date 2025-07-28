@@ -442,30 +442,34 @@ def pt_export_pdf():
     width, height = letter
     y = height - 40
 
-    def add_section(title, value):
+    def add_line(text="", font="Helvetica", size=11, indent=0):
         nonlocal y
-        c.setFont("Helvetica-Bold", 13)
-        c.drawString(40, y, title)
-        y -= 18
-        c.setFont("Helvetica", 11)
-        for line in (value or "").split('\n'):
-            c.drawString(48, y, line)
-            y -= 14
-            if y < 60:
-                c.showPage()
-                y = height - 40
-        y -= 8
-        c.setLineWidth(0.5)
-        c.line(40, y, width - 40, y)
-        y -= 16
+        c.setFont(font, size)
+        if text.strip():
+            c.drawString(40 + indent, y, text)
+        y -= 14
+        if y < 60:
+            c.showPage()
+            y = height - 40
 
+    def add_section(title, value):
+        add_line(f"{title}", "Helvetica-Bold", 13)
+        add_line("-" * 114)
+        for line in (value or "").split("\n"):
+            add_line(line)
+        add_line("-" * 114)
+
+    # Title
     c.setFont("Helvetica-Bold", 16)
     c.drawString(40, y, "Physical Therapy Evaluation")
     y -= 30
 
-    add_section("Medical Diagnosis:", data.get("meddiag", ""))
-    add_section("Medical History/HNP:", data.get("history", ""))
-    add_section("Subjective:", data.get("subjective", ""))
+    # Sections
+    add_section("Medical Diagnosis", data.get("meddiag", ""))
+    add_section("Medical History/HNP", data.get("history", ""))
+    add_section("Subjective", data.get("subjective", ""))
+
+    # Pain section with manual line control
     pain_lines = [
         f"Area/Location of Injury: {data.get('pain_location','')}",
         f"Onset/Exacerbation Date: {data.get('pain_onset','')}",
@@ -477,34 +481,52 @@ def pt_export_pdf():
         f"Aggravating Factor: {data.get('pain_aggravating','')}",
         f"Relieved By: {data.get('pain_relieved','')}",
         f"Interferes With: {data.get('pain_interferes','')}",
-        "",
         f"Current Medication(s): {data.get('meds','')}",
         f"Diagnostic Test(s): {data.get('tests','')}",
         f"DME/Assistive Device: {data.get('dme','')}",
-        f"PLOF: {data.get('plof','')}",
+        f"PLOF: {data.get('plof','')}"
     ]
-    add_section("Pain:", "\n".join(pain_lines))
+    add_section("Pain", "\n".join(pain_lines))
+
+    # Objective formatted block
     obj_lines = [
-        f"Posture: {data.get('posture','')}",
+        "Posture:",
+        data.get("posture", ""),
         "",
-        f"ROM: \n{data.get('rom','')}",
+        "ROM:",
+        data.get("rom", ""),
         "",
-        f"Muscle Strength Test: \n{data.get('strength','')}",
+        "Muscle Strength Test:",
+        data.get("strength", ""),
         "",
-        f"Palpation: \n{data.get('palpation','')}",
+        "Palpation:",
+        data.get("palpation", ""),
         "",
-        f"Functional Test(s): \n{data.get('functional','')}",
+        "Functional Test(s):",
+        data.get("functional", ""),
         "",
-        f"Special Test(s): \n{data.get('special','')}",
+        "Special Test(s):",
+        data.get("special", ""),
         "",
-        f"Current Functional Mobility Impairment(s): \n{data.get('impairments','')}",
+        "Current Functional Mobility Impairment(s):",
+        data.get("impairments", "")
     ]
-    add_section("Objective:", "\n".join(obj_lines))
-    add_section("Assessment Summary:", data.get("summary", ""))
-    add_section("Goals:", data.get("goals", ""))
-    add_section("Frequency:", data.get("frequency", ""))
-    add_section("Intervention:", data.get("intervention", ""))
-    add_section("Treatment Procedures:", data.get("procedures", ""))
+    add_section("Objective", "\n".join(obj_lines))
+
+    # Assessment
+    add_section("Assessment Summary", data.get("summary", ""))
+
+    # Goals
+    add_section("Goals", data.get("goals", ""))
+
+    # Frequency
+    add_section("Frequency", data.get("frequency", ""))
+
+    # Intervention
+    add_section("Intervention", data.get("intervention", ""))
+
+    # Treatment CPT
+    add_section("Treatment Procedures", data.get("procedures", ""))
 
     c.save()
     buffer.seek(0)
@@ -661,81 +683,100 @@ Long-Term Goals (13–25 visits):
 
 # ====== OT Export ======
 
-@app.route('/ot_export_word', methods=['POST'])
+@app.route("/ot_export_pdf", methods=["POST"])
 @login_required
-def ot_export_word():
-    data = request.json
-    doc = ot_export_to_word(data)
-    buf = BytesIO()
-    doc.save(buf)
-    buf.seek(0)
-    return send_file(
-        buf,
-        mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        as_attachment=True,
-        download_name='OT_Eval.docx'
-    )
+def ot_export_pdf():
+    data = request.get_json()
+    buffer = io.BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+    y = height - 40
 
-def ot_export_to_word(data):
-    doc = Document()
-    def add_separator():
-        doc.add_paragraph('-' * 114)
-    doc.add_paragraph(f"Medical Diagnosis: {data.get('meddiag', '')}")
-    add_separator()
-    doc.add_paragraph(f"Medical History/HNP:\n{data.get('history', '')}")
-    add_separator()
-    doc.add_paragraph(f"Subjective:\n{data.get('subjective', '')}")
-    add_separator()
-    doc.add_paragraph("Pain:")
-    pain_fields = [
-        ("Area/Location of Injury", "pain_location"),
-        ("Onset/Exacerbation Date", "pain_onset"),
-        ("Condition of Injury", "pain_condition"),
-        ("Mechanism of Injury", "pain_mechanism"),
-        ("Pain Rating (Present/Best/Worst)", "pain_rating"),
-        ("Frequency", "pain_frequency"),
-        ("Description", "pain_description"),
-        ("Aggravating Factor", "pain_aggravating"),
-        ("Relieved By", "pain_relieved"),
-        ("Interferes With", "pain_interferes"),
+    def add_line(text="", font="Helvetica", size=11, indent=0):
+        nonlocal y
+        c.setFont(font, size)
+        if text.strip():
+            c.drawString(40 + indent, y, text)
+        y -= 14
+        if y < 60:
+            c.showPage()
+            y = height - 40
+
+    def add_section(title, body):
+        add_line(f"{title}", "Helvetica-Bold", 13)
+        add_line("-" * 114)
+        for line in (body or "").split("\n"):
+            add_line(line)
+        add_line("-" * 114)
+
+    # Title
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(40, y, "Occupational Therapy Evaluation")
+    y -= 30
+
+    # Standard sections
+    add_section("Medical Diagnosis", data.get("meddiag", ""))
+    add_section("Medical History/HNP", data.get("history", ""))
+    add_section("Subjective", data.get("ot_subjective", ""))
+
+    # Pain
+    pain = [
+        f"Area/Location of Injury: {data.get('pain_location','')}",
+        f"Onset/Exacerbation Date: {data.get('pain_onset','')}",
+        f"Condition of Injury: {data.get('pain_condition','')}",
+        f"Mechanism of Injury: {data.get('pain_mechanism','')}",
+        f"Pain Rating (Present/Best/Worst): {data.get('pain_rating','')}",
+        f"Frequency: {data.get('pain_frequency','')}",
+        f"Description: {data.get('pain_description','')}",
+        f"Aggravating Factor: {data.get('pain_aggravating','')}",
+        f"Relieved By: {data.get('pain_relieved','')}",
+        f"Interferes With: {data.get('pain_interferes','')}",
+        f"Current Medication(s): {data.get('meds','')}",
+        f"Diagnostic Test(s): {data.get('tests','')}",
+        f"DME/Assistive Device: {data.get('dme','')}",
+        f"PLOF: {data.get('plof','')}",
     ]
-    for label, key in pain_fields:
-        doc.add_paragraph(f"{label}: {data.get(key, '')}")
-    doc.add_paragraph(f"Current Medication(s): {data.get('meds', '')}")
-    doc.add_paragraph(f"Diagnostic Test(s): {data.get('tests', '')}")
-    doc.add_paragraph(f"DME/Assistive Device: {data.get('dme', '')}")
-    doc.add_paragraph(f"PLOF: {data.get('plof', '')}")
-    add_separator()
-    doc.add_paragraph("Objective:")
-    obj_fields = [
-        ("Posture", "posture"),
-        ("ROM", "rom"),
-        ("Muscle Strength Test", "strength"),
-        ("Palpation", "palpation"),
-        ("Functional Test(s)", "functional"),
-        ("Special Test(s)", "special"),
-        ("Current Functional Mobility Impairment(s)", "impairments"),
+    add_section("Pain", "\n".join(pain))
+
+    # Objective
+    objective_lines = [
+        "Posture:",
+        data.get("posture", ""),
+        "",
+        "ROM:",
+        data.get("rom", ""),
+        "",
+        "Muscle Strength Test:",
+        data.get("strength", ""),
+        "",
+        "Palpation:",
+        data.get("palpation", ""),
+        "",
+        "Functional Test(s):",
+        data.get("functional", ""),
+        "",
+        "Special Test(s):",
+        data.get("special", ""),
+        "",
+        "Current Functional Mobility Impairment(s):",
+        data.get("impairments", "")
     ]
-    for label, key in obj_fields:
-        doc.add_paragraph(f"{label}:")
-        doc.add_paragraph(f"{data.get(key, '')}")
-    add_separator()
-    doc.add_paragraph("Assessment Summary:")
-    doc.add_paragraph(data.get('summary', ''))
-    add_separator()
-    doc.add_paragraph("Goals:")
-    doc.add_paragraph(data.get('goals', ''))
-    add_separator()
-    doc.add_paragraph("Frequency:")
-    doc.add_paragraph(data.get('frequency', ''))
-    add_separator()
-    doc.add_paragraph("Intervention:")
-    doc.add_paragraph(data.get('intervention', ''))
-    add_separator()
-    doc.add_paragraph("Treatment Procedures:")
-    doc.add_paragraph(data.get('procedures', ''))
-    add_separator()
-    return doc
+    add_section("Objective", "\n".join(objective_lines))
+
+    add_section("Assessment Summary", data.get("summary", ""))
+    add_section("Goals", data.get("goals", ""))
+    add_section("Frequency", data.get("frequency", ""))
+    add_section("Intervention", data.get("intervention", ""))
+    add_section("Treatment Procedures", data.get("procedures", ""))
+
+    c.save()
+    buffer.seek(0)
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name="OT_Eval.pdf",
+        mimetype="application/pdf"
+    )
 
 @app.route("/ot_export_pdf", methods=["POST"])
 @login_required
@@ -746,30 +787,34 @@ def ot_export_pdf():
     width, height = letter
     y = height - 40
 
-    def add_section(title, value):
+    def add_line(text="", font="Helvetica", size=11, indent=0):
         nonlocal y
-        c.setFont("Helvetica-Bold", 13)
-        c.drawString(40, y, title)
-        y -= 18
-        c.setFont("Helvetica", 11)
-        for line in (value or "").split('\n'):
-            c.drawString(48, y, line)
-            y -= 14
-            if y < 60:
-                c.showPage()
-                y = height - 40
-        y -= 8
-        c.setLineWidth(0.5)
-        c.line(40, y, width - 40, y)
-        y -= 16
+        c.setFont(font, size)
+        if text.strip():
+            c.drawString(40 + indent, y, text)
+        y -= 14
+        if y < 60:
+            c.showPage()
+            y = height - 40
 
+    def add_section(title, body):
+        add_line(title, "Helvetica-Bold", 13)
+        add_line("-" * 114)
+        for line in (body or "").split("\n"):
+            add_line(line)
+        add_line("-" * 114)
+
+    # Title
     c.setFont("Helvetica-Bold", 16)
     c.drawString(40, y, "Occupational Therapy Evaluation")
     y -= 30
 
-    add_section("Medical Diagnosis:", data.get("meddiag", ""))
-    add_section("Medical History/HNP:", data.get("history", ""))
-    add_section("Subjective:", data.get("ot_subjective", ""))
+    # Main sections
+    add_section("Medical Diagnosis", data.get("meddiag", ""))
+    add_section("Medical History/HNP", data.get("history", ""))
+    add_section("Subjective", data.get("ot_subjective", ""))
+
+    # Pain section
     pain_lines = [
         f"Area/Location of Injury: {data.get('pain_location','')}",
         f"Onset/Exacerbation Date: {data.get('pain_onset','')}",
@@ -781,34 +826,43 @@ def ot_export_pdf():
         f"Aggravating Factor: {data.get('pain_aggravating','')}",
         f"Relieved By: {data.get('pain_relieved','')}",
         f"Interferes With: {data.get('pain_interferes','')}",
-        "",
         f"Current Medication(s): {data.get('meds','')}",
         f"Diagnostic Test(s): {data.get('tests','')}",
         f"DME/Assistive Device: {data.get('dme','')}",
-        f"PLOF: {data.get('plof','')}",
+        f"PLOF: {data.get('plof','')}"
     ]
-    add_section("Pain:", "\n".join(pain_lines))
-    obj_lines = [
-        f"Posture: {data.get('posture','')}",
+    add_section("Pain", "\n".join(pain_lines))
+
+    # Objective section
+    obj_content = [
+        "Posture:",
+        data.get("posture", ""),
         "",
-        f"ROM: \n{data.get('rom','')}",
+        "ROM:",
+        data.get("rom", ""),
         "",
-        f"Muscle Strength Test: \n{data.get('strength','')}",
+        "Muscle Strength Test:",
+        data.get("strength", ""),
         "",
-        f"Palpation: \n{data.get('palpation','')}",
+        "Palpation:",
+        data.get("palpation", ""),
         "",
-        f"Functional Test(s): \n{data.get('functional','')}",
+        "Functional Test(s):",
+        data.get("functional", ""),
         "",
-        f"Special Test(s): \n{data.get('special','')}",
+        "Special Test(s):",
+        data.get("special", ""),
         "",
-        f"Current Functional Mobility Impairment(s): \n{data.get('impairments','')}",
+        "Current Functional Mobility Impairment(s):",
+        data.get("impairments", "")
     ]
-    add_section("Objective:", "\n".join(obj_lines))
-    add_section("Assessment Summary:", data.get("summary", ""))
-    add_section("Goals:", data.get("goals", ""))
-    add_section("Frequency:", data.get("frequency", ""))
-    add_section("Intervention:", data.get("intervention", ""))
-    add_section("Treatment Procedures:", data.get("procedures", ""))
+    add_section("Objective", "\n".join(obj_content))
+
+    add_section("Assessment Summary", data.get("summary", ""))
+    add_section("Goals", data.get("goals", ""))
+    add_section("Frequency", data.get("frequency", ""))
+    add_section("Intervention", data.get("intervention", ""))
+    add_section("Treatment Procedures", data.get("procedures", ""))
 
     c.save()
     buffer.seek(0)
@@ -818,7 +872,6 @@ def ot_export_pdf():
         download_name="OT_Eval.pdf",
         mimetype="application/pdf"
     )
-    
 # ========== GPT HELPER ==========
 
 def gpt_call(prompt, max_tokens=700):
