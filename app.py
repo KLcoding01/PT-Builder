@@ -338,12 +338,6 @@ def pt_export_word():
         download_name='PT_Eval.docx'
     )
 
-from flask import send_file, request
-from flask_login import login_required
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-import io
-
 @app.route("/pt_export_pdf", methods=["POST"])
 @login_required
 def pt_export_pdf():
