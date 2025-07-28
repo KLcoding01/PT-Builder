@@ -1,4 +1,35 @@
 PT_TEMPLATES = {
+    "BPPV": {
+      "meddiag": "",
+      "history": "",
+      "subjective": "Pt reports episodes of dizziness and vertigo described as spinning sensations, each lasting less than one minute. Triggered by changes in head position (e.g., rolling in bed, looking up, bending forward). Pt also reports nausea and occasional imbalance. Denies hearing loss, tinnitus, or trauma. Symptoms have increased in frequency over the past week and interfere with daily activities.",
+      "pain_location": "N/A",
+      "pain_onset": "Recent increase in frequency",
+      "pain_condition": "Intermittent vertigo",
+      "pain_mechanism": "BPPV with canalith displacement",
+      "pain_rating": "N/A",
+      "pain_frequency": "Triggered by head position",
+      "pain_description": "Spinning sensation, brief episodes",
+      "pain_aggravating": "Rolling over in bed, bending forward, looking up",
+      "pain_relieved": "Rest, stabilizing head movements",
+      "pain_interferes": "Mobility, functional transfers, daily activity performance",
+      "meds": "See medication list",
+      "tests": "(-) Roll Test, (-) Straight Head-Hanging Test",
+      "dme": "N/A",
+      "plof": "Independent with mobility and ADLs, no prior vertigo symptoms",
+      "posture": "Upright at rest; avoids lying flat or looking up. Increased trunk stiffness during positional changes; uses arms or stable surfaces for support.",
+      "rom": "B UE: WNL/WNL\nB LE: WNL/WNL",
+      "strength": "Gross Hip Strength: L/R 4/5; 4/5\nGross Knee Strength: L/R 4/5; 4/5\nGross Ankle Strength: L/R 4/5; 4/5",
+      "palpation": "No abnormalities noted in head, neck, or trunk. No visible atrophy or asymmetry.",
+      "functional": "Observational signs: cautious movements, guarded affect, intermittent bracing with position changes. Romberg and tandem gait normal between episodes but mild unsteadiness noted post-maneuver.",
+      "special": "(+) Dix-Hallpike reproducing vertigo with observable upbeating/torsional nystagmus\n(-) Neurologic exam (cranial nerves)\n(-) Head impulse, smooth pursuit, saccades\n(-) Hearing changes",
+      "impairments": "Dizziness and imbalance during transitional movements, bed mobility, and positional changes.",
+      "goals": "Short-Term Goals (5 visits):\n1. Pt will report reduction in dizziness intensity to ≤1/10 during positional changes to support safe mobility.\n2. Pt will demonstrate improved balance during transitional movements (e.g., sit-to-stand, bed mobility) with supervision and no loss of balance.\n3. Pt will complete Dix-Hallpike and/or Roll Test with reduced symptom provocation to facilitate continued canalith repositioning treatment.\n\nLong-Term Goals (10 visits):\n1. Pt will ambulate independently for 10–15 minutes without dizziness or imbalance to support return to PLOF.\n2. Pt will perform all functional transfers (e.g., bed, chair, toilet) safely and independently without vertigo-related interruption.\n3. Pt will demonstrate independent performance of HEP to support vestibular adaptation and prevent recurrence.\n4. Pt will improve balance score (e.g., DGI or 30s sit-to-stand) to within normal limits for age to reduce risk of fall.\n5. Pt will remain episode-free during positional changes for at least one week to support discharge readiness and functional independence.",
+      "frequency": "2wk5",
+      "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, MET, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, pain management, balance training, mechanical traction, HEP education/training.",
+      "procedures": "97162 Mod Complexity\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed"
+    }
+
     "LBP Eval": {
         "meddiag": "",
         "history": "",

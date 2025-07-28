@@ -595,42 +595,36 @@ def ot_generate_goals():
     impairments = fields.get("impairments", "") or "N/A"
     functional = fields.get("functional", "") or "N/A"
 
-    objective = (
-        f"Strength: {strength}; "
-        f"ROM: {rom}; "
-        f"Impairments: {impairments}; "
-        f"Function: {functional}"
-    )
-
     prompt = f"""
 You are a clinical assistant helping an occupational therapist write documentation.
-Using ONLY the provided eval info (summary, objective findings, strength, ROM, impairments, and functional limitations),
-generate clinically-appropriate, Medicare-compliant short-term and long-term OT goals. Focus on ADLs, IADLs, and functional participation (e.g., dressing, bathing, toileting, home management, transfers, community integration).
+Below is a summary of the patient's evaluation and findings:
+Summary: {summary}
+Strength: {strength}
+ROM: {rom}
+Impairments: {impairments}
+Functional Limitations: {functional}
+
+Using ONLY the above provided eval info, generate clinically-appropriate, Medicare-compliant short-term and long-term OT goals. Focus on ADLs, IADLs, functional participation, use of adaptive equipment, and safety (e.g., dressing, bathing, toileting, home management, transfers, community integration). Each goal must use the "Pt will..." format, specify an activity and level of independence, and be functionally/measurably stated.
+
 ALWAYS follow this exact format—do not add, skip, reorder, or alter any lines or labels.
 DO NOT add any explanations, introductions, dashes, bullets, or extra indentation. Output ONLY this structure:
 
 Short-Term Goals (1–12 visits):
-1. [goal statement]
-2. [goal statement]
-3. [goal statement]
-4. [goal statement]
+1. Pt will [specific ADL/IADL task] with [level of assistance/adaptive strategy] to promote functional independence.
+2. Pt will improve [ROM/strength/endurance] by [amount or %] to support [specific functional task].
+3. Pt will independently use [adaptive equipment or compensatory technique] during [ADL/IADL].
+4. Pt will report pain ≤[target]/10 during [functional task or ADL].
 
 Long-Term Goals (13–25 visits):
-1. [goal statement]
-2. [goal statement]
-3. [goal statement]
-4. [goal statement]
+1. Pt will complete all [ADL/IADL] independently or with AE as needed.
+2. Pt will demonstrate safe performance of [home/community management task] using proper body mechanics and adaptive strategies.
+3. Pt will participate in [community activity/home management/transfer] with [level of independence].
+4. Pt will maintain functional gains and independently implement all learned safety/adaptive strategies in daily routines.
+"""
 
-Patient Summary:
-{summary}
-
-Objective Findings:
-{objective}
-    """
-
-    result = gpt_call(prompt, max_tokens=350)
+    result = gpt_call(prompt, max_tokens=400)
     return jsonify({"result": result})
-    
+
 # ====== OT Export ======
 
 @app.route('/ot_export_word', methods=['POST'])
