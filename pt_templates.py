@@ -29,6 +29,38 @@ PT_TEMPLATES = {
       "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, MET, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, pain management, balance training, mechanical traction, HEP education/training.",
       "procedures": "97162 Mod Complexity\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed"
     },
+    
+    "Neck Pain": {
+      "meddiag": "Mechanical Neck Pain",
+      "history": "",
+      "subjective": "Pt reports a recent increase in neck pain, with goals to reduce pain, decrease tension, and improve movement during ADLs. Pt agrees to PT evaluation.",
+      "pain_location": "Posterior neck, upper trapezius, levator scapulae, suboccipital regions",
+      "pain_onset": "Chronic",
+      "pain_condition": "Muscle tension, joint hypomobility, postural changes, increased muscle tone, spinal structural changes, overuse",
+      "pain_mechanism": "Muscle tension, joint hypomobility, postural changes, increased muscle tone, spinal structural changes, overuse",
+      "pain_rating": "5/10 currently, 0/10 at best, 7/10 at worst",
+      "pain_frequency": "Intermittent",
+      "pain_description": "Sharp, tense, and aching",
+      "pain_aggravating": "Prolonged sitting, screen use, cooking, cleaning, overhead activities",
+      "pain_relieved": "Pain medication and rest",
+      "pain_interferes": "Functional mobility, ADLs, sleep",
+      "meds": "See medication list",
+      "tests": "N/A",
+      "dme": "N/A",
+      "plof": "Independent with mobility and ADLs",
+      "posture": "Forward head, rounded shoulders, protracted scapulae, and slouched posture with decreased postural awareness in sitting",
+      "rom": "Flexion: 45°\nExtension: 45°\nL SB: 45°\nR SB: 45°\nL Rotation: 80°\nR Rotation: 80°",
+      "strength": "Cervical flexors/extensors: 3+/5\nR/L Lateral Flexors: 3+/5\nR/L Rotations: 3+/5\nUpper trapezius: R 3+/5, L 3+/5",
+      "palpation": "C1–C7 joint hypomobility with central PA\nDecreased segmental rolling/gliding\nTTP and myotension to levator scapulae, upper trapezius, and suboccipital muscles",
+      "functional": "Looking over shoulder\nLooking at ceiling",
+      "special": "Palpation for segmental mobility/PAIVMs: Positive\nSpurling’s: Negative\nDistraction: Negative\nCervical Flexion-Rotation: Negative\nVBI: Negative",
+      "impairments": "Sitting: 5 min\nCooking/cleaning: 5 min\nUsing iPad/cell phone: 5 min\nGrooming, washing, and donning/doffing upper garments: pain-limited",
+      "summary": "Pt meets criteria for mechanical neck pain and fits the treatment-based classification for neck pain with mobility deficits. The patient was seen for an initial physical therapy evaluation, which included a comprehensive physical examination, assessment of functional mobility, and pain assessment. Education was provided regarding mobility impairments, pain management strategies, and a personalized home exercise program, along with collaborative development of goals and a plan of care to support return to prior level of function. The patient presents with chronic pain related to muscle tension and degenerative spinal changes, which limits performance of activities of daily living. Given the patient’s motivation and willingness to participate in therapy, the prognosis is favorable. Skilled outpatient physical therapy is recommended to improve mobility, reduce pain, and enhance overall quality of life.",
+      "goals": "Short-Term Goals (1–12 visits):\n1. Pt will report neck pain of 1/10 or less during functional activities such as dressing, grooming, or household chores.\n2. Pt will improve cervical rotation by at least 10 degrees bilaterally while turning the head during daily tasks.\n3. Pt will demonstrate 50% adherence to ergonomic postural corrections during activities like computer work, reading, or cooking.\n\nLong-Term Goals (13–25 visits):\n1. Pt will increase neck muscle strength by at least 0.5 grade to support safe lifting and carrying tasks.\n2. Pt will restore cervical range of motion to within 10 degrees of normal, enabling comfortable participation in all self-care and mobility tasks.\n3. Pt will demonstrate 100% adherence to ergonomic posture during prolonged sitting and repetitive activities.\n4. Pt will independently perform neck mobility and strengthening exercises as part of their daily routine to maintain function and prevent recurrence.",
+      "frequency": "1wk1, 2wk12",
+      "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, MET, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, pain management, balance training, mechanical traction, HEP education/training.",
+      "procedures": "97161 Low Complexity\n97162 Mod Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed"
+    },
 
     "LBP - Generalized": {
         "meddiag": "",
