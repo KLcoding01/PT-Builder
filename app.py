@@ -179,8 +179,6 @@ def add_patient():
         name = request.form['name']
         dob_str = request.form['dob']
         gender = request.form['gender']
-        pt_notes = request.form.get('pt_notes', '')
-        ot_notes = request.form.get('ot_notes', '')
 
         dob = None
         if dob_str:
@@ -193,14 +191,11 @@ def add_patient():
         patient = Patient(
             name=name,
             dob=dob,
-            gender=gender,
-            pt_notes=pt_notes,
-            ot_notes=ot_notes
+            gender=gender
         )
         db.session.add(patient)
         db.session.commit()
         flash("Patient added successfully!", "success")
-        # THIS IS THE FIX:
         return redirect(url_for('view_patients'))
 
     return render_template('add_patient.html')
