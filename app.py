@@ -210,7 +210,8 @@ def add_patient():
 @login_required
 def view_pt_notes(patient_id):
     patient = Patient.query.get_or_404(patient_id)
-    return render_template('pt_notes.html', patient=patient)
+    notes = PTNote.query.filter_by(patient_id=patient_id).order_by(PTNote.created_at.desc()).all()
+    return render_template('pt_notes.html', patient=patient, notes=notes)
 
 @app.route('/patients/<int:patient_id>/ot-notes')
 @login_required

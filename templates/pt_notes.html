@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="container mt-4">
-  <h2>Saved PT Notes</h2>
+<div class="container mt-5">
+  <h1>Saved PT Notes</h1>
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -14,8 +15,12 @@
       {% for note in notes %}
       <tr>
         <td>{{ note.patient_id }}</td>
-        <td>{{ note.content|safe }}</td>
+        <td style="max-width:700px; white-space:pre-wrap;">{{ note.content }}</td>
         <td>{{ note.created_at.strftime('%m/%d/%Y %H:%M') }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="3">No notes saved yet.</td>
       </tr>
       {% endfor %}
     </tbody>

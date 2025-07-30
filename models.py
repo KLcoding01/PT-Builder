@@ -33,3 +33,4 @@ class PTNote(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('therapists.id'), nullable=False)  # <--- Fix here
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+

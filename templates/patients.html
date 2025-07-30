@@ -38,8 +38,8 @@
           <td>{{ p.name }}</td>
           <td>{{ p.dob.strftime('%Y-%m-%d') }}</td>
           <td>{{ p.gender }}</td>
-          <td><a href="{{ url_for('view_pt_notes', patient_id=p.id) }}">View PT Notes</a></td>
-          <td><a href="{{ url_for('view_ot_notes', patient_id=p.id) }}">View OT Notes</a></td>
+          <td><a href="{{ url_for('view_pt_notes', patient_id=patient.id) }}">View PT Notes</a></td>
+          <td><a href="{{ url_for('view_ot_notes', patient_id=patient.id) }}">View OT Notes</a></td>
         </tr>
       {% else %}
         <tr><td colspan="5">No patients found.</td></tr>
