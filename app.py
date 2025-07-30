@@ -565,7 +565,7 @@ def pt_export_to_word(data):
     def add_separator():
         doc.add_paragraph('-' * 114)
 
-    # Demographic header line
+    # Header line (customize if you want gender/DOB in this header)
     weight = data.get('weight', '')
     height = data.get('height', '')
     bmi = data.get('bmi', '')
@@ -608,12 +608,7 @@ def pt_export_to_word(data):
     doc.add_paragraph(data.get('posture', ''))
 
     doc.add_paragraph("ROM:")
-    doc.add_paragraph(f"Trunk Flexion: {data.get('rom_trunk_flexion', '')}")
-    doc.add_paragraph(f"Trunk Extension: {data.get('rom_trunk_extension', '')}")
-    doc.add_paragraph(f"Trunk SB Left: {data.get('rom_trunk_sb_left', '')}")
-    doc.add_paragraph(f"Trunk SB Right: {data.get('rom_trunk_sb_right', '')}")
-    doc.add_paragraph(f"Trunk Rotation Left: {data.get('rom_trunk_rot_left', '')}")
-    doc.add_paragraph(f"Trunk Rotation Right: {data.get('rom_trunk_rot_right', '')}")
+    doc.add_paragraph(data.get('rom', ''))
 
     doc.add_paragraph("Muscle Strength Test:")
     doc.add_paragraph(f"Gross Core Strength: {data.get('strength_core', '')}")
@@ -622,16 +617,10 @@ def pt_export_to_word(data):
     doc.add_paragraph(f"Gross Ankle Strength: {data.get('strength_ankle', '')}")
 
     doc.add_paragraph("Palpation:")
-    doc.add_paragraph(f"TTP: {data.get('palp_ttp', '')}")
-    doc.add_paragraph(f"Joint hypomobility: {data.get('joint_hypomobility', '')}")
-    doc.add_paragraph(f"{data.get('palp_tone', '')}")
+    doc.add_paragraph(data.get('palpation', ''))
 
     doc.add_paragraph("Functional Test(s):")
-    doc.add_paragraph(f"Supine Sit Up Test: {data.get('functional_situp', '')}")
-    doc.add_paragraph(f"30 seconds Chair Sit to Stand: {data.get('functional_chair_sit_to_stand', '')}")
-    doc.add_paragraph(f"Single Leg Balance Test: {data.get('functional_single_leg_balance', '')}")
-    doc.add_paragraph(f"Single Heel Raises Test: {data.get('functional_heel_raises', '')}")
-    doc.add_paragraph(f"Functional Squat: {data.get('functional_squat', '')}")
+    doc.add_paragraph(data.get('functional', ''))
 
     doc.add_paragraph("Special Test(s):")
     doc.add_paragraph(data.get('special', ''))
@@ -660,27 +649,29 @@ def pt_export_to_word(data):
     doc.add_paragraph(data.get('procedures', ''))
     add_separator()
 
-    # SOAP ASSESSMENT — Just field keys, blank if not present
-    doc.add_paragraph("Soap Assessment:\n")
-
-    doc.add_paragraph("Pain: ")
-    doc.add_paragraph(f"{data.get('soap_pain', '')}")
+    # --- SOAP ASSESSMENT SECTION ---
+    doc.add_paragraph("Soap Assessment:")
     doc.add_paragraph("")
 
-    doc.add_paragraph("ROM: ")
-    doc.add_paragraph(f"{data.get('soap_rom', '')}")
+    doc.add_paragraph("Pain:")
+    doc.add_paragraph(f"{data.get('pain_location', '')}")
+    doc.add_paragraph(f"{data.get('pain_rating', '')}")
     doc.add_paragraph("")
 
-    doc.add_paragraph("Palpation: ")
-    doc.add_paragraph(f"{data.get('soap_palpation', '')}")
+    doc.add_paragraph("ROM:")
+    doc.add_paragraph(data.get('rom', ''))
     doc.add_paragraph("")
 
-    doc.add_paragraph("Functional Test(s): ")
-    doc.add_paragraph(f"{data.get('soap_functional', '')}")
+    doc.add_paragraph("Palpation:")
+    doc.add_paragraph(data.get('palpation', ''))
     doc.add_paragraph("")
 
-    doc.add_paragraph("Goals: ")
-    doc.add_paragraph(f"{data.get('soap_goals', '')}")
+    doc.add_paragraph("Functional Test(s):")
+    doc.add_paragraph(data.get('functional', ''))
+    doc.add_paragraph("")
+
+    doc.add_paragraph("Goals:")
+    doc.add_paragraph(data.get('goals', ''))
     doc.add_paragraph("")
 
     buf = BytesIO()
