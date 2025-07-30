@@ -4,18 +4,20 @@
 <div class="row mt-4">
   <div class="col-md-3">
     <div class="list-group">
-      <a href="{{ url_for('dashboard') }}" class="list-group-item list-group-item-action active">
-        PT/OT Eval Builder
-      </a>
-      <a href="{{ url_for('view_patients') }}" class="list-group-item list-group-item-action">
-        Patients
-      </a>
-      <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action text-danger">
-        Logout
-      </a>
+      <a href="{{ url_for('dashboard') }}" class="list-group-item list-group-item-action active">Dashboard</a>
+      <a href="{{ url_for('view_patients') }}" class="list-group-item list-group-item-action">Patients</a>
+      <a href="{{ url_for('pt_eval') }}" class="list-group-item list-group-item-action">PT Eval Builder</a>
+      <a href="{{ url_for('ot_eval') }}" class="list-group-item list-group-item-action">OT Eval Builder</a>
+      <a href="{{ url_for('pt_notes') }}" class="list-group-item list-group-item-action">PT Notes</a>
+      <a href="{{ url_for('ot_notes') }}" class="list-group-item list-group-item-action">OT Notes</a>
+      <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action text-danger">Logout</a>
     </div>
   </div>
 </div>
+{% endblock %}
+
+
+{% block content %}
 <div class="container-fluid">
   <hr>
   <ul class="nav nav-tabs mb-3" id="mainTab" role="tablist">
