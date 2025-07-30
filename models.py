@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from datetime import datetime
 
+
 db = SQLAlchemy()
 
 class Therapist(db.Model, UserMixin):
@@ -34,3 +35,42 @@ class PTNote(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     patient = db.relationship("Patient", backref="pt_notes")
 
+def get_pt_note_for_patient(patient_id):
+    return {
+        "pt_name": "",
+        "pt_age": "",
+        "med_diag": "",
+        "med_history": "",
+        "subjective": "",
+        "pain": {
+            "area": "",
+            "onset": "",
+            "condition": "",
+            "mechanism": "",
+            "rating": "",
+            "freq": "",
+            "desc": "",
+            "aggravate": "",
+            "relieved": "",
+            "interfere": "",
+            "meds": "",
+            "tests": "",
+            "dme": "",
+            "plof": ""
+        },
+        "objective": {
+            "posture": "",
+            "rom": [],
+            "strength": [],
+            "palpation": "",
+            "functional_tests": [],
+            "special_tests": [],
+            "mobility_impairments": ""
+        },
+        "assessment": "",
+        "goals_st": [],
+        "goals_lt": [],
+        "frequency": "",
+        "interventions": "",
+        "procedures": []
+    }
