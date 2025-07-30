@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-  <h1>Saved PT Notes</h1>
-  <table class="table table-bordered">
-    <thead>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Patient Name</th>
+      <th>Note</th>
+      <th>Date Saved</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for note in notes %}
       <tr>
-        <th>Patient ID</th>
-        <th>Note</th>
-        <th>Date Saved</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for note in notes %}
-      <tr>
-        <td>{{ note.patient_id }}</td>
-        <td style="max-width:700px; white-space:pre-wrap;">{{ note.content }}</td>
+        <td>{{ note.patient_id }}</td> <!-- Optional: show name if patient relationship set up -->
+        <td style="max-width: 500px; white-space: pre-line;">{{ note.content }}</td>
         <td>{{ note.created_at.strftime('%m/%d/%Y %H:%M') }}</td>
+        <td>
+          <a href="{{ url_for('edit_pt_note', note_id=note.id) }}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{{ url_for('delete_pt_note', note_id=note.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this note?');">Delete</a>
+          <a href="{{ url_for('load_pt_note', note_id=note.id) }}" class="btn btn-sm btn-success">Load to Builder</a>
+        </td>
       </tr>
-      {% else %}
-      <tr>
-        <td colspan="3">No notes saved yet.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock %}
