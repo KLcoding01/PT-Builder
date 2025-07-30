@@ -558,6 +558,7 @@ def pt_export_word():
         as_attachment=True,
         download_name='PT_Eval.docx'
     )
+
 def pt_export_to_word(data):
     doc = Document()
 
@@ -565,15 +566,10 @@ def pt_export_to_word(data):
         doc.add_paragraph('-' * 114)
 
     # Demographic header line
-    gender = data.get('gender', '')
-    dob = data.get('dob', '')
     weight = data.get('weight', '')
     height = data.get('height', '')
     bmi = data.get('bmi', '')
-    bmi_category = data.get('bmi_category', '')
-
-    header_line = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height}     BMI: {bmi} ({bmi_category})"
-    doc.add_paragraph(header_line)
+    doc.add_paragraph(f"Weight: {weight} lbs       Height: {height}      BMI: {bmi}")
     add_separator()
 
     doc.add_paragraph(f"Medical Diagnosis: {data.get('meddiag', '')}")
@@ -588,40 +584,58 @@ def pt_export_to_word(data):
     add_separator()
 
     doc.add_paragraph("Pain:")
-    pain_fields = [
-        ("Area/Location of Injury", "pain_location"),
-        ("Onset/Exacerbation Date", "pain_onset"),
-        ("Condition of Injury", "pain_condition"),
-        ("Mechanism of Injury", "pain_mechanism"),
-        ("Pain Rating (Present/Best/Worst)", "pain_rating"),
-        ("Frequency", "pain_frequency"),
-        ("Description", "pain_description"),
-        ("Aggravating Factor", "pain_aggravating"),
-        ("Relieved By", "pain_relieved"),
-        ("Interferes With", "pain_interferes"),
-    ]
-    for label, key in pain_fields:
-        doc.add_paragraph(f"{label}: {data.get(key, '')}")
-
-    doc.add_paragraph(f"Current Medication(s): {data.get('meds', '')}")
+    doc.add_paragraph(f"Area/Location of Injury: {data.get('pain_location', '')}")
+    doc.add_paragraph(f"Onset/Exacerbation Date: {data.get('pain_onset', '')}")
+    doc.add_paragraph(f"Condition of Injury: {data.get('pain_condition', '')}")
+    doc.add_paragraph(f"Mechanism of Injury: {data.get('pain_mechanism', '')}")
+    doc.add_paragraph(f"Pain Rating (Present/Best/Worst): {data.get('pain_rating', '')}")
+    doc.add_paragraph(f"Frequency: {data.get('pain_frequency', '')}")
+    doc.add_paragraph(f"Description: {data.get('pain_description', '')}")
+    doc.add_paragraph(f"Aggravating Factor: {data.get('pain_aggravating', '')}")
+    doc.add_paragraph(f"Relieved By: {data.get('pain_relieved', '')}")
+    doc.add_paragraph("")
+    doc.add_paragraph(f"Interferes With: {data.get('pain_interferes', '')}")
+    doc.add_paragraph("")
     doc.add_paragraph(f"Diagnostic Test(s): {data.get('tests', '')}")
+    doc.add_paragraph("")
     doc.add_paragraph(f"DME/Assistive Device: {data.get('dme', '')}")
+    doc.add_paragraph("")
     doc.add_paragraph(f"PLOF: {data.get('plof', '')}")
     add_separator()
 
     doc.add_paragraph("Objective:")
     doc.add_paragraph("Posture:")
     doc.add_paragraph(data.get('posture', ''))
+
     doc.add_paragraph("ROM:")
-    doc.add_paragraph(data.get('rom', ''))
+    doc.add_paragraph(f"Trunk Flexion: {data.get('rom_trunk_flexion', '')}")
+    doc.add_paragraph(f"Trunk Extension: {data.get('rom_trunk_extension', '')}")
+    doc.add_paragraph(f"Trunk SB Left: {data.get('rom_trunk_sb_left', '')}")
+    doc.add_paragraph(f"Trunk SB Right: {data.get('rom_trunk_sb_right', '')}")
+    doc.add_paragraph(f"Trunk Rotation Left: {data.get('rom_trunk_rot_left', '')}")
+    doc.add_paragraph(f"Trunk Rotation Right: {data.get('rom_trunk_rot_right', '')}")
+
     doc.add_paragraph("Muscle Strength Test:")
-    doc.add_paragraph(data.get('strength', ''))
+    doc.add_paragraph(f"Gross Core Strength: {data.get('strength_core', '')}")
+    doc.add_paragraph(f"Gross Hip Strength: {data.get('strength_hip', '')}")
+    doc.add_paragraph(f"Gross Knee Strength: {data.get('strength_knee', '')}")
+    doc.add_paragraph(f"Gross Ankle Strength: {data.get('strength_ankle', '')}")
+
     doc.add_paragraph("Palpation:")
-    doc.add_paragraph(data.get('palpation', ''))
+    doc.add_paragraph(f"TTP: {data.get('palp_ttp', '')}")
+    doc.add_paragraph(f"Joint hypomobility: {data.get('joint_hypomobility', '')}")
+    doc.add_paragraph(f"{data.get('palp_tone', '')}")
+
     doc.add_paragraph("Functional Test(s):")
-    doc.add_paragraph(data.get('functional', ''))
+    doc.add_paragraph(f"Supine Sit Up Test: {data.get('functional_situp', '')}")
+    doc.add_paragraph(f"30 seconds Chair Sit to Stand: {data.get('functional_chair_sit_to_stand', '')}")
+    doc.add_paragraph(f"Single Leg Balance Test: {data.get('functional_single_leg_balance', '')}")
+    doc.add_paragraph(f"Single Heel Raises Test: {data.get('functional_heel_raises', '')}")
+    doc.add_paragraph(f"Functional Squat: {data.get('functional_squat', '')}")
+
     doc.add_paragraph("Special Test(s):")
     doc.add_paragraph(data.get('special', ''))
+
     doc.add_paragraph("Current Functional Mobility Impairment(s):")
     doc.add_paragraph(data.get('impairments', ''))
     add_separator()
@@ -645,6 +659,29 @@ def pt_export_to_word(data):
     doc.add_paragraph("Treatment Procedures:")
     doc.add_paragraph(data.get('procedures', ''))
     add_separator()
+
+    # SOAP ASSESSMENT — Just field keys, blank if not present
+    doc.add_paragraph("Soap Assessment:\n")
+
+    doc.add_paragraph("Pain: ")
+    doc.add_paragraph(f"{data.get('soap_pain', '')}")
+    doc.add_paragraph("")
+
+    doc.add_paragraph("ROM: ")
+    doc.add_paragraph(f"{data.get('soap_rom', '')}")
+    doc.add_paragraph("")
+
+    doc.add_paragraph("Palpation: ")
+    doc.add_paragraph(f"{data.get('soap_palpation', '')}")
+    doc.add_paragraph("")
+
+    doc.add_paragraph("Functional Test(s): ")
+    doc.add_paragraph(f"{data.get('soap_functional', '')}")
+    doc.add_paragraph("")
+
+    doc.add_paragraph("Goals: ")
+    doc.add_paragraph(f"{data.get('soap_goals', '')}")
+    doc.add_paragraph("")
 
     buf = BytesIO()
     doc.save(buf)
