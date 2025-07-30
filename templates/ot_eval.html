@@ -2,7 +2,7 @@
 
 {% block content %}
 <!-- OT EVAL BUILDER TAB -->
-<div class="tab-pane fade" id="ot-tab-panel" role="tabpanel">
+<div class="tab-pane fade show active" id="ot-tab-panel" role="tabpanel">
   <h2>OT Eval Builder</h2>
   <div class="d-flex align-items-center mb-3">
     <label class="fw-bold me-2">Template:</label>
@@ -12,6 +12,19 @@
     <button id="ot-save-pdf-btn" class="btn btn-danger btn-sm">Export PDF</button>
     <span id="ot-status-msg" class="ms-3"></span>
   </div>
+  <!-- Patient search/assign -->
+  <form method="POST">
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label for="ot-patient-search" class="form-label fw-bold">Assign to Patient:</label>
+        <select id="ot-patient-search" name="patient_id" style="width: 100%;" required></select>
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" name="action" value="save_to_patient" class="btn btn-success w-100">💾 Save to Patient</button>
+      </div>
+    </div>
+    <input type="hidden" name="generated_note" id="ot-generated-note">
+  </form>
   <ul class="nav nav-tabs mb-2" id="ot-inner-tab" role="tablist">
     <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#ot-patientinfo" role="tab">Patient Info</a></li>
     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-history" role="tab">History</a></li>
@@ -208,6 +221,10 @@
   </form>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <script>
   // ==== OT Functions ====
   function otGetFields() {
@@ -379,6 +396,30 @@
   }
   document.getElementById("ot_weight")?.addEventListener("input", calculateOTBMI);
   document.getElementById("ot_height")?.addEventListener("input", calculateOTBMI);
-</script>
 
+  // --- Select2 initialization for OT patient search ---
+  $(document).ready(function () {
+    $('#ot-patient-search').select2({
+      ajax: {
+        url: '/api/patients',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return { q: params.term };
+        },
+        processResults: function (data) {
+          return {
+            results: data.map(function(p) {
+              return { id: p.id, text: p.name };
+            })
+          };
+        },
+        cache: true
+      },
+      placeholder: 'Search for patient...',
+      minimumInputLength: 1,
+      width: '100%'
+    });
+  });
+</script>
 {% endblock %}

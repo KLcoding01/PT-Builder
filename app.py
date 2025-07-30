@@ -407,6 +407,26 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
     result = gpt_call(prompt, max_tokens=400)
     return jsonify({"result": result})
 
+# ====== Save Patient ======
+@app.route("/pt_eval_builder", methods=["GET", "POST"])
+@login_required
+def pt_eval_builder():
+    if request.method == "POST":
+        patient_id = request.form.get("patient_id")
+        generated_note = request.form.get("generated_note")  # or however you store the eval data
+        if not patient_id:
+            flash("No patient selected.", "danger")
+            return redirect(url_for("pt_eval_builder"))
+        patient = Patient.query.get(patient_id)
+        if not patient:
+            flash("Patient not found.", "danger")
+            return redirect(url_for("pt_eval_builder"))
+        # Save the note or eval to patient profile here!
+        patient.pt_eval_note = generated_note
+        db.session.commit()
+        flash("PT Eval saved to patient!", "success")
+        return redirect(url_for("pt_eval_builder"))
+        
 # ====== PT Export ======
 def pt_export_to_word(data):
     doc = Document()
