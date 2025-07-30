@@ -26,10 +26,8 @@ class Patient(db.Model):
     ot_notes = db.Column(db.Text, default="")
     # Add any other fields you want!
 
-from datetime import datetime
 class PTNote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.String(128), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=db.func.now())
