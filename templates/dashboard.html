@@ -39,22 +39,25 @@
           <!-- PATIENT INFO TAB -->
           <div class="tab-pane fade show active" id="pt-patientinfo" role="tabpanel">
             
-            <div class="d-flex align-items-center mb-3">
-              <label for="pt_patient_name" class="me-3 mb-0" style="min-width: 130px;"><strong>Patient Name:</strong></label>
-              <input type="text" class="form-control" name="patient_name" id="pt_patient_name">
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <label for="weight" class="me-2 mb-0" style="min-width: 100px;"><strong>Weight (lbs):</strong></label>
-              <input type="number" class="form-control me-4" id="weight" name="weight" placeholder="lbs" style="max-width: 100px;">
+            <div class="d-flex align-items-center mb-3 flex-wrap">
+              <!-- Patient Name -->
+              <label for="pt_patient_name" class="me-2 mb-0" style="min-width: 130px;"><strong>Patient Name:</strong></label>
+              <input type="text" class="form-control me-4 mb-2" name="patient_name" id="pt_patient_name" style="max-width: 200px;">
 
-              <label for="height" class="me-2 mb-0" style="min-width: 100px;"><strong>Height (in):</strong></label>
-              <input type="number" class="form-control me-4" id="height" name="height" placeholder="in" style="max-width: 100px;">
+              <!-- Weight -->
+              <label for="weight" class="me-2 mb-0" style="min-width: 90px;"><strong>Weight (lbs):</strong></label>
+              <input type="number" class="form-control me-4 mb-2" id="weight" name="weight" placeholder="lbs" style="max-width: 100px;">
 
+              <!-- Height -->
+              <label for="height" class="me-2 mb-0" style="min-width: 90px;"><strong>Height (in):</strong></label>
+              <input type="text" class="form-control me-4 mb-2" id="height" name="height" placeholder="e.g. 5'9&quot;" style="max-width: 100px;">
+              <!-- BMI -->
               <label for="bmi" class="me-2 mb-0" style="min-width: 50px;"><strong>BMI:</strong></label>
-              <input type="text" class="form-control me-4" id="bmi" name="bmi" readonly style="max-width: 80px;">
+              <input type="text" class="form-control me-4 mb-2" id="bmi" name="bmi" readonly style="max-width: 80px;">
 
+              <!-- BMI Category -->
               <label for="bmi_category" class="me-2 mb-0" style="min-width: 120px;"><strong>BMI Category:</strong></label>
-              <input type="text" class="form-control" id="bmi_category" name="bmi_category" readonly style="max-width: 150px;">
+              <input type="text" class="form-control mb-2" id="bmi_category" name="bmi_category" readonly style="max-width: 150px;">
             </div>
             <div class="d-flex align-items-center mb-3">
               <label for="pt_dob" class="me-3 mb-0" style="min-width: 130px;"><strong>DOB:</strong></label>
@@ -68,54 +71,175 @@
           </div>
           <!-- HISTORY TAB -->
           <div class="tab-pane fade" id="pt-history" role="tabpanel">
-            <textarea name="meddiag" id="pt_meddiag" class="form-control mb-2" placeholder="Medical Diagnosis"></textarea>
-            <textarea name="history" id="pt_history" class="form-control mb-2" placeholder="Medical History/HNP"></textarea>
-            <textarea name="subjective" id="pt_subjective" class="form-control mb-2" placeholder="Subjective (HPI)"></textarea>
-            <textarea name="meds" id="pt_meds" class="form-control mb-2" placeholder="Current Medication(s)"></textarea>
-            <textarea name="tests" id="pt_tests" class="form-control mb-2" placeholder="Diagnostic Test(s)"></textarea>
-            <textarea name="dme" id="pt_dme" class="form-control mb-2" placeholder="DME/Assistive Device"></textarea>
-            <textarea name="plof" id="pt_plof" class="form-control mb-2" placeholder="PLOF"></textarea>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_meddiag" class="me-3 mb-0" style="min-width: 180px;"><strong>Medical Diagnosis:</strong></label>
+              <textarea name="meddiag" id="pt_meddiag" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_history" class="me-3 mb-0" style="min-width: 180px;"><strong>Medical History/HNP:</strong></label>
+              <textarea name="history" id="pt_history" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_subjective" class="me-3 mb-0" style="min-width: 180px;"><strong>Subjective (HPI):</strong></label>
+              <textarea name="subjective" id="pt_subjective" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_meds" class="me-3 mb-0" style="min-width: 180px;"><strong>Current Medication(s):</strong></label>
+              <textarea name="meds" id="pt_meds" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_tests" class="me-3 mb-0" style="min-width: 180px;"><strong>Diagnostic Test(s):</strong></label>
+              <textarea name="tests" id="pt_tests" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_dme" class="me-3 mb-0" style="min-width: 180px;"><strong>DME/Assistive Device:</strong></label>
+              <textarea name="dme" id="pt_dme" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_plof" class="me-3 mb-0" style="min-width: 180px;"><strong>PLOF:</strong></label>
+              <textarea name="plof" id="pt_plof" class="form-control" rows="2"></textarea>
+            </div>
+
           </div>
           <!-- PAIN TAB -->
           <div class="tab-pane fade" id="pt-pain" role="tabpanel">
-            <input name="pain_location" id="pt_pain_location" class="form-control mb-2" placeholder="Area/Location of Injury">
-            <input name="pain_onset" id="pt_pain_onset" class="form-control mb-2" placeholder="Onset/Exacerbation Date">
-            <input name="pain_condition" id="pt_pain_condition" class="form-control mb-2" placeholder="Condition of Injury">
-            <input name="pain_mechanism" id="pt_pain_mechanism" class="form-control mb-2" placeholder="Mechanism of Injury">
-            <input name="pain_rating" id="pt_pain_rating" class="form-control mb-2" placeholder="Pain Rating (P/B/W)">
-            <input name="pain_frequency" id="pt_pain_frequency" class="form-control mb-2" placeholder="Pain Frequency">
-            <input name="pain_description" id="pt_pain_description" class="form-control mb-2" placeholder="Description">
-            <input name="pain_aggravating" id="pt_pain_aggravating" class="form-control mb-2" placeholder="Aggravating Factor">
-            <input name="pain_relieved" id="pt_pain_relieved" class="form-control mb-2" placeholder="Relieved By">
-            <input name="pain_interferes" id="pt_pain_interferes" class="form-control mb-2" placeholder="Interferes With">
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_location" class="me-3 mb-0" style="min-width: 180px;"><strong>Area/Location of Injury:</strong></label>
+              <input name="pain_location" id="pt_pain_location" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_onset" class="me-3 mb-0" style="min-width: 180px;"><strong>Onset/Exacerbation Date:</strong></label>
+              <input name="pain_onset" id="pt_pain_onset" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_condition" class="me-3 mb-0" style="min-width: 180px;"><strong>Condition of Injury:</strong></label>
+              <input name="pain_condition" id="pt_pain_condition" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_mechanism" class="me-3 mb-0" style="min-width: 180px;"><strong>Mechanism of Injury:</strong></label>
+              <input name="pain_mechanism" id="pt_pain_mechanism" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_rating" class="me-3 mb-0" style="min-width: 180px;"><strong>Pain Rating (P/B/W):</strong></label>
+              <input name="pain_rating" id="pt_pain_rating" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_frequency" class="me-3 mb-0" style="min-width: 180px;"><strong>Pain Frequency:</strong></label>
+              <input name="pain_frequency" id="pt_pain_frequency" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_description" class="me-3 mb-0" style="min-width: 180px;"><strong>Description:</strong></label>
+              <input name="pain_description" id="pt_pain_description" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_aggravating" class="me-3 mb-0" style="min-width: 180px;"><strong>Aggravating Factor:</strong></label>
+              <input name="pain_aggravating" id="pt_pain_aggravating" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_relieved" class="me-3 mb-0" style="min-width: 180px;"><strong>Relieved By:</strong></label>
+              <input name="pain_relieved" id="pt_pain_relieved" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="pt_pain_interferes" class="me-3 mb-0" style="min-width: 180px;"><strong>Interferes With:</strong></label>
+              <input name="pain_interferes" id="pt_pain_interferes" class="form-control">
+            </div>
+
           </div>
           <!-- OBJECTIVE TAB -->
           <div class="tab-pane fade" id="pt-objective" role="tabpanel">
-            <textarea name="posture" id="pt_posture" class="form-control mb-2" rows="7" placeholder="Posture"></textarea>
-            <textarea name="rom" id="pt_rom" class="form-control mb-2" rows="7" placeholder="ROM"></textarea>
-            <textarea name="strength" id="pt_strength" class="form-control mb-2" rows="7" placeholder="Muscle Strength Test"></textarea>
-            <textarea name="palpation" id="pt_palpation" class="form-control mb-2" rows="7" placeholder="Palpation"></textarea>
-            <textarea name="functional" id="pt_functional" class="form-control mb-2" rows="7" placeholder="Functional Test(s)"></textarea>
-            <textarea name="special" id="pt_special" class="form-control mb-2" rows="7" placeholder="Special Test(s)"></textarea>
-            <textarea name="impairments" id="pt_impairments" class="form-control mb-2" rows="7" placeholder="Current Functional Mobility Impairment(s)"></textarea>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_posture" class="me-3 mb-0" style="min-width: 180px;"><strong>Posture:</strong></label>
+              <textarea name="posture" id="pt_posture" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_rom" class="me-3 mb-0" style="min-width: 180px;"><strong>ROM:</strong></label>
+              <textarea name="rom" id="pt_rom" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_strength" class="me-3 mb-0" style="min-width: 180px;"><strong>Muscle Strength Test:</strong></label>
+              <textarea name="strength" id="pt_strength" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_palpation" class="me-3 mb-0" style="min-width: 180px;"><strong>Palpation:</strong></label>
+              <textarea name="palpation" id="pt_palpation" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_functional" class="me-3 mb-0" style="min-width: 180px;"><strong>Functional Test(s):</strong></label>
+              <textarea name="functional" id="pt_functional" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_special" class="me-3 mb-0" style="min-width: 180px;"><strong>Special Test(s):</strong></label>
+              <textarea name="special" id="pt_special" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_impairments" class="me-3 mb-0" style="min-width: 180px;"><strong>Current Functional Mobility Impairment(s):</strong></label>
+              <textarea name="impairments" id="pt_impairments" class="form-control" rows="7"></textarea>
+            </div>
+
           </div>
           <!-- DIFF DX TAB -->
           <div class="tab-pane fade" id="pt-diffdx" role="tabpanel">
             <button type="button" id="pt-ai-generate-diffdx" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
-            <textarea name="diffdx" id="pt_diffdx" class="form-control" rows="8"></textarea>
+            <div class="d-flex align-items-start">
+              <label for="pt_diffdx" class="me-3 mb-0" style="min-width: 180px;"><strong>PT Differential Diagnosis:</strong></label>
+              <textarea name="diffdx" id="pt_diffdx" class="form-control" rows="8"></textarea>
+            </div>
           </div>
           <!-- ASSESSMENT SUMMARY TAB -->
           <div class="tab-pane fade" id="pt-summary" role="tabpanel">
             <button type="button" id="pt-ai-generate-summary" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
-            <textarea name="summary" id="pt_summary" class="form-control" rows="10"></textarea>
+            <div class="d-flex align-items-start">
+              <label for="pt_summary" class="me-3 mb-0" style="min-width: 180px;"><strong>Assessment Summary:</strong></label>
+              <textarea name="summary" id="pt_summary" class="form-control" rows="10"></textarea>
+            </div>
           </div>
           <!-- PLAN TAB -->
           <div class="tab-pane fade" id="pt-plan" role="tabpanel">
             <button type="button" id="pt-ai-generate-goals" class="btn btn-outline-success btn-sm mb-2">AI Generate Goals</button>
-            <textarea name="goals" id="pt_goals" class="form-control mb-2" rows="10"></textarea>
-            <input name="frequency" id="pt_frequency" class="form-control mb-2" placeholder="Frequency/Duration">
-            <textarea name="intervention" id="pt_intervention" class="form-control mb-2" placeholder="Intervention"></textarea>
-            <textarea name="procedures" id="pt_procedures" class="form-control mb-2" placeholder="Treatment Procedures"></textarea>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_goals" class="me-3 mb-0" style="min-width: 180px;"><strong>Goals:</strong></label>
+              <textarea name="goals" id="pt_goals" class="form-control" rows="10"></textarea>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <label for="pt_frequency" class="me-3 mb-0" style="min-width: 180px;"><strong>Frequency/Duration:</strong></label>
+              <input name="frequency" id="pt_frequency" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_intervention" class="me-3 mb-0" style="min-width: 180px;"><strong>Intervention:</strong></label>
+              <textarea name="intervention" id="pt_intervention" class="form-control" rows="5"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="pt_procedures" class="me-3 mb-0" style="min-width: 180px;"><strong>Treatment Procedures:</strong></label>
+              <textarea name="procedures" id="pt_procedures" class="form-control" rows="5"></textarea>
+            </div>
           </div>
         </div>
       </form>
@@ -490,13 +614,30 @@
 <script>
 
 // ===== BMI =====
+  function parseHeightFeetInches(value) {
+    // Accepts formats like 5'9", 5' 9", 5ft 9in, etc.
+    const regex = /(\d+)\s*['ft]{1,2}\s*(\d+)?\s*["in]{0,2}/i;
+    const match = value.match(regex);
+    if (match) {
+      const feet = parseInt(match[1]) || 0;
+      const inches = parseInt(match[2]) || 0;
+      return (feet * 12) + inches;
+    }
+
+    // fallback: if plain number, assume it's already in inches
+    const numeric = parseFloat(value);
+    return isNaN(numeric) ? null : numeric;
+  }
+
   function calculateBMI() {
     const weight = parseFloat(document.getElementById("weight").value);
-    const heightIn = parseFloat(document.getElementById("height").value);
+    const heightRaw = document.getElementById("height").value;
+    const heightIn = parseHeightFeetInches(heightRaw);
+
     const bmiField = document.getElementById("bmi");
     const categoryField = document.getElementById("bmi_category");
 
-    if (!isNaN(weight) && !isNaN(heightIn) && heightIn > 0) {
+    if (!isNaN(weight) && heightIn && heightIn > 0) {
       const bmi = (weight / (heightIn * heightIn)) * 703;
       const roundedBMI = bmi.toFixed(1);
       bmiField.value = roundedBMI;
@@ -517,5 +658,6 @@
   document.getElementById("weight").addEventListener("input", calculateBMI);
   document.getElementById("height").addEventListener("input", calculateBMI);
 </script>
+
 
 {% endblock %}
