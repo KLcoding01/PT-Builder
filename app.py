@@ -199,7 +199,7 @@ def add_patient():
 #======Patient Search ======
 @app.route('/patients', methods=['GET'])
 @login_required
-def view_patients():
+def view_single_patient():
     query = request.args.get('q', '').strip().lower()
 
     if query:
