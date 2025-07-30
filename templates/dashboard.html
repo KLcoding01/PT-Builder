@@ -196,7 +196,7 @@
             </div>
 
             <div class="d-flex align-items-start mb-3">
-              <label for="pt_impairments" class="me-3 mb-0" style="min-width: 180px;"><strong>Current Functional Mobility Impairment(s):</strong></label>
+              <label for="pt_impairments" class="me-3 mb-0" style="min-width: 180px;"><strong>Functional Mobility Impairment(s):</strong></label>
               <textarea name="impairments" id="pt_impairments" class="form-control" rows="7"></textarea>
             </div>
 
@@ -238,7 +238,7 @@
 
             <div class="d-flex align-items-start mb-3">
               <label for="pt_procedures" class="me-3 mb-0" style="min-width: 180px;"><strong>Treatment Procedures:</strong></label>
-              <textarea name="procedures" id="pt_procedures" class="form-control" rows="5"></textarea>
+              <textarea name="procedures" id="pt_procedures" class="form-control" rows="8"></textarea>
             </div>
           </div>
         </div>
@@ -268,69 +268,205 @@
         <div class="tab-content">
           <!-- PATIENT INFO TAB -->
           <div class="tab-pane fade show active" id="ot-patientinfo" role="tabpanel">
-            <div class="mb-2">
-              <label class="form-label fw-bold">Patient Name:</label>
-              <input type="text" class="form-control" name="patient_name" id="ot_patient_name">
+
+            <div class="d-flex align-items-center mb-3 flex-wrap">
+              <label for="ot_patient_name" class="me-3 mb-0" style="min-width: 130px;"><strong>Patient Name:</strong></label>
+              <input type="text" class="form-control me-4 mb-2" name="patient_name" id="ot_patient_name" style="max-width: 200px;">
+
+              <label for="ot_dob" class="me-3 mb-0" style="min-width: 90px;"><strong>DOB:</strong></label>
+              <input type="date" class="form-control me-4 mb-2" name="dob" id="ot_dob" style="max-width: 150px;">
+
+              <label for="ot_eval_date" class="me-3 mb-0" style="min-width: 110px;"><strong>Date of Eval:</strong></label>
+              <input type="date" class="form-control me-4 mb-2" name="eval_date" id="ot_eval_date" style="max-width: 150px;">
             </div>
-            <div class="mb-2">
-              <label class="form-label fw-bold">DOB:</label>
-              <input type="date" class="form-control" name="dob" id="ot_dob">
+
+            <div class="d-flex align-items-center mb-3 flex-wrap">
+              <label for="ot_weight" class="me-2 mb-0" style="min-width: 100px;"><strong>Weight (lbs):</strong></label>
+              <input type="number" class="form-control me-4 mb-2" id="ot_weight" name="weight" placeholder="lbs" style="max-width: 100px;">
+
+              <label for="ot_height" class="me-2 mb-0" style="min-width: 100px;"><strong>Height (ft/in):</strong></label>
+              <input type="text" class="form-control me-4 mb-2" id="ot_height" name="height" placeholder="e.g. 5'9&quot;" style="max-width: 100px;">
+
+              <label for="ot_bmi" class="me-2 mb-0" style="min-width: 50px;"><strong>BMI:</strong></label>
+              <input type="text" class="form-control me-4 mb-2" id="ot_bmi" name="bmi" readonly style="max-width: 80px;">
+
+              <label for="ot_bmi_category" class="me-2 mb-0" style="min-width: 120px;"><strong>BMI Category:</strong></label>
+              <input type="text" class="form-control mb-2" id="ot_bmi_category" name="bmi_category" readonly style="max-width: 150px;">
             </div>
-            <div class="mb-2">
-              <label class="form-label fw-bold">Date of Eval:</label>
-              <input type="date" class="form-control" name="eval_date" id="ot_eval_date">
-            </div>
+
           </div>
+
           <!-- HISTORY TAB -->
           <div class="tab-pane fade" id="ot-history" role="tabpanel">
-            <textarea name="meddiag" id="ot_meddiag" class="form-control mb-2" placeholder="Medical Diagnosis"></textarea>
-            <textarea name="history" id="ot_history" class="form-control mb-2" placeholder="Medical History/HNP"></textarea>
-            <textarea name="subjective" id="ot_subjective" class="form-control mb-2" placeholder="Subjective (HPI)"></textarea>
-            <textarea name="meds" id="ot_meds" class="form-control mb-2" placeholder="Current Medication(s)"></textarea>
-            <textarea name="tests" id="ot_tests" class="form-control mb-2" placeholder="Diagnostic Test(s)"></textarea>
-            <textarea name="dme" id="ot_dme" class="form-control mb-2" placeholder="DME/Assistive Device"></textarea>
-            <textarea name="plof" id="ot_plof" class="form-control mb-2" placeholder="PLOF"></textarea>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_meddiag" class="me-3 mb-0" style="min-width: 180px;"><strong>Medical Diagnosis:</strong></label>
+              <textarea name="meddiag" id="ot_meddiag" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_history" class="me-3 mb-0" style="min-width: 180px;"><strong>Medical History/HNP:</strong></label>
+              <textarea name="history" id="ot_history" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_subjective" class="me-3 mb-0" style="min-width: 180px;"><strong>Subjective (HPI):</strong></label>
+              <textarea name="subjective" id="ot_subjective" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_meds" class="me-3 mb-0" style="min-width: 180px;"><strong>Current Medication(s):</strong></label>
+              <textarea name="meds" id="ot_meds" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_tests" class="me-3 mb-0" style="min-width: 180px;"><strong>Diagnostic Test(s):</strong></label>
+              <textarea name="tests" id="ot_tests" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_dme" class="me-3 mb-0" style="min-width: 180px;"><strong>DME/Assistive Device:</strong></label>
+              <textarea name="dme" id="ot_dme" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_plof" class="me-3 mb-0" style="min-width: 180px;"><strong>PLOF:</strong></label>
+              <textarea name="plof" id="ot_plof" class="form-control" rows="2"></textarea>
+            </div>
+
           </div>
           <!-- PAIN TAB -->
           <div class="tab-pane fade" id="ot-pain" role="tabpanel">
-            <input name="pain_location" id="ot_pain_location" class="form-control mb-2" placeholder="Area/Location of Injury">
-            <input name="pain_onset" id="ot_pain_onset" class="form-control mb-2" placeholder="Onset/Exacerbation Date">
-            <input name="pain_condition" id="ot_pain_condition" class="form-control mb-2" placeholder="Condition of Injury">
-            <input name="pain_mechanism" id="ot_pain_mechanism" class="form-control mb-2" placeholder="Mechanism of Injury">
-            <input name="pain_rating" id="ot_pain_rating" class="form-control mb-2" placeholder="Pain Rating (P/B/W)">
-            <input name="pain_frequency" id="ot_pain_frequency" class="form-control mb-2" placeholder="Pain Frequency">
-            <input name="pain_description" id="ot_pain_description" class="form-control mb-2" placeholder="Description">
-            <input name="pain_aggravating" id="ot_pain_aggravating" class="form-control mb-2" placeholder="Aggravating Factor">
-            <input name="pain_relieved" id="ot_pain_relieved" class="form-control mb-2" placeholder="Relieved By">
-            <input name="pain_interferes" id="ot_pain_interferes" class="form-control mb-2" placeholder="Interferes With">
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_location" class="me-3 mb-0" style="min-width: 180px;"><strong>Area/Location of Injury:</strong></label>
+              <input name="pain_location" id="ot_pain_location" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_onset" class="me-3 mb-0" style="min-width: 180px;"><strong>Onset/Exacerbation Date:</strong></label>
+              <input name="pain_onset" id="ot_pain_onset" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_condition" class="me-3 mb-0" style="min-width: 180px;"><strong>Condition of Injury:</strong></label>
+              <input name="pain_condition" id="ot_pain_condition" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_mechanism" class="me-3 mb-0" style="min-width: 180px;"><strong>Mechanism of Injury:</strong></label>
+              <input name="pain_mechanism" id="ot_pain_mechanism" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_rating" class="me-3 mb-0" style="min-width: 180px;"><strong>Pain Rating (P/B/W):</strong></label>
+              <input name="pain_rating" id="ot_pain_rating" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_frequency" class="me-3 mb-0" style="min-width: 180px;"><strong>Pain Frequency:</strong></label>
+              <input name="pain_frequency" id="ot_pain_frequency" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_description" class="me-3 mb-0" style="min-width: 180px;"><strong>Description:</strong></label>
+              <input name="pain_description" id="ot_pain_description" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_aggravating" class="me-3 mb-0" style="min-width: 180px;"><strong>Aggravating Factor:</strong></label>
+              <input name="pain_aggravating" id="ot_pain_aggravating" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_relieved" class="me-3 mb-0" style="min-width: 180px;"><strong>Relieved By:</strong></label>
+              <input name="pain_relieved" id="ot_pain_relieved" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <label for="ot_pain_interferes" class="me-3 mb-0" style="min-width: 180px;"><strong>Interferes With:</strong></label>
+              <input name="pain_interferes" id="ot_pain_interferes" class="form-control">
+            </div>
+
           </div>
           <!-- OBJECTIVE TAB -->
           <div class="tab-pane fade" id="ot-objective" role="tabpanel">
-            <textarea name="posture" id="ot_posture" class="form-control mb-2" rows="7" placeholder="Posture"></textarea>
-            <textarea name="rom" id="ot_rom" class="form-control mb-2" rows="7" placeholder="ROM"></textarea>
-            <textarea name="strength" id="ot_strength" class="form-control mb-2" rows="7" placeholder="Muscle Strength Test"></textarea>
-            <textarea name="palpation" id="ot_palpation" class="form-control mb-2" rows="7" placeholder="Palpation"></textarea>
-            <textarea name="functional" id="ot_functional" class="form-control mb-2" rows="7" placeholder="Functional Test(s)"></textarea>
-            <textarea name="special" id="ot_special" class="form-control mb-2" rows="7" placeholder="Special Test(s)"></textarea>
-            <textarea name="impairments" id="ot_impairments" class="form-control mb-2" rows="7" placeholder="Current Functional Mobility Impairment(s)"></textarea>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_posture" class="me-3 mb-0" style="min-width: 180px;"><strong>Posture:</strong></label>
+              <textarea name="posture" id="ot_posture" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_rom" class="me-3 mb-0" style="min-width: 180px;"><strong>ROM:</strong></label>
+              <textarea name="rom" id="ot_rom" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_strength" class="me-3 mb-0" style="min-width: 180px;"><strong>Muscle Strength Test:</strong></label>
+              <textarea name="strength" id="ot_strength" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_palpation" class="me-3 mb-0" style="min-width: 180px;"><strong>Palpation:</strong></label>
+              <textarea name="palpation" id="ot_palpation" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_functional" class="me-3 mb-0" style="min-width: 180px;"><strong>Functional Test(s):</strong></label>
+              <textarea name="functional" id="ot_functional" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_special" class="me-3 mb-0" style="min-width: 180px;"><strong>Special Test(s):</strong></label>
+              <textarea name="special" id="ot_special" class="form-control" rows="7"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_impairments" class="me-3 mb-0" style="min-width: 180px;"><strong>Functional Mobility Impairment(s):</strong></label>
+              <textarea name="impairments" id="ot_impairments" class="form-control" rows="7"></textarea>
+            </div>
+
           </div>
           <!-- DIFF DX TAB -->
           <div class="tab-pane fade" id="ot-diffdx" role="tabpanel">
             <button type="button" id="ot-ai-generate-diffdx" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
-            <textarea name="diffdx" id="ot_diffdx" class="form-control" rows="8"></textarea>
+            <div class="d-flex align-items-start">
+              <label for="ot_diffdx" class="me-3 mb-0" style="min-width: 180px;"><strong>OT Differential Diagnosis:</strong></label>
+              <textarea name="diffdx" id="ot_diffdx" class="form-control" rows="8"></textarea>
+            </div>
           </div>
           <!-- ASSESSMENT SUMMARY TAB -->
           <div class="tab-pane fade" id="ot-summary" role="tabpanel">
             <button type="button" id="ot-ai-generate-summary" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
-            <textarea name="summary" id="ot_summary" class="form-control" rows="10"></textarea>
+            <div class="d-flex align-items-start">
+              <label for="ot_summary" class="me-3 mb-0" style="min-width: 180px;"><strong>Assessment Summary:</strong></label>
+              <textarea name="summary" id="ot_summary" class="form-control" rows="10"></textarea>
+            </div>
           </div>
           <!-- PLAN TAB -->
           <div class="tab-pane fade" id="ot-plan" role="tabpanel">
             <button type="button" id="ot-ai-generate-goals" class="btn btn-outline-success btn-sm mb-2">AI Generate Goals</button>
-            <textarea name="goals" id="ot_goals" class="form-control mb-2" rows="10"></textarea>
-            <input name="frequency" id="ot_frequency" class="form-control mb-2" placeholder="Frequency/Duration">
-            <textarea name="intervention" id="ot_intervention" class="form-control mb-2" placeholder="Intervention"></textarea>
-            <textarea name="procedures" id="ot_procedures" class="form-control mb-2" placeholder="Treatment Procedures"></textarea>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_goals" class="me-3 mb-0" style="min-width: 180px;"><strong>Goals:</strong></label>
+              <textarea name="goals" id="ot_goals" class="form-control" rows="10"></textarea>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <label for="ot_frequency" class="me-3 mb-0" style="min-width: 180px;"><strong>Frequency/Duration:</strong></label>
+              <input name="frequency" id="ot_frequency" class="form-control">
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_intervention" class="me-3 mb-0" style="min-width: 180px;"><strong>Intervention:</strong></label>
+              <textarea name="intervention" id="ot_intervention" class="form-control" rows="5"></textarea>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <label for="ot_procedures" class="me-3 mb-0" style="min-width: 180px;"><strong>Treatment Procedures:</strong></label>
+              <textarea name="procedures" id="ot_procedures" class="form-control" rows="5"></textarea>
+            </div>
           </div>
         </div>
       </form>
