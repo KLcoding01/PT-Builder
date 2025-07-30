@@ -167,15 +167,12 @@ def reset_password(token):
 def view_patients():
     query = request.args.get('q', '').strip().lower()
     if query:
-        patients = Patient.query.filter(Patient.name.ilike(f"%{query}%")).order_by(
-            db.func.split_part(Patient.name, ' ', -1), Patient.name
-        ).all()
+        patients = Patient.query.filter(Patient.name.ilike(f"%{query}%")).order_by(Patient.name.asc()).all()
     else:
-        patients = Patient.query.order_by(
-            db.func.split_part(Patient.name, ' ', -1), Patient.name
-        ).all()
+        patients = Patient.query.order_by(Patient.name.asc()).all()
     return render_template('patients.html', patients=patients, query=query)
-
+    
+    
 @app.route('/add_patient', methods=['GET', 'POST'])
 @login_required
 def add_patient():
