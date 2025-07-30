@@ -198,10 +198,22 @@ def add_patient():
         db.session.add(patient)
         db.session.commit()
         flash("Patient added successfully!", "success")
-        return redirect(url_for('view_patients'))
+        return redirect(url_for('patients.html'))
 
     return render_template('add_patient.html')
 
+@app.route('/patients/<int:patient_id>/pt-notes')
+@login_required
+def view_pt_notes(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    return render_template('pt_notes.html', patient=patient)
+
+@app.route('/patients/<int:patient_id>/ot-notes')
+@login_required
+def view_ot_notes(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    return render_template('ot_notes.html', patient=patient)
+    
 #======Patient Search ======
 @app.route('/patients', methods=['GET'])
 @login_required
