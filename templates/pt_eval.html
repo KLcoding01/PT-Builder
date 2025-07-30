@@ -17,13 +17,8 @@
         <form method="POST">
           <div class="row mb-3">
             <div class="col-md-4">
-              <label for="patient-select" class="form-label fw-bold">Assign to Patient:</label>
-              <select name="patient_id" id="patient-select" class="form-select" required>
-                <option></option>
-                {% for patient in patients %}
-                  <option value="{{ patient.id }}">{{ patient.name }}</option>
-                {% endfor %}
-              </select>
+              <label for="patient-search" class="form-label fw-bold">Assign to Patient:</label>
+              <select id="patient-search" name="patient_id" style="width: 100%;" required></select>
             </div>
             <div class="col-md-2 d-flex align-items-end">
               <button type="submit" name="action" value="save_to_patient" class="btn btn-success w-100">💾 Save to Patient</button>
@@ -454,10 +449,28 @@
 
   // --- Select2 initialization ---
   $(document).ready(function () {
-    $('#patient-select').select2({
+    $('#patient-search').select2({
+      ajax: {
+        url: '/api/patients',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return { q: params.term };
+        },
+        processResults: function (data) {
+          return {
+            results: data.map(function(p) {
+              return { id: p.id, text: p.name };
+            })
+          };
+        },
+        cache: true
+      },
       placeholder: 'Search for patient...',
+      minimumInputLength: 1,
       width: '100%'
     });
   });
 </script>
+
 {% endblock %}

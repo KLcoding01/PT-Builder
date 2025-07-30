@@ -235,6 +235,15 @@ def view_single_patient():
 
     return render_template('patients.html', patients=patients, query=query)
 
+@app.route('/api/patients')
+@login_required
+def api_patients():
+    query = request.args.get('q', '').strip()
+    results = Patient.query
+    if query:
+        results = results.filter(Patient.name.ilike(f"%{query}%"))
+    results = results.order_by(Patient.name.asc()).all()
+    return jsonify([{"id": p.id, "name": p.name} for p in results])
     
 # ==== PT & OT Endpoints (NO DUPLICATE ROUTES) ====
 
