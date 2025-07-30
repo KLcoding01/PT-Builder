@@ -166,6 +166,20 @@ def reset_password(token):
     return render_template('reset_password.html')
     
 # ==== Add Patients ====
+@app.route('/patients', methods=['GET'])
+@login_required
+def view_patients():
+    query = request.args.get('q', '').strip().lower()
+    if query:
+        patients = Patient.query.filter(Patient.name.ilike(f"%{query}%")).order_by(
+            db.func.split_part(Patient.name, ' ', -1), Patient.name
+        ).all()
+    else:
+        patients = Patient.query.order_by(
+            db.func.split_part(Patient.name, ' ', -1), Patient.name
+        ).all()
+    return render_template('patients.html', patients=patients, query=query)
+
 @app.route('/add_patient', methods=['GET', 'POST'])
 @login_required
 def add_patient():
@@ -205,21 +219,6 @@ def view_single_patient():
             db.func.split_part(Patient.name, ' ', -1), Patient.name
         ).all()
 
-    return render_template('patients.html', patients=patients, query=query)
-
-#======Show Full PT and OT Notes =======
-@app.route('/patients', methods=['GET'])
-@login_required
-def view_patients():
-    query = request.args.get('q', '').strip().lower()
-    if query:
-        patients = Patient.query.filter(Patient.name.ilike(f"%{query}%")).order_by(
-            db.func.split_part(Patient.name, ' ', -1), Patient.name
-        ).all()
-    else:
-        patients = Patient.query.order_by(
-            db.func.split_part(Patient.name, ' ', -1), Patient.name
-        ).all()
     return render_template('patients.html', patients=patients, query=query)
 
     
