@@ -201,6 +201,11 @@ def add_patient():
     return render_template('add_patient.html')
 
 #====== View Notes =======
+@app.route('/view_pt_notes/<int:patient_id>')
+def view_pt_notes(patient_id):
+    note = get_pt_note_for_patient(patient_id)
+    return render_template('view_note.html', note=note)
+
 @app.route('/view_note/<int:note_id>')
 def view_note(note_id):
     # Example: Fetch note fields from database
@@ -288,12 +293,6 @@ def view_note(note_id):
     }
     return render_template("view_note.html", note=note)
 
-@app.route('/patients/<int:patient_id>/pt-notes')
-@login_required
-def view_pt_notes(patient_id):
-    patient = Patient.query.get_or_404(patient_id)
-    notes = PTNote.query.filter_by(patient_id=patient_id).order_by(PTNote.created_at.desc()).all()
-    return render_template('pt_notes.html', patient=patient, notes=notes)
 
 @app.route('/patients/<int:patient_id>/ot-notes')
 @login_required
@@ -554,7 +553,7 @@ def pt_export_to_word(data):
     def add_separator():
         doc.add_paragraph('-' * 114)
 
-    # Add demographic header line
+    # Demographic header line
     gender = data.get('gender', '')
     dob = data.get('dob', '')
     weight = data.get('weight', '')
@@ -636,7 +635,10 @@ def pt_export_to_word(data):
     doc.add_paragraph(data.get('procedures', ''))
     add_separator()
 
-    return doc
+    buf = BytesIO()
+    doc.save(buf)
+    buf.seek(0)
+    return buf
 
 @app.route("/pt_export_pdf", methods=["POST"])
 @login_required
