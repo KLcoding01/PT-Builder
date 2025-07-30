@@ -270,32 +270,38 @@
           <div class="tab-pane fade show active" id="ot-patientinfo" role="tabpanel">
 
             <div class="d-flex align-items-center mb-3 flex-wrap">
-              <label for="ot_patient_name" class="me-3 mb-0" style="min-width: 130px;"><strong>Patient Name:</strong></label>
+              <!-- Patient Name -->
+              <label for="ot_patient_name" class="me-2 mb-0" style="min-width: 130px;"><strong>Patient Name:</strong></label>
               <input type="text" class="form-control me-4 mb-2" name="patient_name" id="ot_patient_name" style="max-width: 200px;">
 
-              <label for="ot_dob" class="me-3 mb-0" style="min-width: 90px;"><strong>DOB:</strong></label>
-              <input type="date" class="form-control me-4 mb-2" name="dob" id="ot_dob" style="max-width: 150px;">
-
-              <label for="ot_eval_date" class="me-3 mb-0" style="min-width: 110px;"><strong>Date of Eval:</strong></label>
-              <input type="date" class="form-control me-4 mb-2" name="eval_date" id="ot_eval_date" style="max-width: 150px;">
-            </div>
-
-            <div class="d-flex align-items-center mb-3 flex-wrap">
-              <label for="ot_weight" class="me-2 mb-0" style="min-width: 100px;"><strong>Weight (lbs):</strong></label>
+              <!-- Weight -->
+              <label for="ot_weight" class="me-2 mb-0" style="min-width: 90px;"><strong>Weight (lbs):</strong></label>
               <input type="number" class="form-control me-4 mb-2" id="ot_weight" name="weight" placeholder="lbs" style="max-width: 100px;">
 
-              <label for="ot_height" class="me-2 mb-0" style="min-width: 100px;"><strong>Height (ft/in):</strong></label>
+              <!-- Height -->
+              <label for="ot_height" class="me-2 mb-0" style="min-width: 90px;"><strong>Height (in):</strong></label>
               <input type="text" class="form-control me-4 mb-2" id="ot_height" name="height" placeholder="e.g. 5'9&quot;" style="max-width: 100px;">
 
+              <!-- BMI -->
               <label for="ot_bmi" class="me-2 mb-0" style="min-width: 50px;"><strong>BMI:</strong></label>
               <input type="text" class="form-control me-4 mb-2" id="ot_bmi" name="bmi" readonly style="max-width: 80px;">
 
+              <!-- BMI Category -->
               <label for="ot_bmi_category" class="me-2 mb-0" style="min-width: 120px;"><strong>BMI Category:</strong></label>
               <input type="text" class="form-control mb-2" id="ot_bmi_category" name="bmi_category" readonly style="max-width: 150px;">
             </div>
 
-          </div>
+            <div class="d-flex align-items-center mb-3">
+              <label for="ot_dob" class="me-3 mb-0" style="min-width: 130px;"><strong>DOB:</strong></label>
+              <input type="text" class="form-control" name="dob" id="ot_dob" placeholder="mm/dd/yyyy">
+            </div>
 
+            <div class="d-flex align-items-center mb-3">
+              <label for="ot_eval_date" class="me-3 mb-0" style="min-width: 130px;"><strong>Date of Eval:</strong></label>
+              <input type="date" class="form-control" name="eval_date" id="ot_eval_date">
+            </div>
+
+          </div>
           <!-- HISTORY TAB -->
           <div class="tab-pane fade" id="ot-history" role="tabpanel">
 
@@ -793,6 +799,49 @@
 
   document.getElementById("weight").addEventListener("input", calculateBMI);
   document.getElementById("height").addEventListener("input", calculateBMI);
+</script>
+<script>
+  function parseOTHeightFeetInches(value) {
+    const regex = /(\d+)\s*['ft]{1,2}\s*(\d+)?\s*["in]{0,2}/i;
+    const match = value.match(regex);
+    if (match) {
+      const feet = parseInt(match[1]) || 0;
+      const inches = parseInt(match[2]) || 0;
+      return (feet * 12) + inches;
+    }
+
+    const numeric = parseFloat(value);
+    return isNaN(numeric) ? null : numeric;
+  }
+
+  function calculateOTBMI() {
+    const weight = parseFloat(document.getElementById("ot_weight").value);
+    const heightRaw = document.getElementById("ot_height").value;
+    const heightIn = parseOTHeightFeetInches(heightRaw);
+
+    const bmiField = document.getElementById("ot_bmi");
+    const categoryField = document.getElementById("ot_bmi_category");
+
+    if (!isNaN(weight) && heightIn && heightIn > 0) {
+      const bmi = (weight / (heightIn * heightIn)) * 703;
+      const roundedBMI = bmi.toFixed(1);
+      bmiField.value = roundedBMI;
+
+      let category = '';
+      if (bmi < 18.5) category = "Underweight";
+      else if (bmi < 24.9) category = "Normal";
+      else if (bmi < 29.9) category = "Overweight";
+      else category = "Obese";
+
+      categoryField.value = category;
+    } else {
+      bmiField.value = '';
+      categoryField.value = '';
+    }
+  }
+
+  document.getElementById("ot_weight").addEventListener("input", calculateOTBMI);
+  document.getElementById("ot_height").addEventListener("input", calculateOTBMI);
 </script>
 
 
