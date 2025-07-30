@@ -23,16 +23,14 @@ class Patient(db.Model):
     name = db.Column(db.String(100), nullable=False)
     dob = db.Column(db.Date, nullable=True)
     gender = db.Column(db.String(10), nullable=True)
-    pt_notes = db.Column(db.Text, default="")
     ot_notes = db.Column(db.Text, default="")
-    # Add any other fields you want!
 
 class PTNote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
-    patient = db.relationship('Patient', backref='pt_notes')  # <-- add this line!
     user_id = db.Column(db.Integer, db.ForeignKey('therapists.id'), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    doc_type = db.Column(db.String(30), default="Evaluation")   # <-- NEW: document type
+    doc_type = db.Column(db.String(50), default="Evaluation")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    patient = db.relationship("Patient", backref="pt_notes")
 
