@@ -547,18 +547,10 @@ def pt_notes():
 
         
 # ====== PT Export ======
-@app.route('/pt_export_word', methods=['POST'])
-@login_required
-def pt_export_word():
-    data = request.get_json()
-    buf = pt_export_to_word(data)
-    return send_file(
-        buf,
-        mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        as_attachment=True,
-        download_name='PT_Eval.docx'
-    )
 def pt_export_to_word(data):
+    from io import BytesIO
+    from docx import Document
+
     doc = Document()
 
     def add_separator():
@@ -571,6 +563,7 @@ def pt_export_to_word(data):
     height = data.get('height', '')
     bmi = data.get('bmi', '')
     bmi_category = data.get('bmi_category', '')
+    meddiag = data.get('meddiag', '')   # <-- FIXED: now defined
 
     header_line = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height}     BMI: {bmi} ({bmi_category})"
     doc.add_paragraph(header_line)
