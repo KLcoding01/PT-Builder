@@ -75,3 +75,12 @@ flask_login
 flask-migrate
 python-dateutil
 itsdangerous
+Flask
+Flask-SQLAlchemy
+psycopg2-binary
+Flask-Login
+python-dotenv
+itsdangerous
+openai
+python-docx
+reportlab

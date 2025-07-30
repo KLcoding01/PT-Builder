@@ -25,6 +25,23 @@
         <button id="pt-save-pdf-btn" class="btn btn-danger btn-sm">Export PDF</button>
         <span id="pt-status-msg" class="ms-3"></span>
       </div>
+      <form method="POST">
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="patient-select" class="form-label fw-bold">Assign to Patient:</label>
+            <select name="patient_id" id="patient-select" class="form-select" required>
+              <option></option>
+              {% for patient in patients %}
+                <option value="{{ patient.id }}">{{ patient.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" name="action" value="save_to_patient" class="btn btn-success w-100">💾 Save to Patient</button>
+          </div>
+        </div>
+        <input type="hidden" name="generated_note" id="pt-generated-note">
+      </form>
       <ul class="nav nav-tabs mb-2" id="pt-inner-tab" role="tablist">
         <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#pt-patientinfo" role="tab">Patient Info</a></li>
         <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#pt-history" role="tab">History</a></li>
@@ -775,97 +792,103 @@
       .catch(() => otSetStatus('Error exporting PDF!', 'red'));
   };
 </script>
+{% block scripts %}
+  {{ super() }}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-<script>
+  <script>
+    // --- Select2 initialization ---
+    $(document).ready(function () {
+      $('#patient-select').select2({
+        placeholder: 'Search for patient...',
+        width: '100%'
+      });
+    });
 
-// ===== BMI =====
-  function parseHeightFeetInches(value) {
-    // Accepts formats like 5'9", 5' 9", 5ft 9in, etc.
-    const regex = /(\d+)\s*['ft]{1,2}\s*(\d+)?\s*["in]{0,2}/i;
-    const match = value.match(regex);
-    if (match) {
-      const feet = parseInt(match[1]) || 0;
-      const inches = parseInt(match[2]) || 0;
-      return (feet * 12) + inches;
+    // --- BMI for PT ---
+    function parseHeightFeetInches(value) {
+      const regex = /(\d+)\s*['ft]{1,2}\s*(\d+)?\s*["in]{0,2}/i;
+      const match = value.match(regex);
+      if (match) {
+        const feet = parseInt(match[1]) || 0;
+        const inches = parseInt(match[2]) || 0;
+        return (feet * 12) + inches;
+      }
+      const numeric = parseFloat(value);
+      return isNaN(numeric) ? null : numeric;
     }
 
-    // fallback: if plain number, assume it's already in inches
-    const numeric = parseFloat(value);
-    return isNaN(numeric) ? null : numeric;
-  }
+    function calculateBMI() {
+      const weight = parseFloat(document.getElementById("weight")?.value);
+      const heightRaw = document.getElementById("height")?.value;
+      const heightIn = parseHeightFeetInches(heightRaw);
 
-  function calculateBMI() {
-    const weight = parseFloat(document.getElementById("weight").value);
-    const heightRaw = document.getElementById("height").value;
-    const heightIn = parseHeightFeetInches(heightRaw);
+      const bmiField = document.getElementById("bmi");
+      const categoryField = document.getElementById("bmi_category");
 
-    const bmiField = document.getElementById("bmi");
-    const categoryField = document.getElementById("bmi_category");
+      if (!isNaN(weight) && heightIn && heightIn > 0) {
+        const bmi = (weight / (heightIn * heightIn)) * 703;
+        const roundedBMI = bmi.toFixed(1);
+        bmiField.value = roundedBMI;
 
-    if (!isNaN(weight) && heightIn && heightIn > 0) {
-      const bmi = (weight / (heightIn * heightIn)) * 703;
-      const roundedBMI = bmi.toFixed(1);
-      bmiField.value = roundedBMI;
+        let category = '';
+        if (bmi < 18.5) category = "Underweight";
+        else if (bmi < 24.9) category = "Normal";
+        else if (bmi < 29.9) category = "Overweight";
+        else category = "Obese";
 
-      let category = '';
-      if (bmi < 18.5) category = "Underweight";
-      else if (bmi < 24.9) category = "Normal";
-      else if (bmi < 29.9) category = "Overweight";
-      else category = "Obese";
-
-      categoryField.value = category;
-    } else {
-      bmiField.value = '';
-      categoryField.value = '';
-    }
-  }
-
-  document.getElementById("weight").addEventListener("input", calculateBMI);
-  document.getElementById("height").addEventListener("input", calculateBMI);
-</script>
-<script>
-  function parseOTHeightFeetInches(value) {
-    const regex = /(\d+)\s*['ft]{1,2}\s*(\d+)?\s*["in]{0,2}/i;
-    const match = value.match(regex);
-    if (match) {
-      const feet = parseInt(match[1]) || 0;
-      const inches = parseInt(match[2]) || 0;
-      return (feet * 12) + inches;
+        categoryField.value = category;
+      } else {
+        bmiField.value = '';
+        categoryField.value = '';
+      }
     }
 
-    const numeric = parseFloat(value);
-    return isNaN(numeric) ? null : numeric;
-  }
+    document.getElementById("weight")?.addEventListener("input", calculateBMI);
+    document.getElementById("height")?.addEventListener("input", calculateBMI);
 
-  function calculateOTBMI() {
-    const weight = parseFloat(document.getElementById("ot_weight").value);
-    const heightRaw = document.getElementById("ot_height").value;
-    const heightIn = parseOTHeightFeetInches(heightRaw);
-
-    const bmiField = document.getElementById("ot_bmi");
-    const categoryField = document.getElementById("ot_bmi_category");
-
-    if (!isNaN(weight) && heightIn && heightIn > 0) {
-      const bmi = (weight / (heightIn * heightIn)) * 703;
-      const roundedBMI = bmi.toFixed(1);
-      bmiField.value = roundedBMI;
-
-      let category = '';
-      if (bmi < 18.5) category = "Underweight";
-      else if (bmi < 24.9) category = "Normal";
-      else if (bmi < 29.9) category = "Overweight";
-      else category = "Obese";
-
-      categoryField.value = category;
-    } else {
-      bmiField.value = '';
-      categoryField.value = '';
+    // --- BMI for OT ---
+    function parseOTHeightFeetInches(value) {
+      const regex = /(\d+)\s*['ft]{1,2}\s*(\d+)?\s*["in]{0,2}/i;
+      const match = value.match(regex);
+      if (match) {
+        const feet = parseInt(match[1]) || 0;
+        const inches = parseInt(match[2]) || 0;
+        return (feet * 12) + inches;
+      }
+      const numeric = parseFloat(value);
+      return isNaN(numeric) ? null : numeric;
     }
-  }
 
-  document.getElementById("ot_weight").addEventListener("input", calculateOTBMI);
-  document.getElementById("ot_height").addEventListener("input", calculateOTBMI);
-</script>
+    function calculateOTBMI() {
+      const weight = parseFloat(document.getElementById("ot_weight")?.value);
+      const heightRaw = document.getElementById("ot_height")?.value;
+      const heightIn = parseOTHeightFeetInches(heightRaw);
 
+      const bmiField = document.getElementById("ot_bmi");
+      const categoryField = document.getElementById("ot_bmi_category");
 
+      if (!isNaN(weight) && heightIn && heightIn > 0) {
+        const bmi = (weight / (heightIn * heightIn)) * 703;
+        const roundedBMI = bmi.toFixed(1);
+        bmiField.value = roundedBMI;
+
+        let category = '';
+        if (bmi < 18.5) category = "Underweight";
+        else if (bmi < 24.9) category = "Normal";
+        else if (bmi < 29.9) category = "Overweight";
+        else category = "Obese";
+
+        categoryField.value = category;
+      } else {
+        bmiField.value = '';
+        categoryField.value = '';
+      }
+    }
+
+    document.getElementById("ot_weight")?.addEventListener("input", calculateOTBMI);
+    document.getElementById("ot_height")?.addEventListener("input", calculateOTBMI);
+  </script>
 {% endblock %}

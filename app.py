@@ -164,7 +164,68 @@ def reset_password(token):
         flash("Password reset successful. You can log in now.", "success")
         return redirect(url_for('login'))
     return render_template('reset_password.html')
+    
+# ==== Add Patients ====
+@app.route('/patients', methods=['GET'])
+@login_required
+def view_patients():
+    patients = Patient.query.order_by(Patient.name).all()
+    return render_template('patients.html', patients=patients)
 
+@app.route('/add_patient', methods=['GET', 'POST'])
+@login_required
+def add_patient():
+    if request.method == 'POST':
+        name = request.form['name']
+        dob = request.form['dob']
+        gender = request.form['gender']
+        pt_notes = request.form.get('pt_notes', '')
+        ot_notes = request.form.get('ot_notes', '')
+
+        patient = Patient(
+            name=name,
+            dob=datetime.strptime(dob, '%Y-%m-%d'),
+            gender=gender,
+            pt_notes=pt_notes,
+            ot_notes=ot_notes
+        )
+        db.session.add(patient)
+        db.session.commit()
+        flash("Patient added successfully!", "success")
+        return redirect(url_for('view_patients'))
+
+    return render_template('add_patient.html')
+
+#======Patient Search ======
+@app.route('/patients', methods=['GET'])
+@login_required
+def view_patients():
+    query = request.args.get('q', '').strip().lower()
+
+    if query:
+        patients = Patient.query.filter(Patient.name.ilike(f"%{query}%")).order_by(
+            db.func.split_part(Patient.name, ' ', -1), Patient.name
+        ).all()
+    else:
+        patients = Patient.query.order_by(
+            db.func.split_part(Patient.name, ' ', -1), Patient.name
+        ).all()
+
+    return render_template('patients.html', patients=patients, query=query)
+
+#======Show Full PT and OT Notes =======
+@app.route('/patient/<int:patient_id>/pt_notes')
+@login_required
+def view_pt_notes(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    return render_template('pt_notes.html', patient=patient)
+
+@app.route('/patient/<int:patient_id>/ot_notes')
+@login_required
+def view_ot_notes(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    return render_template('ot_notes.html', patient=patient)
+    
 # ==== PT & OT Endpoints (NO DUPLICATE ROUTES) ====
 
 @app.route("/pt_load_template", methods=["POST"])

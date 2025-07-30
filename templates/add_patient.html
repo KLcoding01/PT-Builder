@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Patient</title>
+</head>
+<body>
+  <h2>Add New Patient</h2>
+  <form method="POST">
+    <label>Name:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Date of Birth:</label><br>
+    <input type="date" name="dob" required><br><br>
+
+    <label>Gender:</label><br>
+    <select name="gender" required>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select><br><br>
+
+    <label>PT Notes:</label><br>
+    <textarea name="pt_notes" rows="4" cols="50"></textarea><br><br>
+
+    <label>OT Notes:</label><br>
+    <textarea name="ot_notes" rows="4" cols="50"></textarea><br><br>
+
+    <button type="submit">Add Patient</button>
+  </form>
+</body>
+</html>
