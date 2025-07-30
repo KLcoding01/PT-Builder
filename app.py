@@ -547,6 +547,17 @@ def pt_notes():
 
         
 # ====== PT Export ======
+@app.route('/pt_export_word', methods=['POST'])
+@login_required
+def pt_export_word():
+    data = request.get_json()
+    buf = pt_export_to_word(data)
+    return send_file(
+        buf,
+        mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        as_attachment=True,
+        download_name='PT_Eval.docx'
+    )
 def pt_export_to_word(data):
     doc = Document()
 
