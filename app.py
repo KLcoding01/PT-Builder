@@ -177,14 +177,22 @@ def view_patients():
 def add_patient():
     if request.method == 'POST':
         name = request.form['name']
-        dob = request.form['dob']
+        dob_str = request.form['dob']
         gender = request.form['gender']
         pt_notes = request.form.get('pt_notes', '')
         ot_notes = request.form.get('ot_notes', '')
 
+        dob = None
+        if dob_str:
+            try:
+                dob = datetime.strptime(dob_str, '%Y-%m-%d')
+            except ValueError:
+                flash("Invalid date format for DOB. Use YYYY-MM-DD.", "danger")
+                return render_template('add_patient.html')
+
         patient = Patient(
             name=name,
-            dob=datetime.strptime(dob, '%Y-%m-%d'),
+            dob=dob,
             gender=gender,
             pt_notes=pt_notes,
             ot_notes=ot_notes
@@ -192,10 +200,12 @@ def add_patient():
         db.session.add(patient)
         db.session.commit()
         flash("Patient added successfully!", "success")
-        return redirect(url_for('view_patients.html'))
+        # THIS IS THE FIX:
+        return redirect(url_for('view_patients'))
 
     return render_template('add_patient.html')
-
+    
+    
 @app.route('/patients/<int:patient_id>/pt-notes')
 @login_required
 def view_pt_notes(patient_id):
