@@ -172,12 +172,6 @@ def view_patients():
         patients = Patient.query.order_by(Patient.name.asc()).all()
     return render_template('patients.html', patients=patients, query=query)
     
-@app.route('/patients/<int:patient_id>/pt-notes')
-@login_required
-def view_pt_notes(patient_id):
-    patient = Patient.query.get_or_404(patient_id)
-    return render_template('pt_notes.html', patient=patient)
-    
 @app.route('/add_patient', methods=['GET', 'POST'])
 @login_required
 def add_patient():
