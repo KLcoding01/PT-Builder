@@ -199,8 +199,95 @@ def add_patient():
         return redirect(url_for('view_patients'))
 
     return render_template('add_patient.html')
-    
-    
+
+#====== View Notes =======
+@app.route('/view_note/<int:note_id>')
+def view_note(note_id):
+    # Example: Fetch note fields from database
+    note = {
+        'pt_name': 'Nguyen, Michelle',
+        'pt_age': '77',
+        'med_diag': 'Low Back Pain, Muscle Weakness',
+        'med_history': 'HTN, HLD, asthma, hypothyroidism, muscle weakness, and acute LBP',
+        'subjective': 'Pt reports having LBP and is limiting daily functional activities. Pt would like to decrease pain and improve activity tolerance and return to PLOF. Pt agrees to PT evaluation.',
+        'pain': {
+            'area': 'L-spine paraspinal, B QL, B gluteus medius',
+            'onset': '1 month ago',
+            'condition': 'Acute',
+            'mechanism': 'Muscle tension, stenosis, increased tone, structural changes',
+            'rating': '3/10, 0/10, 5/10',
+            'freq': 'Intermittent',
+            'desc': 'Tense, Aching.',
+            'aggravate': 'Sitting, standing, walking, forward bending, lifting/pulling.',
+            'relieved': 'Tylenol 500mg at night',
+            'interfere': 'Functional mobility, ADLs, sleep.',
+            'meds': 'N/A',
+            'tests': 'N/A',
+            'dme': 'N/A',
+            'plof': 'Independent with mobility and ADLs'
+        },
+        'objective': {
+            'posture': "Forward head lean, rounded shoulders, protracted scapular, slouch posture, decrease sitting postural awareness, loss of lumbar lordosis.",
+            'rom': [
+                "Trunk Flexion: 30% limited",
+                "Trunk Extension: 30% limited",
+                "Trunk SB Left: 30% limited",
+                "Trunk SB Right: 30% limited",
+                "Trunk Rotation Left: 30% limited",
+                "Trunk Rotation Right: 30% limited",
+            ],
+            'strength': [
+                "Gross Core Strength: 3/5",
+                "Gross Hip Strength: L/R  3+/5; 3+/5",
+                "Gross Knee Strength: L/R  3+/5; 3+/5",
+                "Gross Ankle Strength: L/R  3+/5; 3+/5"
+            ],
+            'palpation': "TTP: B QL, B gluteus medius, B piriformis, B paraspinal.\nJoint hypomobility: L4-L5 with central PA.\nIncreased paraspinal and gluteus medius tone",
+            'functional_tests': [
+                "Supine Sit Up Test: Unable",
+                "30 seconds Chair Sit to Stand: 8x w/ increase LBP",
+                "Single Leg Balance Test: B LE: <1 sec with loss of balance.",
+                "Single Heel Raises Test: Unremarkable",
+                "Functional Squat: Difficulty getting up"
+            ],
+            'special_tests': [
+                "(-) Slump Test",
+                "(-) Unilateral SLR Test",
+                "(-) Double SLR",
+                "(-) Spring/Central PA",
+                "(-) Piriformis test",
+                "(-) SI Cluster Test"
+            ],
+            'mobility_impairments': "Prolonged sitting: 15 min\nStanding: 15 min\nWalking: 15 min\nBending, sweeping, cleaning, lifting: 15 min."
+        },
+        'assessment': "Nguyen, Michelle, a 77 y/o Pt with relevant history of HTN, HLD, asthma, hypothyroidism, muscle weakness, and acute LBP, had a PT initial eval on 07/29/2025. Pt reports having LBP and is limiting daily functional activities, expressing a desire to decrease pain, improve activity tolerance, and return to PLOF, agreeing to PT evaluation. Pt has symptoms and clinical findings associated with the referring medical diagnosis of Low Back Pain, Muscle Weakness. Clinical findings are consistent with PT differential diagnosis of lumbar musculoskeletal dysfunction, potentially related to myofascial pain syndrome and postural impairments contributing to Pt's LBP and functional limitations. Current impairments include gross core strength 3/5, gross hip strength L/R 3+/5, gross knee strength L/R 3+/5, gross ankle strength L/R 3+/5, and significant ROM limitations in trunk flexion, extension, and rotation. Functional limitations are noted in the Supine Sit Up Test as unable, Chair Sit to Stand 8x with increased LBP, less than 1 second in Single Leg Balance Test, and difficulty in Functional Squat. Skilled PT is medically necessary to address these impairments and support Pt's return to PLOF.",
+        'goals_st': [
+            "Pt will report a reduction in low back pain to ≤1/10 to allow comfortable participation in functional activities.",
+            "Pt will demonstrate a ≥10% improvement in trunk AROM to enhance mobility and reduce risk of reinjury during daily tasks.",
+            "Pt will improve gross LE strength by at least 0.5 muscle grade to enhance safety during ADLs and minimize pain/injury risk.",
+            "Pt will self-report ≥50% improvement in functional limitations related to ADLs."
+        ],
+        'goals_lt': [
+            "Pt will demonstrate B LE strength of ≥4/5 to independently and safely perform all ADLs.",
+            "Pt will complete ≥14 repetitions on the 30-second chair sit-to-stand test to reduce fall risk.",
+            "Pt will tolerate ≥30 minutes of activity to safely resume household tasks without limitation.",
+            "Pt will demonstrate independence with HEP, using proper body mechanics and strength to support safe return to ADLs without difficulty."
+        ],
+        'frequency': "1wk1, 2wk12",
+        'interventions': "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Gait Training, Balance Training, Pain Management Training, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training.",
+        'procedures': [
+            "97161 Low Complexity",
+            "97162 Moderate Complexity",
+            "97163 High Complexity",
+            "97140 Manual Therapy",
+            "97110 Therapeutic Exercise",
+            "97530 Therapeutic Activity",
+            "97112 Neuromuscular Re-ed",
+            "97116 Gait Training"
+        ]
+    }
+    return render_template("view_note.html", note=note)
+
 @app.route('/patients/<int:patient_id>/pt-notes')
 @login_required
 def view_pt_notes(patient_id):
@@ -213,7 +300,7 @@ def view_pt_notes(patient_id):
 def view_ot_notes(patient_id):
     patient = Patient.query.get_or_404(patient_id)
     return render_template('ot_notes.html', patient=patient)
-    
+
 # ======= Edit PT Notes =========
 @app.route('/pt_notes/<int:note_id>/edit', methods=['GET', 'POST'])
 @login_required

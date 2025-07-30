@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-lg rounded-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Evaluation Note</h4>
+          <button class="btn btn-outline-secondary" onclick="window.print();">
+            <i class="bi bi-printer"></i> Print
+          </button>
+        </div>
+        <div class="card-body">
+<pre style="font-family: 'Menlo', 'Consolas', monospace; font-size: 1rem; background: #f9f9f9; border: none; white-space: pre-wrap; margin-bottom: 0;">
+
+Medical Diagnosis: {{ note.med_diag }}
+------------------------------------------------------------------------------------------------------------------
+Medical History/HNP:
+{{ note.med_history }}
+------------------------------------------------------------------------------------------------------------------
+Subjective:
+{{ note.subjective }}
+------------------------------------------------------------------------------------------------------------------
+Pain:
+Area/Location of Injury: {{ note.pain.area }}
+Onset/Exacerbation Date: {{ note.pain.onset }}
+Condition of Injury: {{ note.pain.condition }}
+Mechanism of Injury: {{ note.pain.mechanism }}
+Pain Rating (Present/Best/Worst): {{ note.pain.rating }}
+Frequency: {{ note.pain.freq }}
+Description: {{ note.pain.desc }}
+Aggravating Factor: {{ note.pain.aggravate }}
+Relieved By: {{ note.pain.relieved }}
+Interferes With: {{ note.pain.interfere }}
+Current Medication(s): {{ note.pain.meds }}
+Diagnostic Test(s): {{ note.pain.tests }}
+DME/Assistive Device: {{ note.pain.dme }}
+PLOF: {{ note.pain.plof }}
+------------------------------------------------------------------------------------------------------------------
+Objective:
+Posture:
+{{ note.objective.posture }}
+ROM:
+{% for r in note.objective.rom %}{{ r }}
+{% endfor %}
+Muscle Strength Test:
+{% for s in note.objective.strength %}{{ s }}
+{% endfor %}
+Palpation:
+{{ note.objective.palpation }}
+Functional Test(s):
+{% for f in note.objective.functional_tests %}{{ f }}
+{% endfor %}
+Special Test(s):
+{% for s in note.objective.special_tests %}{{ s }}
+{% endfor %}
+Current Functional Mobility Impairment(s):
+{{ note.objective.mobility_impairments }}
+------------------------------------------------------------------------------------------------------------------
+Assessment Summary:
+{{ note.assessment }}
+------------------------------------------------------------------------------------------------------------------
+Goals:
+Short-Term Goals (1–12 visits):
+{% for g in note.goals_st %}{{ loop.index }}. {{ g }}
+{% endfor %}
+Long-Term Goals (13–25 visits):
+{% for g in note.goals_lt %}{{ loop.index }}. {{ g }}
+{% endfor %}
+------------------------------------------------------------------------------------------------------------------
+Frequency:
+{{ note.frequency }}
+------------------------------------------------------------------------------------------------------------------
+Intervention:
+{{ note.interventions }}
+------------------------------------------------------------------------------------------------------------------
+Treatment Procedures:
+{% for p in note.procedures %}{{ p }}
+{% endfor %}
+------------------------------------------------------------------------------------------------------------------
+</pre>
+        </div>
+        <div class="card-footer text-end">
+          <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+@media print {
+  body * { visibility: hidden !important; }
+  .card, .card * { visibility: visible !important; }
+  .card { position: absolute; left: 0; top: 0; width: 100vw; box-shadow: none !important; border: none !important; }
+  .btn, .card-footer { display: none !important; }
+}
+</style>
+{% endblock %}
