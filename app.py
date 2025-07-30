@@ -13,13 +13,9 @@ from io import BytesIO
 from docx import Document
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-
-# Import templates and parsers
 from pt_templates import PT_TEMPLATES, OT_TEMPLATES, pt_parse_template, ot_parse_template
+from models import db, Therapist, Patient  # <--- SINGLE db import
 
-from models import db, Therapist, Patient
-
-# ENV & CONFIG
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key_change_me")
 db_path = '/tmp/db.sqlite3'
