@@ -25,7 +25,6 @@
     <div class="tab-content">
       <!-- PATIENT INFO TAB -->
       <div class="tab-pane fade show active" id="ot-patientinfo" role="tabpanel">
-
         <!-- Patient Name (Top row) -->
         <div class="d-flex align-items-center mb-3">
           <label for="ot_patient_name" class="me-3 mb-0" style="min-width: 130px;"><strong>Patient Name:</strong></label>
@@ -66,15 +65,108 @@
       </div>
       <!-- HISTORY TAB -->
       <div class="tab-pane fade" id="ot-history" role="tabpanel">
-        <!-- ...No change, use your fields as above... -->
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_meddiag" class="me-3 mb-0" style="min-width: 180px;"><strong>Medical Diagnosis:</strong></label>
+          <textarea name="meddiag" id="ot_meddiag" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_history" class="me-3 mb-0" style="min-width: 180px;"><strong>Medical History/HNP:</strong></label>
+          <textarea name="history" id="ot_history" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_subjective" class="me-3 mb-0" style="min-width: 180px;"><strong>Subjective (HPI):</strong></label>
+          <textarea name="subjective" id="ot_subjective" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_meds" class="me-3 mb-0" style="min-width: 180px;"><strong>Current Medication(s):</strong></label>
+          <textarea name="meds" id="ot_meds" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_tests" class="me-3 mb-0" style="min-width: 180px;"><strong>Diagnostic Test(s):</strong></label>
+          <textarea name="tests" id="ot_tests" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_dme" class="me-3 mb-0" style="min-width: 180px;"><strong>DME/Assistive Device:</strong></label>
+          <textarea name="dme" id="ot_dme" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_plof" class="me-3 mb-0" style="min-width: 180px;"><strong>PLOF:</strong></label>
+          <textarea name="plof" id="ot_plof" class="form-control" rows="2"></textarea>
+        </div>
       </div>
       <!-- PAIN TAB -->
       <div class="tab-pane fade" id="ot-pain" role="tabpanel">
-        <!-- ...No change, use your fields as above... -->
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_location" class="me-3 mb-0" style="min-width: 180px;"><strong>Area/Location of Injury:</strong></label>
+          <input name="pain_location" id="ot_pain_location" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_onset" class="me-3 mb-0" style="min-width: 180px;"><strong>Onset/Exacerbation Date:</strong></label>
+          <input name="pain_onset" id="ot_pain_onset" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_condition" class="me-3 mb-0" style="min-width: 180px;"><strong>Condition of Injury:</strong></label>
+          <input name="pain_condition" id="ot_pain_condition" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_mechanism" class="me-3 mb-0" style="min-width: 180px;"><strong>Mechanism of Injury:</strong></label>
+          <input name="pain_mechanism" id="ot_pain_mechanism" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_rating" class="me-3 mb-0" style="min-width: 180px;"><strong>Pain Rating (P/B/W):</strong></label>
+          <input name="pain_rating" id="ot_pain_rating" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_frequency" class="me-3 mb-0" style="min-width: 180px;"><strong>Pain Frequency:</strong></label>
+          <input name="pain_frequency" id="ot_pain_frequency" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_description" class="me-3 mb-0" style="min-width: 180px;"><strong>Description:</strong></label>
+          <input name="pain_description" id="ot_pain_description" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_aggravating" class="me-3 mb-0" style="min-width: 180px;"><strong>Aggravating Factor:</strong></label>
+          <input name="pain_aggravating" id="ot_pain_aggravating" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_relieved" class="me-3 mb-0" style="min-width: 180px;"><strong>Relieved By:</strong></label>
+          <input name="pain_relieved" id="ot_pain_relieved" class="form-control">
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="ot_pain_interferes" class="me-3 mb-0" style="min-width: 180px;"><strong>Interferes With:</strong></label>
+          <input name="pain_interferes" id="ot_pain_interferes" class="form-control">
+        </div>
       </div>
       <!-- OBJECTIVE TAB -->
       <div class="tab-pane fade" id="ot-objective" role="tabpanel">
-        <!-- ...No change, use your fields as above... -->
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_posture" class="me-3 mb-0" style="min-width: 180px;"><strong>Posture:</strong></label>
+          <textarea name="posture" id="ot_posture" class="form-control" rows="7"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_rom" class="me-3 mb-0" style="min-width: 180px;"><strong>ROM:</strong></label>
+          <textarea name="rom" id="ot_rom" class="form-control" rows="7"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_strength" class="me-3 mb-0" style="min-width: 180px;"><strong>Muscle Strength Test:</strong></label>
+          <textarea name="strength" id="ot_strength" class="form-control" rows="7"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_palpation" class="me-3 mb-0" style="min-width: 180px;"><strong>Palpation:</strong></label>
+          <textarea name="palpation" id="ot_palpation" class="form-control" rows="7"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_functional" class="me-3 mb-0" style="min-width: 180px;"><strong>Functional Test(s):</strong></label>
+          <textarea name="functional" id="ot_functional" class="form-control" rows="7"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_special" class="me-3 mb-0" style="min-width: 180px;"><strong>Special Test(s):</strong></label>
+          <textarea name="special" id="ot_special" class="form-control" rows="7"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_impairments" class="me-3 mb-0" style="min-width: 180px;"><strong>Functional Mobility Impairment(s):</strong></label>
+          <textarea name="impairments" id="ot_impairments" class="form-control" rows="7"></textarea>
+        </div>
       </div>
       <!-- DIFF DX TAB -->
       <div class="tab-pane fade" id="ot-diffdx" role="tabpanel">
@@ -115,8 +207,9 @@
     </div>
   </form>
 </div>
+
 <script>
-  // ===== OT Functions =====
+  // ==== OT Functions ====
   function otGetFields() {
     const data = {};
     document.querySelectorAll('#ot-evalform [name]').forEach(el => data[el.name] = el.value);
@@ -251,7 +344,6 @@
       })
       .catch(() => otSetStatus('Error exporting PDF!', 'red'));
   };
-
   // --- BMI for OT ---
   function parseOTHeightFeetInches(value) {
     const regex = /(\d+)\s*['ft]{1,2}\s*(\d+)?\s*["in]{0,2}/i;
@@ -268,21 +360,17 @@
     const weight = parseFloat(document.getElementById("ot_weight")?.value);
     const heightRaw = document.getElementById("ot_height")?.value;
     const heightIn = parseOTHeightFeetInches(heightRaw);
-
     const bmiField = document.getElementById("ot_bmi");
     const categoryField = document.getElementById("ot_bmi_category");
-
     if (!isNaN(weight) && heightIn && heightIn > 0) {
       const bmi = (weight / (heightIn * heightIn)) * 703;
       const roundedBMI = bmi.toFixed(1);
       bmiField.value = roundedBMI;
-
       let category = '';
       if (bmi < 18.5) category = "Underweight";
       else if (bmi < 24.9) category = "Normal";
       else if (bmi < 29.9) category = "Overweight";
       else category = "Obese";
-
       categoryField.value = category;
     } else {
       bmiField.value = '';
@@ -292,4 +380,5 @@
   document.getElementById("ot_weight")?.addEventListener("input", calculateOTBMI);
   document.getElementById("ot_height")?.addEventListener("input", calculateOTBMI);
 </script>
+
 {% endblock %}
