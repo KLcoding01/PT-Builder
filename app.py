@@ -14,7 +14,7 @@ from docx import Document
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from pt_templates import PT_TEMPLATES, OT_TEMPLATES, pt_parse_template, ot_parse_template
-from models import db, Therapist, Patient, PTNote
+from models import db, Therapist, Patient, PTNote, get_pt_note_for_patient
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key_change_me")
@@ -960,9 +960,8 @@ Long-Term Goals (13–25 visits):
 @app.route('/ot_export_word', methods=['POST'])
 @login_required
 def ot_export_word():
-    data = request.get_json()  # use get_json() for JSON POSTs
+    data = request.get_json()
     buf = ot_export_to_word(data)
-    buf.seek(0)
     return send_file(
         buf,
         mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -976,88 +975,112 @@ def ot_export_to_word(data):
     def add_separator():
         doc.add_paragraph('-' * 114)
 
-    def add_section(title, content):
-        doc.add_paragraph(f"{title}")
-        doc.add_paragraph(content or "")
-        add_separator()
-
-    def add_multiline_section(title, lines):
-        doc.add_paragraph(title)
-        for line in lines:
-            doc.add_paragraph(line)
-        add_separator()
-
-    # Demographic line
-    gender = data.get('gender', '')
-    dob = data.get('dob', '')
+    # Header line (customize if needed)
     weight = data.get('weight', '')
-    height_val = data.get('height', '')
+    height = data.get('height', '')
     bmi = data.get('bmi', '')
-    bmi_category = data.get('bmi_category', '')
-    meddiag = data.get('meddiag', '')
+    doc.add_paragraph(f"Weight: {weight} lbs       Height: {height}      BMI: {bmi}")
+    add_separator()
 
-    demographics = (
-        f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}    "
-        f"BMI: {bmi} ({bmi_category})"
-    )
-    doc.add_paragraph(demographics)
-    add_separator()  # separator after demographics
+    doc.add_paragraph(f"Medical Diagnosis: {data.get('meddiag', '')}")
+    add_separator()
 
-    doc.add_paragraph(f"Medical Diagnosis: {meddiag}")
-    add_separator()  # separator after diagnosis
+    doc.add_paragraph("Medical History/HNP:")
+    doc.add_paragraph(data.get('history', ''))
+    add_separator()
 
-    # Continue with the rest of your sections
-    add_section("Medical History/HNP:", data.get('history', ''))
-    add_section("Subjective:", data.get('subjective', ''))
+    doc.add_paragraph("Subjective:")
+    doc.add_paragraph(data.get('subjective', ''))
+    add_separator()
 
-    pain_lines = [
-        f"Area/Location of Injury: {data.get('pain_location','')}",
-        f"Onset/Exacerbation Date: {data.get('pain_onset','')}",
-        f"Condition of Injury: {data.get('pain_condition','')}",
-        f"Mechanism of Injury: {data.get('pain_mechanism','')}",
-        f"Pain Rating (Present/Best/Worst): {data.get('pain_rating','')}",
-        f"Frequency: {data.get('pain_frequency','')}",
-        f"Description: {data.get('pain_description','')}",
-        f"Aggravating Factor: {data.get('pain_aggravating','')}",
-        f"Relieved By: {data.get('pain_relieved','')}",
-        f"Interferes With: {data.get('pain_interferes','')}",
-        "",
-        f"Current Medication(s): {data.get('meds','')}",
-        f"Diagnostic Test(s): {data.get('tests','')}",
-        f"DME/Assistive Device: {data.get('dme','')}",
-        f"PLOF: {data.get('plof','')}",
-    ]
-    add_multiline_section("Pain:", pain_lines)
+    doc.add_paragraph("Pain:")
+    doc.add_paragraph(f"Area/Location of Injury: {data.get('pain_location', '')}")
+    doc.add_paragraph(f"Onset/Exacerbation Date: {data.get('pain_onset', '')}")
+    doc.add_paragraph(f"Condition of Injury: {data.get('pain_condition', '')}")
+    doc.add_paragraph(f"Mechanism of Injury: {data.get('pain_mechanism', '')}")
+    doc.add_paragraph(f"Pain Rating (Present/Best/Worst): {data.get('pain_rating', '')}")
+    doc.add_paragraph(f"Frequency: {data.get('pain_frequency', '')}")
+    doc.add_paragraph(f"Description: {data.get('pain_description', '')}")
+    doc.add_paragraph(f"Aggravating Factor: {data.get('pain_aggravating', '')}")
+    doc.add_paragraph(f"Relieved By: {data.get('pain_relieved', '')}")
+    doc.add_paragraph("")
+    doc.add_paragraph(f"Interferes With: {data.get('pain_interferes', '')}")
+    doc.add_paragraph("")
+    doc.add_paragraph(f"Diagnostic Test(s): {data.get('tests', '')}")
+    doc.add_paragraph("")
+    doc.add_paragraph(f"DME/Assistive Device: {data.get('dme', '')}")
+    doc.add_paragraph("")
+    doc.add_paragraph(f"PLOF: {data.get('plof', '')}")
+    add_separator()
 
-    objective_lines = [
-        "Posture:",
-        data.get('posture', ''),
-        "",
-        "ROM:",
-        data.get('rom', ''),
-        "",
-        "Muscle Strength Test:",
-        data.get('strength', ''),
-        "",
-        "Palpation:",
-        data.get('palpation', ''),
-        "",
-        "Functional Test(s):",
-        data.get('functional', ''),
-        "",
-        "Special Test(s):",
-        data.get('special', ''),
-        "",
-        "Current Functional Mobility Impairment(s):",
-        data.get('impairments', ''),
-    ]
-    add_multiline_section("Objective:", objective_lines)
+    doc.add_paragraph("Objective:")
+    doc.add_paragraph("Posture:")
+    doc.add_paragraph(data.get('posture', ''))
 
-    add_section("Assessment Summary:", data.get('summary', ''))
-    add_section("Goals:", data.get('goals', ''))
-    add_section("Frequency:", data.get('frequency', ''))
-    add_section("Intervention:", data.get('intervention', ''))
-    add_section("Treatment Procedures:", data.get('procedures', ''))
+    doc.add_paragraph("ROM:")
+    doc.add_paragraph(data.get('rom', ''))
+
+    doc.add_paragraph("Muscle Strength Test:")
+    doc.add_paragraph(f"Gross UE Strength: {data.get('strength_ue', '')}")
+    doc.add_paragraph(f"Gross LE Strength: {data.get('strength_le', '')}")
+
+    doc.add_paragraph("Palpation:")
+    doc.add_paragraph(data.get('palpation', ''))
+
+    doc.add_paragraph("Functional Test(s):")
+    doc.add_paragraph(data.get('functional', ''))
+
+    doc.add_paragraph("Special Test(s):")
+    doc.add_paragraph(data.get('special', ''))
+
+    doc.add_paragraph("Current Functional Mobility Impairment(s):")
+    doc.add_paragraph(data.get('impairments', ''))
+    add_separator()
+
+    doc.add_paragraph("Assessment Summary:")
+    doc.add_paragraph(data.get('summary', ''))
+    add_separator()
+
+    doc.add_paragraph("Goals:")
+    doc.add_paragraph(data.get('goals', ''))
+    add_separator()
+
+    doc.add_paragraph("Frequency:")
+    doc.add_paragraph(data.get('frequency', ''))
+    add_separator()
+
+    doc.add_paragraph("Intervention:")
+    doc.add_paragraph(data.get('intervention', ''))
+    add_separator()
+
+    doc.add_paragraph("Treatment Procedures:")
+    doc.add_paragraph(data.get('procedures', ''))
+    add_separator()
+
+    # --- SOAP ASSESSMENT SECTION ---
+    doc.add_paragraph("Soap Assessment:")
+    doc.add_paragraph("")
+
+    doc.add_paragraph("Pain:")
+    doc.add_paragraph(f"{data.get('pain_location', '')}")
+    doc.add_paragraph(f"{data.get('pain_rating', '')}")
+    doc.add_paragraph("")
+
+    doc.add_paragraph("ROM:")
+    doc.add_paragraph(data.get('rom', ''))
+    doc.add_paragraph("")
+
+    doc.add_paragraph("Palpation:")
+    doc.add_paragraph(data.get('palpation', ''))
+    doc.add_paragraph("")
+
+    doc.add_paragraph("Functional Test(s):")
+    doc.add_paragraph(data.get('functional', ''))
+    doc.add_paragraph("")
+
+    doc.add_paragraph("Goals:")
+    doc.add_paragraph(data.get('goals', ''))
+    doc.add_paragraph("")
 
     buf = BytesIO()
     doc.save(buf)
