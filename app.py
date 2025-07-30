@@ -17,7 +17,7 @@ from reportlab.pdfgen import canvas
 # Import templates and parsers
 from pt_templates import PT_TEMPLATES, OT_TEMPLATES, pt_parse_template, ot_parse_template
 
-from models import db, Therapist
+from models import db, Therapist, Patient
 
 # ENV & CONFIG
 app = Flask(__name__)

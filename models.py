@@ -16,3 +16,16 @@ class Therapist(db.Model, UserMixin):
 
     def __repr__(self):
         return f"<Therapist {self.first_name} {self.last_name}>"
+
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+class Patient(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    dob = db.Column(db.Date, nullable=True)
+    gender = db.Column(db.String(10), nullable=True)
+    pt_notes = db.Column(db.Text, default="")
+    ot_notes = db.Column(db.Text, default="")
+    # Add any other fields you want!
