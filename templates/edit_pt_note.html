@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Edit PT Note</h2>
+  <form method="post">
+    <label>Type:
+      <select name="doc_type" class="form-select">
+        <option value="Evaluation" {% if note.doc_type == 'Evaluation' %}selected{% endif %}>Evaluation</option>
+        <option value="Progress Note" {% if note.doc_type == 'Progress Note' %}selected{% endif %}>Progress Note</option>
+        <option value="Discharge" {% if note.doc_type == 'Discharge' %}selected{% endif %}>Discharge</option>
+      </select>
+    </label>
+    <textarea name="content" class="form-control" rows="14">{{ note.content }}</textarea>
+    <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+    <a href="{{ url_for('pt_notes') }}" class="btn btn-secondary mt-2">Cancel</a>
+  </form>
+{% endblock %}

@@ -226,32 +226,28 @@ def edit_pt_note(note_id):
     note = PTNote.query.get_or_404(note_id)
     if request.method == 'POST':
         note.content = request.form['content']
+        note.doc_type = request.form.get('doc_type', note.doc_type)
         db.session.commit()
         flash('Note updated!')
         return redirect(url_for('pt_notes'))
     return render_template('edit_pt_note.html', note=note)
 
-# Delete PT Note
-@app.route('/pt_notes/<int:note_id>/delete', methods=['GET', 'POST'])
+@app.route('/pt_notes/<int:note_id>/delete', methods=['POST'])
 @login_required
 def delete_pt_note(note_id):
     note = PTNote.query.get_or_404(note_id)
-    if request.method == 'POST':
-        db.session.delete(note)
-        db.session.commit()
-        flash('Note deleted!')
-        return redirect(url_for('pt_notes'))
-    return render_template('confirm_delete.html', note=note)
+    db.session.delete(note)
+    db.session.commit()
+    flash('Note deleted!')
+    return redirect(url_for('pt_notes'))
 
-# Load PT Note back into PT Builder (for edit/progress/discharge)
 @app.route('/pt_notes/<int:note_id>/load')
 @login_required
 def load_pt_note(note_id):
     note = PTNote.query.get_or_404(note_id)
-    # You might want to load this note content into your PT Builder form
-    # Here, you can pass it as initial data
-    return render_template('pt_eval.html', loaded_note=note.content)
-    
+    # Pass as loaded_note to PT Builder template
+    return render_template('pt_eval.html', loaded_note=note.content, loaded_doc_type=note.doc_type)
+
 #======Patient Search ======
 @app.route('/patients', methods=['GET'])
 @login_required
@@ -448,12 +444,18 @@ def pt_eval_builder():
     if request.method == 'POST':
         patient_id = request.form.get('patient_id')
         generated_note = request.form.get('generated_note')
-        # Save the note here, for example:
-        note = PTNote(patient_id=patient_id, content=generated_note, user_id=current_user.id)
+        doc_type = request.form.get('doc_type', 'Evaluation')  # <-- Add this!
+        note = PTNote(
+            patient_id=patient_id,
+            content=generated_note,
+            user_id=current_user.id,
+            doc_type=doc_type     # <-- Save the type
+        )
         db.session.add(note)
         db.session.commit()
-        return redirect(url_for('pt_notes'))  # Redirect to view all notes
+        return redirect(url_for('pt_notes'))
     return render_template('pt_eval_builder.html')
+
 
 @app.route('/pt_notes')
 @login_required

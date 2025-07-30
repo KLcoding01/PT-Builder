@@ -5,7 +5,8 @@
   <thead>
     <tr>
       <th>Patient Name</th>
-      <th>Note</th>
+      <th>Type</th>
+      <th>Note Preview</th>
       <th>Date Saved</th>
       <th>Actions</th>
     </tr>
@@ -13,17 +14,26 @@
   <tbody>
     {% for note in notes %}
       <tr>
-        <td>{{ note.patient_id }}</td> <!-- Optional: show name if patient relationship set up -->
-        <td style="max-width: 500px; white-space: pre-line;">{{ note.content }}</td>
+        <td>{{ note.patient.name if note.patient else note.patient_id }}</td>
+        <td>{{ note.doc_type }}</td>
+        <td>
+          <details>
+            <summary>View Note</summary>
+            <div style="white-space: pre-line; max-width: 500px;">{{ note.content }}</div>
+          </details>
+        </td>
         <td>{{ note.created_at.strftime('%m/%d/%Y %H:%M') }}</td>
         <td>
           <a href="{{ url_for('edit_pt_note', note_id=note.id) }}" class="btn btn-sm btn-primary">Edit</a>
-          <a href="{{ url_for('delete_pt_note', note_id=note.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this note?');">Delete</a>
+          <form action="{{ url_for('delete_pt_note', note_id=note.id) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this note?');">Delete</button>
+          </form>
           <a href="{{ url_for('load_pt_note', note_id=note.id) }}" class="btn btn-sm btn-success">Load to Builder</a>
         </td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
+
 
 {% endblock %}

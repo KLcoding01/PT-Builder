@@ -15,6 +15,14 @@
           <span id="pt-status-msg" class="ms-3"></span>
         </div>
         <form method="POST" action="/pt_eval_builder">
+          <div class="mb-3">
+            <label for="pt_doc_type" class="form-label fw-bold">Document Type:</label>
+            <select class="form-select w-auto" name="doc_type" id="pt_doc_type" required>
+              <option value="Evaluation">Evaluation</option>
+              <option value="Progress Note">Progress Note</option>
+              <option value="Discharge">Discharge</option>
+            </select>
+          </div>
           <div class="row mb-3">
             <div class="col-md-4">
               <label for="patient-search" class="form-label fw-bold">Assign to Patient:</label>
