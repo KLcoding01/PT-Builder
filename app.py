@@ -166,12 +166,6 @@ def reset_password(token):
     return render_template('reset_password.html')
     
 # ==== Add Patients ====
-@app.route('/patients', methods=['GET'])
-@login_required
-def view_patients():
-    patients = Patient.query.order_by(Patient.name).all()
-    return render_template('patients.html', patients=patients)
-
 @app.route('/add_patient', methods=['GET', 'POST'])
 @login_required
 def add_patient():
@@ -227,6 +221,7 @@ def view_patients():
             db.func.split_part(Patient.name, ' ', -1), Patient.name
         ).all()
     return render_template('patients.html', patients=patients, query=query)
+
     
 # ==== PT & OT Endpoints (NO DUPLICATE ROUTES) ====
 
