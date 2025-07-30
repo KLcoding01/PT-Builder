@@ -929,13 +929,15 @@ Long-Term Goals (13–25 visits):
 
 # ====== OT Export ======
 
+from flask import send_file
+from io import BytesIO
+from docx import Document
+
 @app.route('/ot_export_word', methods=['POST'])
 @login_required
 def ot_export_word():
-    data = request.json
-    doc = ot_export_to_word(data)
-    buf = BytesIO()
-    doc.save(buf)
+    data = request.get_json()  # use get_json() for JSON POSTs
+    buf = ot_export_to_word(data)
     buf.seek(0)
     return send_file(
         buf,
@@ -1026,7 +1028,10 @@ def ot_export_to_word(data):
     add_section("Intervention:", data.get('intervention', ''))
     add_section("Treatment Procedures:", data.get('procedures', ''))
 
-    return doc
+    buf = BytesIO()
+    doc.save(buf)
+    buf.seek(0)
+    return buf
 
 @app.route("/ot_export_pdf", methods=["POST"])
 @login_required
