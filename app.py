@@ -576,7 +576,7 @@ def pt_export_to_word(data):
     doc.add_paragraph(header_line)
     add_separator()
 
-    doc.add_paragraph(f"Medical Diagnosis: {data.get('meddiag', '')}")
+    doc.add_paragraph(f"Medical Diagnosis: {meddiag}")
     add_separator()
 
     doc.add_paragraph("Medical History/HNP:")
@@ -701,22 +701,31 @@ def pt_export_pdf():
     c.drawString(40, y, "Physical Therapy Evaluation")
     y -= 30
 
-    # Demographic Header
+    # Demographic Header (first line)
     gender = data.get('gender', '')
     dob = data.get('dob', '')
     weight = data.get('weight', '')
     height_val = data.get('height', '')
     bmi = data.get('bmi', '')
     bmi_category = data.get('bmi_category', '')
-    demographic = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}     BMI: {bmi} ({bmi_category})"
+    demographic = (
+        f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    "
+        f"Height: {height_val}     BMI: {bmi} ({bmi_category})"
+    )
 
     c.setFont("Helvetica", 11)
     c.drawString(40, y, demographic)
     y -= 20
     add_separator()
 
-    # Sections
-    add_paragraph_block("Medical Diagnosis:", data.get("meddiag", ""))
+    # Medical Diagnosis as a single line, followed by separator
+    meddiag = data.get("meddiag", "")
+    c.setFont("Helvetica", 11)
+    c.drawString(40, y, f"Medical Diagnosis: {meddiag}")
+    y -= 20
+    add_separator()
+
+    # Main Sections
     add_paragraph_block("Medical History/HNP:", data.get("history", ""))
     add_paragraph_block("Subjective:", data.get("subjective", ""))
 
@@ -740,25 +749,25 @@ def pt_export_pdf():
     add_multiline_section("Pain:", pain_lines)
 
     objective_lines = [
-        f"Posture:",
+        "Posture:",
         data.get('posture', ''),
         "",
-        f"ROM:",
+        "ROM:",
         data.get('rom', ''),
         "",
-        f"Muscle Strength Test:",
+        "Muscle Strength Test:",
         data.get('strength', ''),
         "",
-        f"Palpation:",
+        "Palpation:",
         data.get('palpation', ''),
         "",
-        f"Functional Test(s):",
+        "Functional Test(s):",
         data.get('functional', ''),
         "",
-        f"Special Test(s):",
+        "Special Test(s):",
         data.get('special', ''),
         "",
-        f"Current Functional Mobility Impairment(s):",
+        "Current Functional Mobility Impairment(s):",
         data.get('impairments', '')
     ]
     add_multiline_section("Objective:", objective_lines)
@@ -929,10 +938,6 @@ Long-Term Goals (13–25 visits):
 
 # ====== OT Export ======
 
-from flask import send_file
-from io import BytesIO
-from docx import Document
-
 @app.route('/ot_export_word', methods=['POST'])
 @login_required
 def ot_export_word():
@@ -970,12 +975,19 @@ def ot_export_to_word(data):
     height_val = data.get('height', '')
     bmi = data.get('bmi', '')
     bmi_category = data.get('bmi_category', '')
-    demographics = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}     BMI: {bmi} ({bmi_category})"
-    doc.add_paragraph(demographics)
-    add_separator()
+    meddiag = data.get('meddiag', '')
 
-    # Sections
-    add_section("Medical Diagnosis:", data.get('meddiag', ''))
+    demographics = (
+        f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}    "
+        f"BMI: {bmi} ({bmi_category})"
+    )
+    doc.add_paragraph(demographics)
+    add_separator()  # separator after demographics
+
+    doc.add_paragraph(f"Medical Diagnosis: {meddiag}")
+    add_separator()  # separator after diagnosis
+
+    # Continue with the rest of your sections
     add_section("Medical History/HNP:", data.get('history', ''))
     add_section("Subjective:", data.get('subjective', ''))
 
@@ -1049,13 +1061,13 @@ def ot_export_pdf():
         c.line(40, y, width - 40, y)
         y -= 16
 
-    def add_section(title, value):
+    def add_paragraph_block(title, text):
         nonlocal y
         c.setFont("Helvetica-Bold", 13)
         c.drawString(40, y, title)
         y -= 18
         c.setFont("Helvetica", 11)
-        for line in (value or "").split('\n'):
+        for line in (text or "").split('\n'):
             c.drawString(48, y, line)
             y -= 14
             if y < 60:
@@ -1070,8 +1082,8 @@ def ot_export_pdf():
         y -= 18
         c.setFont("Helvetica", 11)
         for line in lines:
-            for sub_line in line.split('\n'):
-                c.drawString(48, y, sub_line)
+            for subline in line.split('\n'):
+                c.drawString(48, y, subline)
                 y -= 14
                 if y < 60:
                     c.showPage()
@@ -1083,26 +1095,34 @@ def ot_export_pdf():
     c.drawString(40, y, "Occupational Therapy Evaluation")
     y -= 30
 
-    # Demographic Line
+    # Demographic Header (first line)
     gender = data.get("gender", "")
     dob = data.get("dob", "")
     weight = data.get("weight", "")
     height_val = data.get("height", "")
     bmi = data.get("bmi", "")
     bmi_category = data.get("bmi_category", "")
-    demo_line = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}     BMI: {bmi} ({bmi_category})"
+    demo_line = (
+        f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    "
+        f"Height: {height_val}     BMI: {bmi} ({bmi_category})"
+    )
 
     c.setFont("Helvetica", 11)
     c.drawString(40, y, demo_line)
-    y -= 18
+    y -= 20
+    add_separator()
+
+    # Medical Diagnosis as a single line, followed by separator
+    meddiag = data.get("meddiag", "")
+    c.setFont("Helvetica", 11)
+    c.drawString(40, y, f"Medical Diagnosis: {meddiag}")
+    y -= 20
     add_separator()
 
     # Main Sections
-    add_section("Medical Diagnosis:", data.get("meddiag", ""))
-    add_section("Medical History/HNP:", data.get("history", ""))
-    add_section("Subjective:", data.get("ot_subjective", ""))
+    add_paragraph_block("Medical History/HNP:", data.get("history", ""))
+    add_paragraph_block("Subjective:", data.get("subjective", ""))
 
-    # Pain Section
     pain_lines = [
         f"Area/Location of Injury: {data.get('pain_location','')}",
         f"Onset/Exacerbation Date: {data.get('pain_onset','')}",
@@ -1122,37 +1142,35 @@ def ot_export_pdf():
     ]
     add_multiline_section("Pain:", pain_lines)
 
-    # Objective Section
-    obj_lines = [
-        f"Posture:",
+    objective_lines = [
+        "Posture:",
         data.get('posture', ''),
         "",
-        f"ROM:",
+        "ROM:",
         data.get('rom', ''),
         "",
-        f"Muscle Strength Test:",
+        "Muscle Strength Test:",
         data.get('strength', ''),
         "",
-        f"Palpation:",
+        "Palpation:",
         data.get('palpation', ''),
         "",
-        f"Functional Test(s):",
+        "Functional Test(s):",
         data.get('functional', ''),
         "",
-        f"Special Test(s):",
+        "Special Test(s):",
         data.get('special', ''),
         "",
-        f"Current Functional Mobility Impairment(s):",
+        "Current Functional Mobility Impairment(s):",
         data.get('impairments', ''),
     ]
-    add_multiline_section("Objective:", obj_lines)
+    add_multiline_section("Objective:", objective_lines)
 
-    # Remaining Sections
-    add_section("Assessment Summary:", data.get("summary", ""))
-    add_section("Goals:", data.get("goals", ""))
-    add_section("Frequency:", data.get("frequency", ""))
-    add_section("Intervention:", data.get("intervention", ""))
-    add_section("Treatment Procedures:", data.get("procedures", ""))
+    add_paragraph_block("Assessment Summary:", data.get("summary", ""))
+    add_paragraph_block("Goals:", data.get("goals", ""))
+    add_paragraph_block("Frequency:", data.get("frequency", ""))
+    add_paragraph_block("Intervention:", data.get("intervention", ""))
+    add_paragraph_block("Treatment Procedures:", data.get("procedures", ""))
 
     c.save()
     buffer.seek(0)
@@ -1162,7 +1180,6 @@ def ot_export_pdf():
         download_name="OT_Eval.pdf",
         mimetype="application/pdf"
     )
-
 
 # ========== GPT HELPER ==========
 
