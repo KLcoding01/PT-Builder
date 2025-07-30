@@ -214,17 +214,19 @@ def view_single_patient():
     return render_template('patients.html', patients=patients, query=query)
 
 #======Show Full PT and OT Notes =======
-@app.route('/patient/<int:patient_id>/pt_notes')
+@app.route('/patients', methods=['GET'])
 @login_required
-def view_pt_notes(patient_id):
-    patient = Patient.query.get_or_404(patient_id)
-    return render_template('pt_notes.html', patient=patient)
-
-@app.route('/patient/<int:patient_id>/ot_notes')
-@login_required
-def view_ot_notes(patient_id):
-    patient = Patient.query.get_or_404(patient_id)
-    return render_template('ot_notes.html', patient=patient)
+def view_patients():
+    query = request.args.get('q', '').strip().lower()
+    if query:
+        patients = Patient.query.filter(Patient.name.ilike(f"%{query}%")).order_by(
+            db.func.split_part(Patient.name, ' ', -1), Patient.name
+        ).all()
+    else:
+        patients = Patient.query.order_by(
+            db.func.split_part(Patient.name, ' ', -1), Patient.name
+        ).all()
+    return render_template('patients.html', patients=patients, query=query)
     
 # ==== PT & OT Endpoints (NO DUPLICATE ROUTES) ====
 
@@ -803,7 +805,7 @@ def ot_export_to_word(data):
     # Sections
     add_section("Medical Diagnosis:", data.get('meddiag', ''))
     add_section("Medical History/HNP:", data.get('history', ''))
-    add_section("Subjective:", data.get('ot_subjective', ''))
+    add_section("Subjective:", data.get('subjective', ''))
 
     pain_lines = [
         f"Area/Location of Injury: {data.get('pain_location','')}",
