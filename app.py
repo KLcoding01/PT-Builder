@@ -251,7 +251,12 @@ def ot_load_template():
 
 
 # ====== PT Section ======
-
+@app.route("/pt-eval")
+@login_required
+def pt_eval():
+    return render_template("pt_eval.html")
+    
+    
 @app.route("/pt_generate_diffdx", methods=["POST"])
 @login_required
 def pt_generate_diffdx():
@@ -603,6 +608,11 @@ def pt_export_pdf():
 
 
 # ====== OT Section ======
+@app.route("/ot-eval")
+@login_required
+def ot_eval():
+    return render_template("ot_eval.html")
+    
 @app.route("/ot_generate_diffdx", methods=["POST"])
 @login_required
 def ot_generate_diffdx():

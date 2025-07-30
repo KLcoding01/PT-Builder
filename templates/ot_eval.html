@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- OT EVAL BUILDER TAB -->
+<div class="tab-pane fade" id="ot-tab-panel" role="tabpanel">
+  <h2>OT Eval Builder</h2>
+  <div class="d-flex align-items-center mb-3">
+    <label class="fw-bold me-2">Template:</label>
+    <select id="ot-template-select" class="form-select w-auto me-2"></select>
+    <button id="ot-load-template-btn" class="btn btn-outline-primary btn-sm">Load</button>
+    <button id="ot-save-word-btn" class="btn btn-info btn-sm">Export Word</button>
+    <button id="ot-save-pdf-btn" class="btn btn-danger btn-sm">Export PDF</button>
+    <span id="ot-status-msg" class="ms-3"></span>
+  </div>
+  <ul class="nav nav-tabs mb-2" id="ot-inner-tab" role="tablist">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#ot-patientinfo" role="tab">Patient Info</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-history" role="tab">History</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-pain" role="tab">Pain</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-objective" role="tab">Objective</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-diffdx" role="tab">Diff Dx</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-summary" role="tab">Assessment Summary</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ot-plan" role="tab">Plan</a></li>
+  </ul>
+  <form id="ot-evalform">
+    <div class="tab-content">
+      <!-- PATIENT INFO TAB -->
+      <div class="tab-pane fade show active" id="ot-patientinfo" role="tabpanel">
+
+        <!-- Patient Name (Top row) -->
+        <div class="d-flex align-items-center mb-3">
+          <label for="ot_patient_name" class="me-3 mb-0" style="min-width: 130px;"><strong>Patient Name:</strong></label>
+          <input type="text" class="form-control" name="patient_name" id="ot_patient_name" style="max-width: 300px;">
+        </div>
+        <!-- Gender, Weight, Height, BMI, BMI Category (Second row) -->
+        <div class="d-flex align-items-center mb-3 flex-wrap">
+          <!-- Gender -->
+          <label for="ot_gender" class="me-2 mb-0" style="min-width: 130px;"><strong>Gender:</strong></label>
+          <select class="form-select me-4 mb-2" name="gender" id="ot_gender" style="max-width: 150px;">
+            <option value="">Select</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+          </select>
+          <!-- Weight -->
+          <label for="ot_weight" class="me-2 mb-0" style="min-width: 100px;"><strong>Weight (lbs):</strong></label>
+          <input type="number" class="form-control me-4 mb-2" id="ot_weight" name="weight" placeholder="lbs" style="max-width: 100px;">
+          <!-- Height -->
+          <label for="ot_height" class="me-2 mb-0" style="min-width: 100px;"><strong>Height (in):</strong></label>
+          <input type="text" class="form-control me-4 mb-2" id="ot_height" name="height" placeholder="e.g. 5'9&quot;" style="max-width: 100px;">
+          <!-- BMI -->
+          <label for="ot_bmi" class="me-2 mb-0" style="min-width: 60px;"><strong>BMI:</strong></label>
+          <input type="text" class="form-control me-4 mb-2" id="ot_bmi" name="bmi" readonly style="max-width: 80px;">
+          <!-- BMI Category -->
+          <label for="ot_bmi_category" class="me-2 mb-0" style="min-width: 120px;"><strong>BMI Category:</strong></label>
+          <input type="text" class="form-control mb-2" id="ot_bmi_category" name="bmi_category" readonly style="max-width: 150px;">
+        </div>
+        <!-- DOB -->
+        <div class="d-flex align-items-center mb-3">
+          <label for="ot_dob" class="me-3 mb-0" style="min-width: 130px;"><strong>DOB:</strong></label>
+          <input type="text" class="form-control" name="dob" id="ot_dob" placeholder="mm/dd/yyyy">
+        </div>
+        <!-- Date of Eval -->
+        <div class="d-flex align-items-center mb-3">
+          <label for="ot_eval_date" class="me-3 mb-0" style="min-width: 130px;"><strong>Date of Eval:</strong></label>
+          <input type="date" class="form-control" name="eval_date" id="ot_eval_date">
+        </div>
+      </div>
+      <!-- HISTORY TAB -->
+      <div class="tab-pane fade" id="ot-history" role="tabpanel">
+        <!-- ...No change, use your fields as above... -->
+      </div>
+      <!-- PAIN TAB -->
+      <div class="tab-pane fade" id="ot-pain" role="tabpanel">
+        <!-- ...No change, use your fields as above... -->
+      </div>
+      <!-- OBJECTIVE TAB -->
+      <div class="tab-pane fade" id="ot-objective" role="tabpanel">
+        <!-- ...No change, use your fields as above... -->
+      </div>
+      <!-- DIFF DX TAB -->
+      <div class="tab-pane fade" id="ot-diffdx" role="tabpanel">
+        <button type="button" id="ot-ai-generate-diffdx" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
+        <div class="d-flex align-items-start">
+          <label for="ot_diffdx" class="me-3 mb-0" style="min-width: 180px;"><strong>OT Differential Diagnosis:</strong></label>
+          <textarea name="diffdx" id="ot_diffdx" class="form-control" rows="8"></textarea>
+        </div>
+      </div>
+      <!-- ASSESSMENT SUMMARY TAB -->
+      <div class="tab-pane fade" id="ot-summary" role="tabpanel">
+        <button type="button" id="ot-ai-generate-summary" class="btn btn-outline-success btn-sm mb-2">AI Generate</button>
+        <div class="d-flex align-items-start">
+          <label for="ot_summary" class="me-3 mb-0" style="min-width: 180px;"><strong>Assessment Summary:</strong></label>
+          <textarea name="summary" id="ot_summary" class="form-control" rows="10"></textarea>
+        </div>
+      </div>
+      <!-- PLAN TAB -->
+      <div class="tab-pane fade" id="ot-plan" role="tabpanel">
+        <button type="button" id="ot-ai-generate-goals" class="btn btn-outline-success btn-sm mb-2">AI Generate Goals</button>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_goals" class="me-3 mb-0" style="min-width: 180px;"><strong>Goals:</strong></label>
+          <textarea name="goals" id="ot_goals" class="form-control" rows="10"></textarea>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+          <label for="ot_frequency" class="me-3 mb-0" style="min-width: 180px;"><strong>Frequency/Duration:</strong></label>
+          <input name="frequency" id="ot_frequency" class="form-control">
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_intervention" class="me-3 mb-0" style="min-width: 180px;"><strong>Intervention:</strong></label>
+          <textarea name="intervention" id="ot_intervention" class="form-control" rows="5"></textarea>
+        </div>
+        <div class="d-flex align-items-start mb-3">
+          <label for="ot_procedures" class="me-3 mb-0" style="min-width: 180px;"><strong>Treatment Procedures:</strong></label>
+          <textarea name="procedures" id="ot_procedures" class="form-control" rows="8"></textarea>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+  // ===== OT Functions =====
+  function otGetFields() {
+    const data = {};
+    document.querySelectorAll('#ot-evalform [name]').forEach(el => data[el.name] = el.value);
+    return data;
+  }
+  function otSetStatus(msg, color='green') {
+    const s = document.getElementById('ot-status-msg');
+    s.textContent = msg;
+    s.style.color = color;
+  }
+  fetch('/ot_load_template', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({template: ''})
+  })
+    .then(r => r.json())
+    .then(names => {
+      document.getElementById('ot-template-select').innerHTML =
+        names.map(n => `<option>${n}</option>`).join('');
+    });
+  document.getElementById('ot-load-template-btn').onclick = () => {
+    fetch('/ot_load_template', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({template: document.getElementById('ot-template-select').value})
+    })
+      .then(r => r.json())
+      .then(data => {
+        Object.entries(data).forEach(([k,v]) => {
+          const fld = document.getElementById('ot_'+k) || document.querySelector(`#ot-evalform [name="${k}"]`);
+          if (fld) fld.value = v;
+        });
+      });
+  };
+  document.getElementById('ot-ai-generate-diffdx').onclick = () => {
+    otSetStatus('Generating Diff Dx…', 'orange');
+    fetch('/ot_generate_diffdx', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({fields: otGetFields()})
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.result) {
+        document.getElementById('ot_diffdx').value = data.result;
+        otSetStatus('Done','green');
+      } else if (data.error) {
+        otSetStatus('AI error: ' + data.error, 'red');
+      } else {
+        otSetStatus('Unexpected AI response', 'red');
+      }
+    })
+    .catch(() => otSetStatus('AI error','red'));
+  };
+  document.getElementById('ot-ai-generate-summary').onclick = () => {
+    otSetStatus('Generating summary…', 'orange');
+    fetch('/ot_generate_summary', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({fields: otGetFields()})
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.result) {
+        document.getElementById('ot_summary').value = data.result;
+        otSetStatus('Done','green');
+      } else if (data.error) {
+        otSetStatus('AI error: ' + data.error, 'red');
+      } else {
+        otSetStatus('Unexpected AI response', 'red');
+      }
+    })
+    .catch(() => otSetStatus('AI error','red'));
+  };
+  document.getElementById('ot-ai-generate-goals').onclick = () => {
+    otSetStatus('Generating goals…', 'orange');
+    fetch('/ot_generate_goals', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({fields: otGetFields()})
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result) {
+        document.getElementById('ot_goals').value = data.result;
+        otSetStatus('Done', 'green');
+      } else if (data.error) {
+        otSetStatus('AI error: ' + data.error, 'red');
+      } else {
+        otSetStatus('Unexpected AI response', 'red');
+      }
+    })
+    .catch(() => otSetStatus('AI error', 'red'));
+  };
+  document.getElementById('ot-save-word-btn').onclick = () => {
+    otSetStatus('Exporting Word...', 'orange');
+    fetch('/ot_export_word', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(otGetFields())
+    })
+      .then(r => r.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'OT_Eval.docx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        otSetStatus('Word downloaded!', 'green');
+      })
+      .catch(() => otSetStatus('Error exporting Word!', 'red'));
+  };
+  document.getElementById('ot-save-pdf-btn').onclick = () => {
+    otSetStatus('Exporting PDF...', 'orange');
+    fetch('/ot_export_pdf', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(otGetFields())
+    })
+      .then(r => r.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'OT_Eval.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        otSetStatus('PDF downloaded!', 'green');
+      })
+      .catch(() => otSetStatus('Error exporting PDF!', 'red'));
+  };
+
+  // --- BMI for OT ---
+  function parseOTHeightFeetInches(value) {
+    const regex = /(\d+)\s*['ft]{1,2}\s*(\d+)?\s*["in]{0,2}/i;
+    const match = value.match(regex);
+    if (match) {
+      const feet = parseInt(match[1]) || 0;
+      const inches = parseInt(match[2]) || 0;
+      return (feet * 12) + inches;
+    }
+    const numeric = parseFloat(value);
+    return isNaN(numeric) ? null : numeric;
+  }
+  function calculateOTBMI() {
+    const weight = parseFloat(document.getElementById("ot_weight")?.value);
+    const heightRaw = document.getElementById("ot_height")?.value;
+    const heightIn = parseOTHeightFeetInches(heightRaw);
+
+    const bmiField = document.getElementById("ot_bmi");
+    const categoryField = document.getElementById("ot_bmi_category");
+
+    if (!isNaN(weight) && heightIn && heightIn > 0) {
+      const bmi = (weight / (heightIn * heightIn)) * 703;
+      const roundedBMI = bmi.toFixed(1);
+      bmiField.value = roundedBMI;
+
+      let category = '';
+      if (bmi < 18.5) category = "Underweight";
+      else if (bmi < 24.9) category = "Normal";
+      else if (bmi < 29.9) category = "Overweight";
+      else category = "Obese";
+
+      categoryField.value = category;
+    } else {
+      bmiField.value = '';
+      categoryField.value = '';
+    }
+  }
+  document.getElementById("ot_weight")?.addEventListener("input", calculateOTBMI);
+  document.getElementById("ot_height")?.addEventListener("input", calculateOTBMI);
+</script>
+{% endblock %}
