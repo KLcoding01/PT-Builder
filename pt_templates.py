@@ -1,5 +1,11 @@
 PT_TEMPLATES = {
     "BPPV": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "BPPV",
       "history": "",
       "subjective": "Pt reports episodes of dizziness and vertigo described as spinning sensations, each lasting less than one minute. Triggered by changes in head position (e.g., rolling in bed, looking up, bending forward). Pt also reports nausea and occasional imbalance. Denies hearing loss, tinnitus, or trauma. Symptoms have increased in frequency over the past week and interfere with daily activities.",
@@ -31,6 +37,12 @@ PT_TEMPLATES = {
     },
     
     "General Weakness": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "Muscle Weakness",
       "history": "",
       "subjective": "Pt. reports noticing generalized weakness and unsteady gait. Pt's goal is to improve strength and stability to return to PLOF.",
@@ -63,6 +75,12 @@ PT_TEMPLATES = {
     },
     
     "Neck Pain": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "Mechanical Neck Pain",
       "history": "",
       "subjective": "Pt reports a recent increase in neck pain, with goals to reduce pain, decrease tension, and improve movement during ADLs. Pt agrees to PT evaluation.",
@@ -94,6 +112,12 @@ PT_TEMPLATES = {
       "procedures": "97161 Low Complexity\n97162 Mod Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed"
     },
     "Shoulder - Impingement": {
+        "gender": "",
+        "dob": "",
+        "weight": "",
+        "height": "”",
+        "bmi": "",
+        "bmi_category": "",
         "meddiag": "Shoulder Impingement Syndrome",
         "history": "",
         "subjective": "Pt reports having shoulder pain and limitations with movements above shoulder level. Pt agrees to PT eval and tx.",
@@ -125,6 +149,12 @@ PT_TEMPLATES = {
     },
     
     "Lumbar - Generalized": {
+        "gender": "",
+        "dob": "",
+        "weight": "",
+        "height": "”",
+        "bmi": "",
+        "bmi_category": "",
         "meddiag": "LBP",
         "history": "",
         "subjective": "Pt reports having LBP and is limiting daily functional activities. Pt would like to decrease pain and improve activity tolerance and return to PLOF. Pt agrees to PT evaluation.",
@@ -154,7 +184,14 @@ PT_TEMPLATES = {
         "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Gait Training, Balance Training, Pain Management Training, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training.",
         "procedures": "97161 Low Complexity\n97162 Moderate Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97116 Gait Training"
     },
+    
     "Lumbar - Radiculopathy": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "Lumbar Radiculopathy",
       "history": "",
       "subjective": "Pt reports having LBP with radiating symptoms to the B LE and is limiting daily functional activities. Pt would like to decrease pain/radiating symptoms while improve activity tolerance and return to PLOF. Pt agrees to PT evaluation.",
@@ -185,7 +222,14 @@ PT_TEMPLATES = {
       "intervention": "Manual Therapy (STM/IASTM/Joint Mob), Therapeutic Exercise, Therapeutic Activities, Neuromuscular Re-education, Gait Training, Balance Training, Pain Management Training, Modalities ice/heat 10-15min, E-Stim, Ultrasound, fall/injury prevention training, safety education/training, HEP education/training.",
       "procedures": "97161 Low Complexity\n97162 Moderate Complexity\n97163 High Complexity\n97140 Manual Therapy\n97110 Therapeutic Exercise\n97530 Therapeutic Activity\n97112 Neuromuscular Re-ed\n97116 Gait Training"
     },
+    
     "Lumbar - Strain/Sprain": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "Acute/Subacute Lumbar Strain/Sprain",
       "history": "",
       "subjective": "Pt reports having LBP and is limiting daily functional activities. Pt would like to decrease pain and improve activity tolerance and return to PLOF. Pt agrees to PT evaluation.",
@@ -218,6 +262,12 @@ PT_TEMPLATES = {
     },
   
     "Lumbar - Stenosis": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "Lumbar Stenosis",
       "history": "",
       "subjective": "Pt reports having LBP and is limiting daily functional activities. Pt would like to decrease pain and improve activity tolerance and return to PLOF. Pt agrees to PT evaluation.",
@@ -251,6 +301,12 @@ PT_TEMPLATES = {
 
 
     "Knee - OA": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "Bilateral Knee Osteoarthritis",
       "history": "",
       "subjective": "Pt reports having B knee pain and is limiting daily functional activities. Pt would like to decrease pain and improve activity tolerance and return to PLOF. Pt agrees to PT evaluation.",
@@ -283,6 +339,12 @@ PT_TEMPLATES = {
     },
 
     "Knee - TKA": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "S/P TKA, Pain in R Knee, Pain in Left Knee",
       "history": "",
       "subjective": "Pt reports having B knee pain and is limiting ADLs. Pt would like to decrease pain and improve activity tolerance and return to PLOF. Pt agrees to PT evaluation.",
@@ -317,6 +379,12 @@ PT_TEMPLATES = {
         
 OT_TEMPLATES = {
     "ADL Decline Eval": {
+        "gender": "",
+        "dob": "",
+        "weight": "",
+        "height": "”",
+        "bmi": "",
+        "bmi_category": "",
         "meddiag": "",
         "history": "",
         "subjective": "Pt reports increased difficulty with ADLs and IADLs including dressing, bathing, and meal prep. Pt would like to regain independence and safety in self-care and home management tasks. Pt agrees to OT evaluation.",
@@ -358,6 +426,12 @@ OT_TEMPLATES = {
     },
     
     "General Weakness": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "Muscle Weakness",
       "history": "",
       "subjective": "Pt. reports noticing generalized weakness and unsteady gait. Pt's goal is to improve strength and stability to return to PLOF.",
@@ -390,6 +464,12 @@ OT_TEMPLATES = {
     },
 
     "Shoulder Dysfunction": {
+        "gender": "",
+        "dob": "",
+        "weight": "",
+        "height": "”",
+        "bmi": "",
+        "bmi_category": "",
         "meddiag": "Shoulder Pain",
         "history": "",
         "subjective": "Pt reports shoulder pain and weakness impacting dressing, bathing, and reaching for household items. Pt has difficulty lifting arm overhead, reaching behind back, and carrying objects. Pt is motivated to regain independence in ADLs. Pt agrees to OT evaluation.",
@@ -430,6 +510,12 @@ OT_TEMPLATES = {
         "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97112 Neuromuscular Re-ed"
     },
     "Hand Injury": {
+        "gender": "",
+        "dob": "",
+        "weight": "",
+        "height": "”",
+        "bmi": "",
+        "bmi_category": "",
         "meddiag": "TBI",
         "history": "",
         "subjective": "Pt presents s/p hand injury with pain, weakness, and decreased fine motor ability. Pt has difficulty with buttoning, utensil use, handwriting, and other tasks requiring hand dexterity. Pt is motivated to return to PLOF for self-care, writing, and home management. Pt agrees to OT evaluation.",
@@ -470,6 +556,12 @@ OT_TEMPLATES = {
         "procedures": "97165 OT Eval Low Complexity\n97166 OT Eval Moderate Complexity\n97167 OT Eval High Complexity\n97110 TherEx\n97530 TherAct\n97535 ADL Training\n97537 Community/Work Reintegration\n97112 Neuromuscular Re-ed"
     },
     "Knee - OA": {
+        "gender": "",
+        "dob": "",
+        "weight": "",
+        "height": "”",
+        "bmi": "",
+        "bmi_category": "",
         "meddiag": "Knee OA",
         "history": "",
         "subjective": "Pt reports B knee pain resulting in difficulty with daily tasks such as transfers, dressing, bathing, and home management. Pt is agreeable to OT evaluation and would like to improve activity tolerance, safety, and independence with ADLs/IADLs.",
@@ -511,6 +603,12 @@ OT_TEMPLATES = {
     },
     
     "Cervical - Generalized": {
+        "gender": "",
+        "dob": "",
+        "weight": "",
+        "height": "”",
+        "bmi": "",
+        "bmi_category": "",
         "meddiag": "Mechanical Neck Pain",
         "history": "",
         "subjective": "Pt reports a recent increase in neck pain with goals to reduce pain, decrease tension, and improve ease of movement during ADLs. Pt agrees to OT eval and tx.",
@@ -542,6 +640,12 @@ OT_TEMPLATES = {
     },
 
     "Lumbar - Generalized": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "LBP",
       "history": "",
       "subjective": "Pt reports having LBP and is limiting daily functional activities. Pt would like to decrease pain and improve activity tolerance and return to PLOF. Pt agrees to OT evaluation.",
@@ -574,6 +678,12 @@ OT_TEMPLATES = {
     },
 
     "Lumbar - Radiculopathy": {
+      "gender": "",
+      "dob": "",
+      "weight": "",
+      "height": "”",
+      "bmi": "",
+      "bmi_category": "",
       "meddiag": "Lumbar Radiculopathy",
       "history": "",
       "subjective": "Pt reports having LBP with radiating symptoms to the B LE and is limiting daily functional activities. Pt would like to decrease pain/radiating symptoms while improve activity tolerance during ADLs and return to PLOF. Pt agrees to OT evaluation.",
@@ -638,10 +748,39 @@ def pt_parse_template(template):
         "Relieved By": "pain_relieved",
         "Interferes With": "pain_interferes"
     }
-    fields = {v: "" for v in key_map.values()}
+
+    # Add new header fields
+    header_fields = ["gender", "dob", "weight", "height", "bmi", "bmi_category"]
+    fields = {v: "" for v in list(key_map.values()) + header_fields}
+
     curr = None
     for line in template.splitlines():
         stripped = line.strip()
+
+        # Parse header line for gender, DOB, weight, height, BMI
+        if stripped.startswith("Gender:"):
+            match = re.search(
+                r"Gender:\s*(\w+)\s+DOB:\s*([\d/]+)\s+Weight:\s*([\d.]+ lbs)\s+Height:\s*([\d’\"0-9]+)\s+BMI:\s*([\d.]+)",
+                stripped
+            )
+            if match:
+                fields["gender"] = match.group(1)
+                fields["dob"] = match.group(2)
+                fields["weight"] = match.group(3)
+                fields["height"] = match.group(4)
+                fields["bmi"] = match.group(5)
+                # Classify BMI
+                bmi_val = float(match.group(5))
+                if bmi_val < 18.5:
+                    fields["bmi_category"] = "Underweight"
+                elif bmi_val < 25:
+                    fields["bmi_category"] = "Normal"
+                elif bmi_val < 30:
+                    fields["bmi_category"] = "Overweight"
+                else:
+                    fields["bmi_category"] = "Obese"
+            continue
+
         matched = False
         for label, key in key_map.items():
             if stripped.startswith(label + ":"):
@@ -650,8 +789,10 @@ def pt_parse_template(template):
                 fields[key] = val.strip()
                 matched = True
                 break
+
         if not matched and curr and stripped:
             fields[curr] += "\n" + stripped
+
     return fields
 
 def ot_parse_template(template):
@@ -685,10 +826,39 @@ def ot_parse_template(template):
         "Relieved By": "pain_relieved",
         "Interferes With": "pain_interferes"
     }
-    fields = {v: "" for v in key_map.values()}
+
+    # Add header fields
+    header_fields = ["gender", "dob", "weight", "height", "bmi", "bmi_category"]
+    fields = {v: "" for v in list(key_map.values()) + header_fields}
+
     curr = None
     for line in template.splitlines():
         stripped = line.strip()
+
+        # Parse header line for gender, DOB, weight, height, BMI
+        if stripped.startswith("Gender:"):
+            match = re.search(
+                r"Gender:\s*(\w+)\s+DOB:\s*([\d/]+)\s+Weight:\s*([\d.]+ lbs)\s+Height:\s*([\d’\"0-9]+)\s+BMI:\s*([\d.]+)",
+                stripped
+            )
+            if match:
+                fields["gender"] = match.group(1)
+                fields["dob"] = match.group(2)
+                fields["weight"] = match.group(3)
+                fields["height"] = match.group(4)
+                fields["bmi"] = match.group(5)
+                # Classify BMI
+                bmi_val = float(match.group(5))
+                if bmi_val < 18.5:
+                    fields["bmi_category"] = "Underweight"
+                elif bmi_val < 25:
+                    fields["bmi_category"] = "Normal"
+                elif bmi_val < 30:
+                    fields["bmi_category"] = "Overweight"
+                else:
+                    fields["bmi_category"] = "Obese"
+            continue
+
         matched = False
         for label, key in key_map.items():
             if stripped.startswith(label + ":"):
@@ -697,7 +867,8 @@ def ot_parse_template(template):
                 fields[key] = val.strip()
                 matched = True
                 break
+
         if not matched and curr and stripped:
             fields[curr] += "\n" + stripped
+
     return fields
-    

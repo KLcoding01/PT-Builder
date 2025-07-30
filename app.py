@@ -323,26 +323,23 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
     return jsonify({"result": result})
 
 # ====== PT Export ======
-@app.route('/pt_export_word', methods=['POST'])
-@login_required
-def pt_export_word():
-    data = request.json
-    doc = pt_export_to_word(data)
-    buf = BytesIO()
-    doc.save(buf)
-    buf.seek(0)
-    return send_file(
-        buf,
-        mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        as_attachment=True,
-        download_name='PT_Eval.docx'
-    )
-
 def pt_export_to_word(data):
     doc = Document()
 
     def add_separator():
         doc.add_paragraph('-' * 114)
+
+    # Add demographic header line
+    gender = data.get('gender', '')
+    dob = data.get('dob', '')
+    weight = data.get('weight', '')
+    height = data.get('height', '')
+    bmi = data.get('bmi', '')
+    bmi_category = data.get('bmi_category', '')
+
+    header_line = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height}     BMI: {bmi} ({bmi_category})"
+    doc.add_paragraph(header_line)
+    add_separator()
 
     doc.add_paragraph(f"Medical Diagnosis: {data.get('meddiag', '')}")
     add_separator()
@@ -370,6 +367,7 @@ def pt_export_to_word(data):
     ]
     for label, key in pain_fields:
         doc.add_paragraph(f"{label}: {data.get(key, '')}")
+
     doc.add_paragraph(f"Current Medication(s): {data.get('meds', '')}")
     doc.add_paragraph(f"Diagnostic Test(s): {data.get('tests', '')}")
     doc.add_paragraph(f"DME/Assistive Device: {data.get('dme', '')}")
@@ -377,7 +375,6 @@ def pt_export_to_word(data):
     add_separator()
 
     doc.add_paragraph("Objective:")
-
     doc.add_paragraph("Posture:")
     doc.add_paragraph(data.get('posture', ''))
     doc.add_paragraph("ROM:")
@@ -466,6 +463,20 @@ def pt_export_pdf():
     c.drawString(40, y, "Physical Therapy Evaluation")
     y -= 30
 
+    # Demographic Header
+    gender = data.get('gender', '')
+    dob = data.get('dob', '')
+    weight = data.get('weight', '')
+    height_val = data.get('height', '')
+    bmi = data.get('bmi', '')
+    bmi_category = data.get('bmi_category', '')
+    demographic = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}     BMI: {bmi} ({bmi_category})"
+
+    c.setFont("Helvetica", 11)
+    c.drawString(40, y, demographic)
+    y -= 20
+    add_separator()
+
     # Sections
     add_paragraph_block("Medical Diagnosis:", data.get("meddiag", ""))
     add_paragraph_block("Medical History/HNP:", data.get("history", ""))
@@ -528,6 +539,7 @@ def pt_export_pdf():
         download_name="PT_Eval.pdf",
         mimetype="application/pdf"
     )
+
 
 # ====== OT Section ======
 @app.route("/ot_generate_diffdx", methods=["POST"])
@@ -706,6 +718,17 @@ def ot_export_to_word(data):
             doc.add_paragraph(line)
         add_separator()
 
+    # Demographic line
+    gender = data.get('gender', '')
+    dob = data.get('dob', '')
+    weight = data.get('weight', '')
+    height_val = data.get('height', '')
+    bmi = data.get('bmi', '')
+    bmi_category = data.get('bmi_category', '')
+    demographics = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}     BMI: {bmi} ({bmi_category})"
+    doc.add_paragraph(demographics)
+    add_separator()
+
     # Sections
     add_section("Medical Diagnosis:", data.get('meddiag', ''))
     add_section("Medical History/HNP:", data.get('history', ''))
@@ -771,6 +794,13 @@ def ot_export_pdf():
     width, height = letter
     y = height - 40
 
+    def add_separator():
+        nonlocal y
+        y -= 8
+        c.setLineWidth(0.5)
+        c.line(40, y, width - 40, y)
+        y -= 16
+
     def add_section(title, value):
         nonlocal y
         c.setFont("Helvetica-Bold", 13)
@@ -783,10 +813,7 @@ def ot_export_pdf():
             if y < 60:
                 c.showPage()
                 y = height - 40
-        y -= 8
-        c.setLineWidth(0.5)
-        c.line(40, y, width - 40, y)
-        y -= 16
+        add_separator()
 
     def add_multiline_section(title, lines):
         nonlocal y
@@ -801,15 +828,26 @@ def ot_export_pdf():
                 if y < 60:
                     c.showPage()
                     y = height - 40
-        y -= 8
-        c.setLineWidth(0.5)
-        c.line(40, y, width - 40, y)
-        y -= 16
+        add_separator()
 
     # Title
     c.setFont("Helvetica-Bold", 16)
     c.drawString(40, y, "Occupational Therapy Evaluation")
     y -= 30
+
+    # Demographic Line
+    gender = data.get("gender", "")
+    dob = data.get("dob", "")
+    weight = data.get("weight", "")
+    height_val = data.get("height", "")
+    bmi = data.get("bmi", "")
+    bmi_category = data.get("bmi_category", "")
+    demo_line = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}     BMI: {bmi} ({bmi_category})"
+
+    c.setFont("Helvetica", 11)
+    c.drawString(40, y, demo_line)
+    y -= 18
+    add_separator()
 
     # Main Sections
     add_section("Medical Diagnosis:", data.get("meddiag", ""))
@@ -868,7 +906,6 @@ def ot_export_pdf():
     add_section("Intervention:", data.get("intervention", ""))
     add_section("Treatment Procedures:", data.get("procedures", ""))
 
-    # Finalize
     c.save()
     buffer.seek(0)
     return send_file(
