@@ -192,7 +192,7 @@ def add_patient():
         db.session.add(patient)
         db.session.commit()
         flash("Patient added successfully!", "success")
-        return redirect(url_for('patients.html'))
+        return redirect(url_for('view_patients.html'))
 
     return render_template('add_patient.html')
 
