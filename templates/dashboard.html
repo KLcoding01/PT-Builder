@@ -43,7 +43,19 @@
               <label for="pt_patient_name" class="me-3 mb-0" style="min-width: 130px;"><strong>Patient Name:</strong></label>
               <input type="text" class="form-control" name="patient_name" id="pt_patient_name">
             </div>
-            
+            <div class="d-flex align-items-center mb-3">
+              <label for="weight" class="me-2 mb-0" style="min-width: 100px;"><strong>Weight (lbs):</strong></label>
+              <input type="number" class="form-control me-4" id="weight" name="weight" placeholder="lbs" style="max-width: 100px;">
+
+              <label for="height" class="me-2 mb-0" style="min-width: 100px;"><strong>Height (in):</strong></label>
+              <input type="number" class="form-control me-4" id="height" name="height" placeholder="in" style="max-width: 100px;">
+
+              <label for="bmi" class="me-2 mb-0" style="min-width: 50px;"><strong>BMI:</strong></label>
+              <input type="text" class="form-control me-4" id="bmi" name="bmi" readonly style="max-width: 80px;">
+
+              <label for="bmi_category" class="me-2 mb-0" style="min-width: 120px;"><strong>BMI Category:</strong></label>
+              <input type="text" class="form-control" id="bmi_category" name="bmi_category" readonly style="max-width: 150px;">
+            </div>
             <div class="d-flex align-items-center mb-3">
               <label for="pt_dob" class="me-3 mb-0" style="min-width: 130px;"><strong>DOB:</strong></label>
               <input type="text" class="form-control" name="dob" id="pt_dob" placeholder="mm/dd/yyyy">
@@ -51,7 +63,7 @@
             
             <div class="d-flex align-items-center mb-3">
               <label for="eval_date" class="me-3 mb-0" style="min-width: 130px;"><strong>Date of Eval:</strong></label>
-              <input type="text" class="form-control" name="eval_date" id="eval_date" placeholder="mm/dd/yyyy">
+              <input type="date" class="form-control" name="eval_date" id="eval_date">
             </div>
           </div>
           <!-- HISTORY TAB -->
@@ -474,4 +486,36 @@
       .catch(() => otSetStatus('Error exporting PDF!', 'red'));
   };
 </script>
+
+<script>
+
+// ===== BMI =====
+  function calculateBMI() {
+    const weight = parseFloat(document.getElementById("weight").value);
+    const heightIn = parseFloat(document.getElementById("height").value);
+    const bmiField = document.getElementById("bmi");
+    const categoryField = document.getElementById("bmi_category");
+
+    if (!isNaN(weight) && !isNaN(heightIn) && heightIn > 0) {
+      const bmi = (weight / (heightIn * heightIn)) * 703;
+      const roundedBMI = bmi.toFixed(1);
+      bmiField.value = roundedBMI;
+
+      let category = '';
+      if (bmi < 18.5) category = "Underweight";
+      else if (bmi < 24.9) category = "Normal";
+      else if (bmi < 29.9) category = "Overweight";
+      else category = "Obese";
+
+      categoryField.value = category;
+    } else {
+      bmiField.value = '';
+      categoryField.value = '';
+    }
+  }
+
+  document.getElementById("weight").addEventListener("input", calculateBMI);
+  document.getElementById("height").addEventListener("input", calculateBMI);
+</script>
+
 {% endblock %}

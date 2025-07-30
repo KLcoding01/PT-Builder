@@ -878,7 +878,7 @@ def ot_export_pdf():
         mimetype="application/pdf"
     )
 
-    
+
 # ========== GPT HELPER ==========
 
 def gpt_call(prompt, max_tokens=700):
