@@ -53,56 +53,47 @@
     padding: 2.5rem 2.5rem 2rem 2.5rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
   @media (max-width: 900px) {
     .sidebar { position: static; width: 100%; border-radius: 0; box-shadow: none; }
     .main-content { margin-left: 0; padding: 1rem; }
   }
 
-  /* Chat box styles */
-  #chat-container {
-    width: 100%;
-    max-width: 800px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 16px;
-    background: white;
-    height: 600px;
-    display: flex;
-    flex-direction: column;
-  }
+  /* Updated chat box styles */
   #chat-messages {
-    flex-grow: 1;
-    overflow-y: auto;
-    margin-bottom: 12px;
-    white-space: pre-wrap;
+    width: 700px;
+    height: 550px;
     border: 1px solid #ddd;
     padding: 12px;
     border-radius: 6px;
     background-color: #fafafa;
+    overflow-y: auto;
+    white-space: pre-wrap;
   }
   #chat-input {
-    width: 100%;
-    height: 100px;
-    resize: none;
-    padding: 8px;
+    width: 700px;
+    height: 140px;
+    padding: 12px;
     font-size: 1rem;
     border-radius: 6px;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    margin-top: 10px;
+    resize: vertical;
   }
   #send-btn, #copy-btn {
     font-weight: 600;
     border: none;
     border-radius: 7px;
     cursor: pointer;
-    flex: 1;
-    padding: 10px 20px;
+    padding: 12px 30px;
+    font-size: 1.1rem;
   }
   #send-btn {
     background-color: #1969ff;
     color: white;
+    margin-right: 12px;
   }
   #send-btn:disabled {
     background-color: #a0b9ff;
@@ -111,6 +102,11 @@
   #copy-btn {
     background-color: #4CAF50;
     color: white;
+  }
+  .buttons-container {
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
   }
 </style>
 <div class="main-bg">
@@ -125,10 +121,10 @@
   <div class="main-content">
     <h2 style="font-weight:700; color:#1969ff; margin-bottom:1.7rem;">Welcome to PT/OT Builder</h2>
 
-    <div id="chat-container">
+    <div>
       <div id="chat-messages"></div>
       <textarea id="chat-input" placeholder="Type your message here..."></textarea>
-      <div style="display: flex; gap: 12px; margin-top: 8px;">
+      <div class="buttons-container">
         <button id="send-btn">Send</button>
         <button id="copy-btn">Copy Chat</button>
       </div>
