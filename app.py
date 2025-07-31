@@ -202,9 +202,12 @@ def add_patient():
 
 #====== View Notes =======
 @app.route('/view_pt_notes/<int:patient_id>')
+@login_required
 def view_pt_notes(patient_id):
-    note = get_pt_note_for_patient(patient_id)
-    return render_template('pt_notes.html', note=note)
+    print("Fetching notes for patient_id:", patient_id, type(patient_id))
+    notes = PTNote.query.filter_by(patient_id=patient_id).order_by(PTNote.created_at.desc()).all()
+    print("Fetched notes:", [(n.id, n.patient_id) for n in notes])
+    return render_template('pt_notes.html', notes=notes)
 
 @app.route('/view_note/<int:note_id>')
 def view_note(note_id):
@@ -526,19 +529,21 @@ def pt_eval_builder():
         patient_id = request.form.get('patient_id')
         generated_note = request.form.get('generated_note')
         doc_type = request.form.get('doc_type', 'Evaluation')
+        print("Form patient_id:", patient_id, type(patient_id))
         if not patient_id:
             flash("Patient not selected or patient_id missing.", "danger")
             return redirect(url_for('pt_eval_builder'))
+        patient_id_int = int(patient_id)
         note = PTNote(
-            patient_id=int(patient_id), 
+            patient_id=patient_id_int,
             content=generated_note,
             user_id=current_user.id,
             doc_type=doc_type
         )
         db.session.add(note)
         db.session.commit()
-        # FIX: Redirect to this patient's notes, not all notes
-        return redirect(url_for('view_pt_notes', patient_id=patient_id))
+        print("Saved note:", note.id, "with patient_id:", note.patient_id, type(note.patient_id))
+        return redirect(url_for('view_pt_notes', patient_id=patient_id_int))
     return render_template('pt_eval_builder.html')
 
 
