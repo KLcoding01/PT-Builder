@@ -511,7 +511,7 @@ document.querySelector('form[action="/pt_eval_builder"]').addEventListener('subm
 </script>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const loadedNote = {{ loaded_note|tojson|default('null') }};
+    const loadedNote = {{ loaded_note | default(None) | tojson }};
     if (loadedNote) {
       Object.entries(loadedNote).forEach(([key, value]) => {
         const fld = document.getElementById('pt_' + key) || document.querySelector(`#pt-evalform [name="${key}"]`);
