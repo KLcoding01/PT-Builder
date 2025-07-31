@@ -1,21 +1,63 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Add New Patient</h2>
-<form method="POST">
-  <label>Name:</label><br>
-  <input type="text" name="name" required><br><br>
+<style>
+  .main-content {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 38px 28px 38px;
+  }
+  h2 {
+    font-weight: 700;
+    color: #1969ff;
+    margin-bottom: 1.7rem;
+  }
+  form label {
+    font-weight: 600;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+  }
+  form input[type="text"],
+  form select {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 7px;
+    border: 1px solid #d1d5db;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  form button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-weight: 600;
+    background-color: #1969ff;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  form button:hover {
+    background-color: #105ecc;
+  }
+</style>
 
-  <label>Date of Birth:</label><br>
-  <input type="date" name="dob" required><br><br>
+<div class="main-content">
+  <h2>Add New Patient</h2>
+  <form method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
 
-  <label>Gender:</label><br>
-  <select name="gender" required>
-    <option value="" disabled selected>Select gender</option>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Other">Other</option>
-  </select><br><br>
+    <label for="dob">Date of Birth:</label>
+    <input type="text" id="dob" name="dob" placeholder="MM/DD/YYYY" required>
 
-  <button type="submit">Add Patient</button>
-</form>
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+      <option value="" disabled selected>Select gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+
+    <button type="submit">Add Patient</button>
+  </form>
+</div>
 {% endblock %}
