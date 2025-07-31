@@ -509,5 +509,16 @@ document.querySelector('form[action="/pt_eval_builder"]').addEventListener('subm
   document.getElementById('pt-fields-json').value = JSON.stringify(fields);
 });
 </script>
-
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const loadedNote = {{ loaded_note|tojson|default('null') }};
+    if (loadedNote) {
+      Object.entries(loadedNote).forEach(([key, value]) => {
+        const fld = document.getElementById('pt_' + key) || document.querySelector(`#pt-evalform [name="${key}"]`);
+        if (fld) fld.value = value;
+      });
+      ptSetStatus('Loaded saved note', 'green');
+    }
+  });
+</script>
 {% endblock %}

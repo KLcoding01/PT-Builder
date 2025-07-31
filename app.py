@@ -293,8 +293,12 @@ def delete_pt_note(note_id):
 @login_required
 def load_pt_note(note_id):
     note = PTNote.query.get_or_404(note_id)
-    # Pass as loaded_note to PT Builder template
-    return render_template('pt_eval.html', loaded_note=note.content, loaded_doc_type=note.doc_type)
+    try:
+        loaded_fields = json.loads(note.content)
+    except Exception:
+        loaded_fields = {}
+    return render_template('pt_eval.html', loaded_note=loaded_fields, loaded_doc_type=note.doc_type)
+
 
 #==================================== PATIENT SEARCH ====================================
 
@@ -497,20 +501,33 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
 def pt_eval_builder():
     if request.method == 'POST':
         patient_id = request.form.get('patient_id')
+        if not patient_id:
+            flash('Please assign the note to a patient.', 'danger')
+            return render_template('pt_eval_builder.html')
+
         doc_type = request.form.get('doc_type', 'Evaluation')
         content = request.form.get('generated_note', '')
         fields_json = request.form.get('fields_json', '')
-        note = PTNote(
-            patient_id=patient_id,
-            content=content,
-            user_id=current_user.id,
-            doc_type=doc_type,
-            fields_json=fields_json
-        )
-        db.session.add(note)
-        db.session.commit()
-        return redirect(url_for('view_pt_notes', patient_id=patient_id))
-    return render_template('pt_eval_builder.html')
+
+        try:
+            note = PTNote(
+                patient_id=patient_id,
+                content=content,
+                user_id=current_user.id,
+                doc_type=doc_type,
+                fields_json=fields_json
+            )
+            db.session.add(note)
+            db.session.commit()
+            flash('Note saved successfully.', 'success')
+            return redirect(url_for('view_pt_notes', patient_id=patient_id))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error saving note: {str(e)}', 'danger')
+            return render_template('pt_eval_builder.html')
+
+    # For GET requests, optionally pass loaded_note if editing
+    return render_template('pt_eval_builder.html', loaded_note=None)
 
 
 @app.route('/pt_notes')
