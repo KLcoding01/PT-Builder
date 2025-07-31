@@ -32,12 +32,12 @@ with app.app_context():
     except Exception as e:
         print("Migration failed or column already exists:", e)
         
-# --- OPENAI SETUP ---
+# ==================================== OPENAI SETUP ====================================
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 client = OpenAI(api_key=OPENAI_API_KEY)
 MODEL = "gpt-4o-mini"
 
-# --- LOGIN MANAGER ---
+# ==================================== LOGIN MANAGER ====================================
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
@@ -46,7 +46,7 @@ login_manager.init_app(app)
 def load_user(user_id):
     return Therapist.query.get(int(user_id))
 
-# --- CREATE TABLES & ADMIN IF NONE ---
+# =========================== CREATE TABLES & ADMIN IF NONE ============================
 with app.app_context():
     db.create_all()
     if not Therapist.query.filter_by(username="admin").first():
@@ -64,14 +64,14 @@ with app.app_context():
         db.session.commit()
         print("Default admin user created: username=admin, password=admin123")
 
-# --- INDEX REDIRECT ---
+# ==================================== INDEX REDIRECT ====================================
 @app.route('/')
 def index():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     return redirect(url_for('login'))
 
-# --- LOGIN ---
+# ==================================== LOGIN ====================================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -85,20 +85,20 @@ def login():
             flash("Invalid username or password", "danger")
     return render_template('login.html')
 
-# --- LOGOUT ---
+# ==================================== LOGOUT ====================================
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
-# --- DASHBOARD ---
+# ==================================== DASHBOARD ====================================
 @app.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html')
 
-# --- REGISTER ---
+# ==================================== REGISTER ====================================
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -125,7 +125,8 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html')
 
-# --- FORGOT PASSWORD ---
+# ==================================== FORGOT PASSWORD ====================================
+
 s = URLSafeTimedSerializer(app.secret_key)
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
@@ -140,6 +141,8 @@ def forgot_password():
         flash("If this email exists, a reset link has been sent.", "success")
         return redirect(url_for('forgot_password'))
     return render_template('forgot_password.html')
+    
+# ==================================== RESET PASSWORD ====================================
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
@@ -169,7 +172,7 @@ def reset_password(token):
         return redirect(url_for('login'))
     return render_template('reset_password.html')
     
-# ==== Add Patients ====
+# ==================================== ADD PATIENTS ====================================
 @app.route('/patients', methods=['GET'])
 @login_required
 def view_patients():
@@ -207,8 +210,38 @@ def add_patient():
         return redirect(url_for('view_patients'))
 
     return render_template('add_patient.html')
+    
+#==================================== EDIT PATIENTS ====================================
 
-#====== View Notes =======
+@app.route('/edit_patient/<int:patient_id>', methods=['GET', 'POST'])
+@login_required
+def edit_patient(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    if request.method == 'POST':
+        # Update fields from form data
+        patient.name = request.form['name']
+        patient.dob = request.form['dob']
+        patient.gender = request.form['gender']
+        # ... other fields
+        db.session.commit()
+        flash("Patient info updated.", "success")
+        return redirect(url_for('view_patients'))
+    return render_template('edit_patient.html', patient=patient)
+    
+#==================================== DELETE PATIENTS  ====================================
+
+@app.route('/delete_patient/<int:patient_id>', methods=['POST'])
+@login_required
+def delete_patient(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    # Also delete notes if you want to cascade delete
+    db.session.delete(patient)
+    db.session.commit()
+    flash("Patient deleted.", "success")
+    return redirect(url_for('view_patients'))
+
+#==================================== VIEW NOTES  ====================================
+
 @app.route('/view_pt_notes/<int:patient_id>')
 @login_required
 def view_pt_notes(patient_id):
@@ -232,7 +265,7 @@ def view_ot_notes(patient_id):
     patient = Patient.query.get_or_404(patient_id)
     return render_template('ot_notes.html', patient=patient)
 
-# ======= Edit PT Notes =========
+#==================================== EDIT PT NOTES ====================================
 @app.route('/pt_notes/<int:note_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_pt_note(note_id):
@@ -245,6 +278,8 @@ def edit_pt_note(note_id):
         return redirect(url_for('pt_notes'))
     return render_template('edit_pt_note.html', note=note)
 
+#==================================== DELETE PT NOTES ====================================
+
 @app.route('/pt_notes/<int:note_id>/delete', methods=['POST'])
 @login_required
 def delete_pt_note(note_id):
@@ -254,6 +289,8 @@ def delete_pt_note(note_id):
     flash('Note deleted!')
     return redirect(url_for('pt_notes'))
 
+#==================================== LOAD PT NOTE ====================================
+
 @app.route('/pt_notes/<int:note_id>/load')
 @login_required
 def load_pt_note(note_id):
@@ -261,7 +298,8 @@ def load_pt_note(note_id):
     # Pass as loaded_note to PT Builder template
     return render_template('pt_eval.html', loaded_note=note.content, loaded_doc_type=note.doc_type)
 
-#======Patient Search ======
+#==================================== PATIENT SEARCH ====================================
+
 @app.route('/patients', methods=['GET'])
 @login_required
 def view_single_patient():
@@ -288,8 +326,7 @@ def api_patients():
     results = results.order_by(Patient.name.asc()).all()
     return jsonify([{"id": p.id, "name": p.name} for p in results])
     
-# ==== PT & OT Endpoints (NO DUPLICATE ROUTES) ====
-
+# #==================================== LOAD PT TEMPLATES ====================================
 @app.route("/pt_load_template", methods=["POST"])
 @login_required
 def pt_load_template():
@@ -312,13 +349,15 @@ def ot_load_template():
         
 
 
-# ====== PT Section ======
+#==================================== PT RENDER EVAL ====================================
+
 @app.route("/pt-eval")
 @login_required
 def pt_eval():
     return render_template("pt_eval.html")
     
-    
+#========================== AI GENERATE PT DIFFERENTIAL DX ==============================
+
 @app.route("/pt_generate_diffdx", methods=["POST"])
 @login_required
 def pt_generate_diffdx():
@@ -349,6 +388,8 @@ def pt_generate_diffdx():
     )
     result = gpt_call(prompt, max_tokens=250)
     return jsonify({"result": result})
+    
+#==================================== AI GENERATE PT SUMMARY ====================================
 
 @app.route("/pt_generate_summary", methods=["POST"])
 @login_required
@@ -406,6 +447,7 @@ def pt_generate_summary():
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
     
+#==================================== AI GENERATE PT GOALS ====================================
 @app.route('/pt_generate_goals', methods=['POST'])
 @login_required
 def pt_generate_goals():
@@ -450,7 +492,7 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
     result = gpt_call(prompt, max_tokens=400)
     return jsonify({"result": result})
 
-# ====== PT Save Patient Notes ======
+#==================================== PT SAVE NOTES ====================================
 
 @app.route('/pt_eval_builder', methods=['GET', 'POST'])
 @login_required
@@ -481,7 +523,7 @@ def pt_notes():
     return render_template('pt_notes.html', notes=notes)
 
         
-# ====== PT Export Word Doc ======
+#==================================== PT EXPORT WORD DOC ====================================
 @app.route('/pt_export_word', methods=['POST'])
 @login_required
 def pt_export_word():
@@ -624,7 +666,7 @@ def pt_export_to_word(data):
     buf.seek(0)
     return buf
 
-#======= PT Export PDF =========
+#==================================== PT EXPORT PDF ====================================
 
 @app.route("/pt_export_pdf", methods=["POST"])
 @login_required
@@ -807,12 +849,15 @@ def pt_export_pdf():
     )
 
 
-# ====== OT Section ======
+#==================================== OT RENDER EVAL ====================================
+
 @app.route("/ot-eval")
 @login_required
 def ot_eval():
     return render_template("ot_eval.html")
     
+#==================================== AI GENERATE OT DIFFERENTIAL DX ====================================
+
 @app.route("/ot_generate_diffdx", methods=["POST"])
 @login_required
 def ot_generate_diffdx():
@@ -841,6 +886,7 @@ def ot_generate_diffdx():
         dx = gpt_call(dx_prompt, max_tokens=200)
     return jsonify({"result": dx})
 
+#=================================== AI GENERATE OT SUMMARY ===================================
 
 @app.route("/ot_generate_summary", methods=["POST"])
 @login_required
@@ -914,6 +960,8 @@ def ot_generate_summary():
     )
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
+    
+#==================================== AI GENERATE OT GOALS ====================================
 
 @app.route('/ot_generate_goals', methods=['POST'])
 @login_required
@@ -955,7 +1003,7 @@ Long-Term Goals (13–25 visits):
     result = gpt_call(prompt, max_tokens=400)
     return jsonify({"result": result})
 
-# ====== OT Export Word Doc ======
+#==================================== OT EXPORT WORD DOC ====================================
 
 @app.route('/ot_export_word', methods=['POST'])
 @login_required
@@ -1099,7 +1147,8 @@ def ot_export_to_word(data):
     buf.seek(0)
     return buf
 
-#======= OT Export PDF =========
+#==================================== OT EXPORT PDF ====================================
+
 @app.route("/ot_export_pdf", methods=["POST"])
 @login_required
 def ot_export_pdf():
@@ -1280,7 +1329,7 @@ def ot_export_pdf():
         mimetype="application/pdf"
     )
 
-# ========== GPT HELPER ==========
+#==================================== GPT HELPER ====================================
 
 def gpt_call(prompt, max_tokens=700):
     try:
@@ -1293,7 +1342,7 @@ def gpt_call(prompt, max_tokens=700):
     except Exception as e:
         return f"OpenAI error: {e}"
 
-# ========== MAIN ==========
+#==================================== MAIN ====================================
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

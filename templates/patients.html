@@ -1,84 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
   <h2>Patient List</h2>
-<style>
-  body, .main-bg {
-    background: #f4f7fb !important;
-    min-height: 100vh;
-  }
-  .main-content {
-    max-width: 1100px;
-    margin: 40px auto;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 2px 24px 0 rgba(35,72,207,0.08);
-    padding: 36px 38px 28px 38px;
-  }
-  h2 {
-    font-weight: 700;
-    color: #1969ff;
-    margin-bottom: 1.7rem;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    margin-top: 18px;
-  }
-  th, td {
-    padding: 10px 15px;
-    border-bottom: 1px solid #e5e8ef;
-    text-align: left;
-  }
-  th {
-    background: #f8fafc;
-    font-weight: 600;
-    color: #334862;
-    font-size: 1.07rem;
-  }
-  tr:last-child td {
-    border-bottom: none;
-  }
-  input[type="text"] {
-    padding: 7px 11px;
-    width: 250px;
-    border-radius: 7px;
-    border: 1px solid #d1d5db;
-    margin-right: 10px;
-    font-size: 1rem;
-  }
-  button[type="submit"] {
-    padding: 7px 20px;
-    border-radius: 7px;
-    background: #1969ff;
-    color: #fff;
-    border: none;
-    font-weight: 600;
-    margin-right: 10px;
-  }
-  a.add-btn {
-    float: right;
-    color: #226cff;
-    text-decoration: none;
-    font-weight: 700;
-    padding: 6px 18px;
-    border-radius: 8px;
-    background: #f2f6ff;
-    transition: background 0.16s;
-    border: 1.2px solid #dde7ff;
-  }
-  a.add-btn:hover {
-    background: #e8f0ff;
-    color: #1049b5;
-  }
-  a {
-    color: #1969ff;
-    text-decoration: underline;
-  }
-</style>
-
-<div class="main-content">
-  <h2>Patient List</h2>
 
   <form method="GET" action="{{ url_for('view_patients') }}" style="margin-bottom: 18px;">
     <input type="text" name="q" placeholder="Search by name..." value="{{ query }}">
@@ -95,6 +17,8 @@
         <th>Gender</th>
         <th>PT Notes</th>
         <th>OT Notes</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -105,11 +29,17 @@
           <td>{{ p.gender }}</td>
           <td><a href="{{ url_for('view_pt_notes', patient_id=p.id) }}">View PT Notes</a></td>
           <td><a href="{{ url_for('view_ot_notes', patient_id=p.id) }}">View OT Notes</a></td>
-        </tr>
-      {% else %}
-        <tr><td colspan="5">No patients found.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endblock %}
+          <td>
+            <a href="{{ url_for('edit_patient', patient_id=p.id) }}" class="btn btn-sm btn-primary">Edit</a>
+          </td>
+          <td>
+            <form method="POST" action="{{ url_for('delete_patient', patient_id=p.id) }}" style="display:inline;">
+              <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this patient? All related notes will also be removed.');">Delete</button>
+            </form>
+           </td>
+         </tr>
+       {% else %}
+         <tr><td colspan="7">No patients found.</td></tr>
+       {% endfor %}
+     </tbody>
+    </table>
