@@ -25,6 +25,13 @@
     border: 1px solid #d1d5db;
     font-size: 1rem;
     box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out;
+  }
+  form input[type="text"]:focus,
+  form select:focus {
+    border-color: #1969ff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(25, 105, 255, 0.5);
   }
   form button {
     margin-top: 20px;
@@ -35,6 +42,7 @@
     border: none;
     border-radius: 7px;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
   }
   form button:hover {
     background-color: #105ecc;
@@ -43,18 +51,20 @@
 
 <div class="main-content">
   <h2>Add New Patient</h2>
-  <form method="POST">
+  <form method="POST" autocomplete="off" novalidate>
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+    <input type="text" id="name" name="name" required placeholder="Enter full name">
 
     <label for="dob">Date of Birth:</label>
-    <input type="text" id="dob" name="dob" placeholder="MM/DD/YYYY" required>
+    <input type="text" id="dob" name="dob" placeholder="MM/DD/YYYY" pattern="\d{2}/\d{2}/\d{4}" title="Enter date as MM/DD/YYYY" required>
 
     <label for="gender">Gender:</label>
     <select id="gender" name="gender" required>
       <option value="" disabled selected>Select gender</option>
       <option value="Male">Male</option>
       <option value="Female">Female</option>
+      <option value="Other">Other</option>
+      <option value="Prefer not to say">Prefer not to say</option>
     </select>
 
     <button type="submit">Add Patient</button>
