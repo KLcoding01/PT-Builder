@@ -57,7 +57,7 @@
     {% if error %}
       <p class="error">{{ error }}</p>
     {% endif %}
-    <form method="POST">
+    <form method="POST" action="{{ url_for('exercise_builder.exercise_builder') }}">
       {% for ex in exercises %}
       <div class="exercise-item">
         <input type="checkbox" id="{{ ex.id }}" name="exercises" value="{{ ex.id }}">
