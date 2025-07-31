@@ -4,11 +4,10 @@
   .main-content {
     max-width: 1100px;
     margin: 40px auto;
-    padding: 1rem 1.5rem;
-    /* Removed background, border-radius, box-shadow for clean minimal look */
-    background: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 24px 0 rgba(35,72,207,0.08);
+    padding: 36px 38px 28px 38px;
   }
   h2 {
     font-weight: 700;
@@ -20,38 +19,28 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    max-width: 600px;
+    flex-wrap: wrap; /* Allow wrapping for small screens */
+    max-width: 700px; /* Adjust max width as needed */
   }
   form.search-form input[type="text"] {
     padding: 7px 11px;
-    width: 100%;
+    flex: 1 1 250px; /* Flexible width with minimum */
     border-radius: 7px;
     border: 1px solid #d1d5db;
     font-size: 1rem;
+    min-width: 150px;
   }
   form.search-form button {
     padding: 7px 20px;
     font-weight: 600;
+    white-space: nowrap; /* Prevent line break */
   }
   form.search-form a.add-btn {
-    margin-left: auto;
+    margin-left: auto; /* Push to far right */
+    white-space: nowrap; /* Prevent line break */
   }
   table {
     width: 100%;
-    background: transparent !important; /* no white bg */
-  }
-  thead tr {
-    background: #f8fafd; /* subtle header background */
-  }
-  tbody tr:hover {
-    background: #f1f5fb; /* subtle hover effect */
-  }
-  th, td {
-    vertical-align: middle !important;
-  }
-  a.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.85rem;
   }
 </style>
 
