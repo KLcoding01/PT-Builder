@@ -33,6 +33,7 @@
             </div>
           </div>
           <input type="hidden" name="generated_note" id="pt-generated-note">
+          <input type="hidden" name="fields_json" id="pt-fields-json">
         </form>
         <ul class="nav nav-tabs mb-2" id="pt-inner-tab" role="tablist">
           <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#pt-patientinfo" role="tab">Patient Info</a></li>
@@ -480,30 +481,33 @@
     });
   });
 // ADD THIS BLOCK BELOW:
- document.querySelector('form[action="/pt_eval_builder"]').addEventListener('submit', function(e) {
-   const fields = ptGetFields();
-   let content =
-     `Patient Name: ${fields.patient_name || ''}\n` +
-     `DOB: ${fields.dob || ''}\n` +
-     `Gender: ${fields.gender || ''}\n` +
-     `Weight: ${fields.weight || ''}\n` +
-     `Height: ${fields.height || ''}\n` +
-     `BMI: ${fields.bmi || ''} (${fields.bmi_category || ''})\n` +
-     `Date of Eval: ${fields.eval_date || ''}\n\n` +
-     `Medical Diagnosis:\n${fields.meddiag || ''}\n` +
-     `Medical History/HNP:\n${fields.history || ''}\n` +
-     `Subjective (HPI):\n${fields.subjective || ''}\n` +
-     `Current Medication(s):\n${fields.meds || ''}\n` +
-     `Diagnostic Test(s):\n${fields.tests || ''}\n` +
-     `DME/Assistive Device:\n${fields.dme || ''}\n` +
-     `PLOF:\n${fields.plof || ''}\n\n` +
-     `Pain:\nArea/Location: ${fields.pain_location || ''}\nOnset: ${fields.pain_onset || ''}\nCondition: ${fields.pain_condition || ''}\nMechanism: ${fields.pain_mechanism || ''}\nRating: ${fields.pain_rating || ''}\nFrequency: ${fields.pain_frequency || ''}\nDescription: ${fields.pain_description || ''}\nAggravating: ${fields.pain_aggravating || ''}\nRelieved By: ${fields.pain_relieved || ''}\nInterferes: ${fields.pain_interferes || ''}\n\n` +
-     `Objective:\nPosture:\n${fields.posture || ''}\nROM:\n${fields.rom || ''}\nStrength:\n${fields.strength || ''}\nPalpation:\n${fields.palpation || ''}\nFunctional:\n${fields.functional || ''}\nSpecial:\n${fields.special || ''}\nImpairments:\n${fields.impairments || ''}\n\n` +
-     `PT Differential Diagnosis:\n${fields.diffdx || ''}\n\n` +
-     `Assessment Summary:\n${fields.summary || ''}\n\n` +
-     `Goals:\n${fields.goals || ''}\nFrequency/Duration: ${fields.frequency || ''}\nIntervention:\n${fields.intervention || ''}\nProcedures:\n${fields.procedures || ''}\n`;
-   document.getElementById('pt-generated-note').value = content;
- });
+document.querySelector('form[action="/pt_eval_builder"]').addEventListener('submit', function(e) {
+  const fields = ptGetFields();
+  // Build preview string for search/table preview
+  let content =
+    `Patient Name: ${fields.patient_name || ''}\n` +
+    `DOB: ${fields.dob || ''}\n` +
+    `Gender: ${fields.gender || ''}\n` +
+    `Weight: ${fields.weight || ''}\n` +
+    `Height: ${fields.height || ''}\n` +
+    `BMI: ${fields.bmi || ''} (${fields.bmi_category || ''})\n` +
+    `Date of Eval: ${fields.eval_date || ''}\n\n` +
+    `Medical Diagnosis:\n${fields.meddiag || ''}\n` +
+    `Medical History/HNP:\n${fields.history || ''}\n` +
+    `Subjective (HPI):\n${fields.subjective || ''}\n` +
+    `Current Medication(s):\n${fields.meds || ''}\n` +
+    `Diagnostic Test(s):\n${fields.tests || ''}\n` +
+    `DME/Assistive Device:\n${fields.dme || ''}\n` +
+    `PLOF:\n${fields.plof || ''}\n\n` +
+    `Pain:\nArea/Location: ${fields.pain_location || ''}\nOnset: ${fields.pain_onset || ''}\nCondition: ${fields.pain_condition || ''}\nMechanism: ${fields.pain_mechanism || ''}\nRating: ${fields.pain_rating || ''}\nFrequency: ${fields.pain_frequency || ''}\nDescription: ${fields.pain_description || ''}\nAggravating: ${fields.pain_aggravating || ''}\nRelieved By: ${fields.pain_relieved || ''}\nInterferes: ${fields.pain_interferes || ''}\n\n` +
+    `Objective:\nPosture:\n${fields.posture || ''}\nROM:\n${fields.rom || ''}\nStrength:\n${fields.strength || ''}\nPalpation:\n${fields.palpation || ''}\nFunctional:\n${fields.functional || ''}\nSpecial:\n${fields.special || ''}\nImpairments:\n${fields.impairments || ''}\n\n` +
+    `PT Differential Diagnosis:\n${fields.diffdx || ''}\n\n` +
+    `Assessment Summary:\n${fields.summary || ''}\n\n` +
+    `Goals:\n${fields.goals || ''}\nFrequency/Duration: ${fields.frequency || ''}\nIntervention:\n${fields.intervention || ''}\nProcedures:\n${fields.procedures || ''}\n`;
+  document.getElementById('pt-generated-note').value = content;
+  // Also set structured JSON for later viewing
+  document.getElementById('pt-fields-json').value = JSON.stringify(fields);
+});
 </script>
 
 {% endblock %}

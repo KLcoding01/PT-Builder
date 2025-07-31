@@ -217,13 +217,13 @@ def view_pt_notes(patient_id):
     print("Fetched notes:", [(n.id, n.patient_id) for n in notes])
     return render_template('pt_notes.html', notes=notes)
 
+
 @app.route('/view_note/<int:note_id>')
 @login_required
 def view_note(note_id):
     note = PTNote.query.get_or_404(note_id)
-    # Try to load fields_json (all form fields)
     fields = json.loads(note.fields_json) if note.fields_json else {}
-    return render_template("view_note_structure.html", note=note, fields=fields)
+    return render_template('view_note.html', fields=fields, note=note)
 
 
 @app.route('/patients/<int:patient_id>/ot-notes')
@@ -451,22 +451,18 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
     return jsonify({"result": result})
 
 # ====== PT Save Patient Notes ======
+
 @app.route('/pt_eval_builder', methods=['GET', 'POST'])
 @login_required
 def pt_eval_builder():
     if request.method == 'POST':
         patient_id = request.form.get('patient_id')
-        generated_note = request.form.get('generated_note')
         doc_type = request.form.get('doc_type', 'Evaluation')
-        fields_json = json.dumps(dict(request.form))  # <-- THIS IS IMPORTANT
-
-        if not patient_id:
-            flash("Patient not selected or patient_id missing.", "danger")
-            return redirect(url_for('pt_eval_builder'))
-
+        content = request.form.get('generated_note', '')
+        fields_json = request.form.get('fields_json', '')
         note = PTNote(
-            patient_id=int(patient_id),
-            content=generated_note,
+            patient_id=patient_id,
+            content=content,
             user_id=current_user.id,
             doc_type=doc_type,
             fields_json=fields_json
@@ -475,6 +471,7 @@ def pt_eval_builder():
         db.session.commit()
         return redirect(url_for('view_pt_notes', patient_id=patient_id))
     return render_template('pt_eval_builder.html')
+
 
 @app.route('/pt_notes')
 @login_required
