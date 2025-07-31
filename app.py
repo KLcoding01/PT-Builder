@@ -21,6 +21,7 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key_change_me")
 db_path = '/tmp/db.sqlite3'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.engine.execute('ALTER TABLE ptnote ADD COLUMN fields_json TEXT')
 
 db.init_app(app)
 
@@ -215,6 +216,7 @@ def view_note(note_id):
     note = PTNote.query.get_or_404(note_id)
     fields = json.loads(note.fields_json) if note.fields_json else None
     return render_template('view_note_structure.html', note=note, fields=fields)
+
 
 @app.route('/patients/<int:patient_id>/ot-notes')
 @login_required
@@ -448,24 +450,22 @@ def pt_eval_builder():
         patient_id = request.form.get('patient_id')
         generated_note = request.form.get('generated_note')
         doc_type = request.form.get('doc_type', 'Evaluation')
-        print("Form patient_id:", patient_id, type(patient_id))
         if not patient_id:
             flash("Patient not selected or patient_id missing.", "danger")
             return redirect(url_for('pt_eval_builder'))
-        patient_id_int = int(patient_id)
+        # Save all fields as JSON
+        fields_json = json.dumps(dict(request.form))
         note = PTNote(
             patient_id=int(patient_id),
             content=generated_note,
             user_id=current_user.id,
             doc_type=doc_type,
-            fields_json = json.dumps(dict(request.form))
+            fields_json=fields_json
         )
         db.session.add(note)
         db.session.commit()
-        print("Saved note:", note.id, "with patient_id:", note.patient_id, type(note.patient_id))
-        return redirect(url_for('view_pt_notes', patient_id=patient_id_int))
+        return redirect(url_for('view_pt_notes', patient_id=patient_id))
     return render_template('pt_eval_builder.html')
-
 
 @app.route('/pt_notes')
 @login_required

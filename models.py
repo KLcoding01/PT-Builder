@@ -34,7 +34,8 @@ class PTNote(db.Model):
     doc_type = db.Column(db.String(50), default="Evaluation")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     patient = db.relationship("Patient", backref="pt_notes")
-
+    fields_json = db.Column(db.Text)
+    
 def get_pt_note_for_patient(patient_id):
     return {
         "pt_name": "",
