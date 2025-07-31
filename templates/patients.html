@@ -4,10 +4,11 @@
   .main-content {
     max-width: 1100px;
     margin: 40px auto;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 2px 24px 0 rgba(35,72,207,0.08);
-    padding: 36px 38px 28px 38px;
+    /* Remove background, border-radius, box-shadow */
+    /* background: #fff; */
+    /* border-radius: 20px; */
+    /* box-shadow: 0 2px 24px 0 rgba(35,72,207,0.08); */
+    padding: 0 20px 28px 38px; /* keep horizontal padding and bottom padding */
   }
   h2 {
     font-weight: 700;
@@ -19,12 +20,12 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap; /* Allow wrapping for small screens */
-    max-width: 700px; /* Adjust max width as needed */
+    flex-wrap: wrap; /* allow wrapping on smaller screens */
+    max-width: 700px;
   }
   form.search-form input[type="text"] {
     padding: 7px 11px;
-    flex: 1 1 250px; /* Flexible width with minimum */
+    flex: 1 1 250px;
     border-radius: 7px;
     border: 1px solid #d1d5db;
     font-size: 1rem;
@@ -33,14 +34,19 @@
   form.search-form button {
     padding: 7px 20px;
     font-weight: 600;
-    white-space: nowrap; /* Prevent line break */
+    white-space: nowrap;
   }
   form.search-form a.add-btn {
-    margin-left: auto; /* Push to far right */
-    white-space: nowrap; /* Prevent line break */
+    margin-left: auto;
+    white-space: nowrap;
   }
   table {
     width: 100%;
+    background: transparent !important; /* remove background from table */
+  }
+  /* Optional: remove any table wrapper background if exists */
+  .table-responsive {
+    background: transparent !important;
   }
 </style>
 
