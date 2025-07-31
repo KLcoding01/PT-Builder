@@ -194,7 +194,7 @@ def add_patient():
         dob = None
         if dob_str:
             try:
-                dob = datetime.strptime(dob_str, '%Y-%m-%d')
+                dob = datetime.strptime(dob_str, '%m-%d-%Y')
             except ValueError:
                 flash("Invalid date format for DOB. Use YYYY-MM-DD.", "danger")
                 return render_template('add_patient.html')
