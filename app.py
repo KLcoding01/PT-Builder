@@ -525,16 +525,20 @@ def pt_eval_builder():
     if request.method == 'POST':
         patient_id = request.form.get('patient_id')
         generated_note = request.form.get('generated_note')
-        doc_type = request.form.get('doc_type', 'Evaluation')  # <-- Add this!
+        doc_type = request.form.get('doc_type', 'Evaluation')
+        if not patient_id:
+            flash("Patient not selected or patient_id missing.", "danger")
+            return redirect(url_for('pt_eval_builder'))
         note = PTNote(
             patient_id=patient_id,
             content=generated_note,
             user_id=current_user.id,
-            doc_type=doc_type     # <-- Save the type
+            doc_type=doc_type
         )
         db.session.add(note)
         db.session.commit()
-        return redirect(url_for('pt_notes'))
+        # FIX: Redirect to this patient's notes, not all notes
+        return redirect(url_for('view_pt_notes', patient_id=patient_id))
     return render_template('pt_eval_builder.html')
 
 
