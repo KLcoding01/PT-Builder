@@ -611,11 +611,8 @@ def pt_export_to_word(data):
     doc.add_paragraph(data.get('rom', ''))
 
     doc.add_paragraph("Muscle Strength Test:")
-    doc.add_paragraph(f"Gross Core Strength: {data.get('strength_core', '')}")
-    doc.add_paragraph(f"Gross Hip Strength: {data.get('strength_hip', '')}")
-    doc.add_paragraph(f"Gross Knee Strength: {data.get('strength_knee', '')}")
-    doc.add_paragraph(f"Gross Ankle Strength: {data.get('strength_ankle', '')}")
-
+    doc.add_paragraph(data.get('strength', ''))
+    
     doc.add_paragraph("Palpation:")
     doc.add_paragraph(data.get('palpation', ''))
 
