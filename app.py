@@ -221,8 +221,8 @@ def view_pt_notes(patient_id):
 @login_required
 def view_note(note_id):
     note = PTNote.query.get_or_404(note_id)
-    fields = json.loads(note.fields_json) if note.fields_json else None
-    return render_template('view_note_structure.html', note=note, fields=fields)
+    fields = json.loads(note.fields_json) if note.fields_json else {}
+    return render_template("view_note_structure.html", note=note, fields=fields)
 
 
 @app.route('/patients/<int:patient_id>/ot-notes')
@@ -457,11 +457,12 @@ def pt_eval_builder():
         patient_id = request.form.get('patient_id')
         generated_note = request.form.get('generated_note')
         doc_type = request.form.get('doc_type', 'Evaluation')
+        fields_json = json.dumps(dict(request.form))  # <-- THIS IS IMPORTANT
+
         if not patient_id:
             flash("Patient not selected or patient_id missing.", "danger")
             return redirect(url_for('pt_eval_builder'))
-        # Save all fields as JSON
-        fields_json = json.dumps(dict(request.form))
+
         note = PTNote(
             patient_id=int(patient_id),
             content=generated_note,
