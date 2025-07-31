@@ -353,10 +353,14 @@ def ot_load_template():
 
 #==================================== PT RENDER EVAL ====================================
 
-@app.route("/pt-eval")
+@app.route('/pt-eval')
 @login_required
 def pt_eval():
-    return render_template("pt_eval.html")
+    # your PT Eval page rendering logic here
+    loaded_note = None
+    # fetch loaded_note if needed
+    return render_template('pt_eval.html', loaded_note=loaded_note)
+        
     
 #========================== AI GENERATE PT DIFFERENTIAL DX ==============================
 
@@ -547,13 +551,6 @@ def pt_notes():
     notes = PTNote.query.filter_by(user_id=current_user.id).all()
     return render_template('pt_notes.html', notes=notes)
 
-@app.route('/pt-eval')
-@login_required
-def pt_eval():
-    # Fetch existing note or None
-    loaded_note = None
-    return render_template('pt_eval.html', loaded_note=loaded_note)
-        
 #==================================== PT EXPORT WORD DOC ====================================
 @app.route('/pt_export_word', methods=['POST'])
 @login_required
