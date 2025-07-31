@@ -735,7 +735,6 @@ def pt_export_pdf():
                     if y < 60:
                         c.showPage()
                         y = height - 40
-            # Visual separation if blank line found
             if line == "":
                 y -= 8
         add_separator()
@@ -814,27 +813,41 @@ def pt_export_pdf():
     add_paragraph_block("Treatment Procedures:", data.get("procedures", ""))
 
     # --- SOAP ASSESSMENT SECTION ---
-    # Format matches your Word/PDF: grouped, single blank line between sections.
-    soap_lines = [
-        "Soap Assessment:",
-        "",
-        "Pain:",
-        f"{data.get('pain_location', '')}",
-        f"{data.get('pain_rating', '')}",
-        "",
-        "ROM:",
-        *data.get('rom', '').split('\n') if data.get('rom', '') else [],
-        "",
-        "Palpation:",
-        *data.get('palpation', '').split('\n') if data.get('palpation', '') else [],
-        "",
-        "Functional Test(s):",
-        *data.get('functional', '').split('\n') if data.get('functional', '') else [],
-        "",
-        "Goals:",
-        *data.get('goals', '').split('\n') if data.get('goals', '') else [],
-    ]
-    # Print the SOAP section, group-visual, no separator at the end:
+    soap_lines = []
+    soap_lines.append("Soap Assessment:")
+    soap_lines.append("")
+
+    # Pain
+    soap_lines.append("Pain:")
+    soap_lines.append(f"{data.get('pain_location', '')}")
+    soap_lines.append(f"{data.get('pain_rating', '')}")
+    soap_lines.append("")
+
+    # ROM
+    soap_lines.append("ROM:")
+    if data.get('rom', ''):
+        soap_lines.extend(data.get('rom', '').split('\n'))
+    soap_lines.append("")
+
+    # Palpation
+    soap_lines.append("Palpation:")
+    if data.get('palpation', ''):
+        soap_lines.extend(data.get('palpation', '').split('\n'))
+    soap_lines.append("")
+
+    # Functional Test(s)
+    soap_lines.append("Functional Test(s):")
+    if data.get('functional', ''):
+        soap_lines.extend(data.get('functional', '').split('\n'))
+    soap_lines.append("")
+
+    # Goals
+    soap_lines.append("Goals:")
+    if data.get('goals', ''):
+        soap_lines.extend(data.get('goals', '').split('\n'))
+    soap_lines.append("")
+
+    # Output the SOAP section (no separator after)
     c.setFont("Helvetica-Bold", 13)
     c.drawString(40, y, "Soap Assessment:")
     y -= 18
@@ -1168,13 +1181,13 @@ def ot_export_pdf():
         c.line(40, y, width - 40, y)
         y -= 16
 
-    def add_section(title, value):
+    def add_paragraph_block(title, text):
         nonlocal y
         c.setFont("Helvetica-Bold", 13)
         c.drawString(40, y, title)
         y -= 18
         c.setFont("Helvetica", 11)
-        for line in (value or "").split('\n'):
+        for line in (text or "").split('\n'):
             c.drawString(48, y, line)
             y -= 14
             if y < 60:
@@ -1189,14 +1202,13 @@ def ot_export_pdf():
         y -= 18
         c.setFont("Helvetica", 11)
         for line in lines:
-            for sub_line in line.split('\n'):
-                if sub_line.strip() != "":
-                    c.drawString(48, y, sub_line)
+            for subline in line.split('\n'):
+                if subline.strip() != "":
+                    c.drawString(48, y, subline)
                     y -= 14
                     if y < 60:
                         c.showPage()
                         y = height - 40
-            # Add blank line between groupings (not after every line)
             if line == "":
                 y -= 8
         add_separator()
@@ -1206,26 +1218,25 @@ def ot_export_pdf():
     c.drawString(40, y, "Occupational Therapy Evaluation")
     y -= 30
 
-    # Demographic Line
-    gender = data.get("gender", "")
-    dob = data.get("dob", "")
-    weight = data.get("weight", "")
-    height_val = data.get("height", "")
-    bmi = data.get("bmi", "")
-    bmi_category = data.get("bmi_category", "")
-    demo_line = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}     BMI: {bmi} ({bmi_category})"
+    # Demographic Header
+    gender = data.get('gender', '')
+    dob = data.get('dob', '')
+    weight = data.get('weight', '')
+    height_val = data.get('height', '')
+    bmi = data.get('bmi', '')
+    bmi_category = data.get('bmi_category', '')
+    demographic = f"Gender: {gender}    DOB: {dob}    Weight: {weight} lbs    Height: {height_val}     BMI: {bmi} ({bmi_category})"
 
     c.setFont("Helvetica", 11)
-    c.drawString(40, y, demo_line)
-    y -= 18
+    c.drawString(40, y, demographic)
+    y -= 20
     add_separator()
 
-    # Main Sections
-    add_section("Medical Diagnosis:", data.get("meddiag", ""))
-    add_section("Medical History/HNP:", data.get("history", ""))
-    add_section("Subjective:", data.get("subjective", ""))  # Use 'subjective', not 'ot_subjective' unless your frontend uses that key
+    # Sections
+    add_paragraph_block("Medical Diagnosis:", data.get("meddiag", ""))
+    add_paragraph_block("Medical History/HNP:", data.get("history", ""))
+    add_paragraph_block("Subjective:", data.get("subjective", ""))
 
-    # Pain Section
     pain_lines = [
         f"Area/Location of Injury: {data.get('pain_location','')}",
         f"Onset/Exacerbation Date: {data.get('pain_onset','')}",
@@ -1245,8 +1256,7 @@ def ot_export_pdf():
     ]
     add_multiline_section("Pain:", pain_lines)
 
-    # Objective Section
-    obj_lines = [
+    objective_lines = [
         f"Posture:",
         data.get('posture', ''),
         "",
@@ -1266,38 +1276,52 @@ def ot_export_pdf():
         data.get('special', ''),
         "",
         f"Current Functional Mobility Impairment(s):",
-        data.get('impairments', ''),
+        data.get('impairments', '')
     ]
-    add_multiline_section("Objective:", obj_lines)
+    add_multiline_section("Objective:", objective_lines)
 
-    # Remaining Sections
-    add_section("Assessment Summary:", data.get("summary", ""))
-    add_section("Goals:", data.get("goals", ""))
-    add_section("Frequency:", data.get("frequency", ""))
-    add_section("Intervention:", data.get("intervention", ""))
-    add_section("Treatment Procedures:", data.get("procedures", ""))
+    add_paragraph_block("Assessment Summary:", data.get("summary", ""))
+    add_paragraph_block("Goals:", data.get("goals", ""))
+    add_paragraph_block("Frequency:", data.get("frequency", ""))
+    add_paragraph_block("Intervention:", data.get("intervention", ""))
+    add_paragraph_block("Treatment Procedures:", data.get("procedures", ""))
 
-    # SOAP Assessment Section (visual separation like your Word export)
-    soap_lines = [
-        "Soap Assessment:",
-        "",
-        "Pain:",
-        f"{data.get('pain_location', '')}",
-        f"{data.get('pain_rating', '')}",
-        "",
-        "ROM:",
-        *data.get('rom', '').split('\n') if data.get('rom', '') else [],
-        "",
-        "Palpation:",
-        *data.get('palpation', '').split('\n') if data.get('palpation', '') else [],
-        "",
-        "Functional Test(s):",
-        *data.get('functional', '').split('\n') if data.get('functional', '') else [],
-        "",
-        "Goals:",
-        *data.get('goals', '').split('\n') if data.get('goals', '') else [],
-    ]
-    # Print the SOAP section without adding a separator at the end:
+    # --- SOAP ASSESSMENT SECTION ---
+    soap_lines = []
+    soap_lines.append("Soap Assessment:")
+    soap_lines.append("")
+
+    # Pain
+    soap_lines.append("Pain:")
+    soap_lines.append(f"{data.get('pain_location', '')}")
+    soap_lines.append(f"{data.get('pain_rating', '')}")
+    soap_lines.append("")
+
+    # ROM
+    soap_lines.append("ROM:")
+    if data.get('rom', ''):
+        soap_lines.extend(data.get('rom', '').split('\n'))
+    soap_lines.append("")
+
+    # Palpation
+    soap_lines.append("Palpation:")
+    if data.get('palpation', ''):
+        soap_lines.extend(data.get('palpation', '').split('\n'))
+    soap_lines.append("")
+
+    # Functional Test(s)
+    soap_lines.append("Functional Test(s):")
+    if data.get('functional', ''):
+        soap_lines.extend(data.get('functional', '').split('\n'))
+    soap_lines.append("")
+
+    # Goals
+    soap_lines.append("Goals:")
+    if data.get('goals', ''):
+        soap_lines.extend(data.get('goals', '').split('\n'))
+    soap_lines.append("")
+
+    # Output the SOAP section (no separator after)
     c.setFont("Helvetica-Bold", 13)
     c.drawString(40, y, "Soap Assessment:")
     y -= 18
