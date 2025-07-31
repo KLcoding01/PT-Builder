@@ -213,8 +213,11 @@ def view_pt_notes(patient_id):
 @login_required
 def view_note(note_id):
     note = PTNote.query.get_or_404(note_id)
-    fields = json.loads(note.fields_json)
-    return render_template('view_note_structured.html', fields=fields, note=note)
+    # Attempt to load fields_json, fallback to content if not present
+    fields = None
+    if hasattr(note, 'fields_json') and note.fields_json:
+        fields = json.loads(note.fields_json)
+    return render_template('view_note_structure.html', note=note, fields=fields)
 
 @app.route('/patients/<int:patient_id>/ot-notes')
 @login_required
@@ -454,10 +457,11 @@ def pt_eval_builder():
             return redirect(url_for('pt_eval_builder'))
         patient_id_int = int(patient_id)
         note = PTNote(
-            patient_id=patient_id_int,
+            patient_id=int(patient_id),
             content=generated_note,
             user_id=current_user.id,
-            doc_type=doc_type
+            doc_type=doc_type,
+            fields_json=json.dumps(ptGetFields())
         )
         db.session.add(note)
         db.session.commit()
