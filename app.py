@@ -294,7 +294,7 @@ def delete_pt_note(note_id):
 def load_pt_note(note_id):
     note = PTNote.query.get_or_404(note_id)
     try:
-        loaded_fields = json.loads(note.content)
+        loaded_fields = json.loads(note.fields_json or '{}')
     except Exception:
         loaded_fields = {}
     return render_template('pt_eval.html', loaded_note=loaded_fields, loaded_doc_type=note.doc_type)
@@ -533,14 +533,19 @@ def pt_eval_builder():
     # GET request
     note_id = request.args.get('note_id')
     loaded_note = None
+    loaded_doc_type = None
     if note_id:
         note = PTNote.query.filter_by(id=note_id, user_id=current_user.id).first()
-        if note and note.fields_json:
-            try:
-                loaded_note = json.loads(note.fields_json)
-            except Exception:
-                loaded_note = None
-    return render_template('pt_eval_builder.html', loaded_note=loaded_note)
+        if note:
+            if note.fields_json:
+                try:
+                    loaded_note = json.loads(note.fields_json)
+                except Exception:
+                    loaded_note = None
+            loaded_doc_type = note.doc_type
+
+    return render_template('pt_eval_builder.html', loaded_note=loaded_note, loaded_doc_type=loaded_doc_type)
+
 
 
 @app.route('/pt_notes')

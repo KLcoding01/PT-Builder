@@ -510,15 +510,20 @@ document.querySelector('form[action="/pt_eval_builder"]').addEventListener('subm
 });
 </script>
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const loadedNote = {{ loaded_note | default(None) | tojson }};
-    if (loadedNote) {
-      Object.entries(loadedNote).forEach(([key, value]) => {
-        const fld = document.getElementById('pt_' + key) || document.querySelector(`#pt-evalform [name="${key}"]`);
-        if (fld) fld.value = value;
-      });
-      ptSetStatus('Loaded saved note', 'green');
-    }
-  });
+    document.addEventListener("DOMContentLoaded", function() {
+      const loadedNote = {{ loaded_note|tojson|default('null') }};
+      const loadedDocType = {{ loaded_doc_type|tojson|default('null') }};
+      if (loadedNote) {
+        Object.entries(loadedNote).forEach(([key, value]) => {
+          const fld = document.getElementById('pt_' + key) || document.querySelector(`#pt-evalform [name="${key}"]`);
+          if (fld) fld.value = value;
+        });
+      }
+      if (loadedDocType) {
+        const docTypeSelect = document.getElementById('pt_doc_type');
+        if (docTypeSelect) docTypeSelect.value = loadedDocType;
+      }
+      if (loadedNote) ptSetStatus('Loaded saved note', 'green');
+    });
 </script>
 {% endblock %}
