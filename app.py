@@ -530,7 +530,7 @@ def pt_eval_builder():
             flash("Patient not selected or patient_id missing.", "danger")
             return redirect(url_for('pt_eval_builder'))
         note = PTNote(
-            patient_id=patient_id,
+            patient_id=int(patient_id), 
             content=generated_note,
             user_id=current_user.id,
             doc_type=doc_type
