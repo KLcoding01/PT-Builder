@@ -19,7 +19,7 @@ from models import db, Therapist, Patient, PTNote, get_pt_note_for_patient
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key_change_me")
-db_path = '/tmp/db.sqlite3'
+db_path = os.path.join(os.getcwd(), 'db.sqlite3')
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -186,32 +186,23 @@ def view_patients():
 @app.route('/add_patient', methods=['GET', 'POST'])
 def add_patient():
     if request.method == 'POST':
-        name = request.form['name']
-        dob_str = request.form['dob']
-        gender = request.form['gender']
+    name = request.form['name']
+    dob_str = request.form['dob']
+    gender = request.form['gender']
 
-        try:
-            # Parse MM/DD/YYYY format entered by user
-            dob_obj = datetime.strptime(dob_str, '%m/%d/%Y').date()
+    try:
+        dob_obj = datetime.strptime(dob_str, '%m/%d/%Y').date()
+        dob = dob_obj.strftime('%Y-%m-%d')
+    except ValueError:
+        error_message = "Invalid date format for DOB. Use MM/DD/YYYY."
+        return render_template('add_patient.html', error_message=error_message)
 
-            # If you need to save as YYYY-MM-DD string:
-            dob = dob_obj.strftime('%Y-%m-%d')
+    new_patient = Patient(name=name, dob=dob, gender=gender)
+    db.session.add(new_patient)
+    db.session.commit()
 
-            # Save `dob` or `dob_obj` to your database accordingly
-
-        except ValueError:
-            error_message = "Invalid date format for DOB. Use MM/DD/YYYY."
-            return render_template('add_patient.html', error_message=error_message)
-
-        # Proceed to save patient in DB, e.g.:
-        # new_patient = Patient(name=name, dob=dob, gender=gender)
-        # db.session.add(new_patient)
-        # db.session.commit()
-
-        flash('Patient added successfully!', 'success')
-        return redirect(url_for('view_patients'))
-
-    return render_template('add_patient.html')
+    flash('Patient added successfully!', 'success')
+    return redirect(url_for('view_patients'))
 #==================================== EDIT PATIENTS ====================================
 
 @app.route('/edit_patient/<int:patient_id>', methods=['GET', 'POST'])
