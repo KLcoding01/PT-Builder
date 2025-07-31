@@ -48,13 +48,15 @@
     background: #ffeaea;
     color: #c0392b !important;
   }
-  .main-content {
-    margin-left: 290px;
-    padding: 2.5rem 2.5rem 2rem 2.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    .main-content {
+      margin-left: 290px;
+      padding: 2.5rem 2.5rem 2rem 2.5rem;
+      /* Remove align-items: center to avoid horizontal centering */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;  /* align children to the left */
   }
+
   @media (max-width: 900px) {
     .sidebar { position: static; width: 100%; border-radius: 0; box-shadow: none; }
     .main-content { margin-left: 0; padding: 1rem; }
