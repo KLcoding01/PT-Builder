@@ -1,59 +1,83 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-4">
-    <h2>Physical Therapy Evaluation</h2>
-    <hr>
-    {% if fields %}
-    <p><strong>Patient Name:</strong> {{ fields.patient_name }}</p>
-    <p><strong>DOB:</strong> {{ fields.dob }}</p>
-    <p><strong>Gender:</strong> {{ fields.gender }}</p>
-    <p><strong>Weight:</strong> {{ fields.weight }} lbs</p>
-    <p><strong>Height:</strong> {{ fields.height }}</p>
-    <p><strong>BMI:</strong> {{ fields.bmi }} ({{ fields.bmi_category }})</p>
-    <p><strong>Date of Eval:</strong> {{ fields.eval_date }}</p>
-    <hr>
-    <p><strong>Medical Diagnosis:</strong><br>{{ fields.meddiag }}</p>
-    <p><strong>Medical History/HNP:</strong><br>{{ fields.history }}</p>
-    <p><strong>Subjective (HPI):</strong><br>{{ fields.subjective }}</p>
-    <p><strong>Current Medication(s):</strong><br>{{ fields.meds }}</p>
-    <p><strong>Diagnostic Test(s):</strong><br>{{ fields.tests }}</p>
-    <p><strong>DME/Assistive Device:</strong><br>{{ fields.dme }}</p>
-    <p><strong>PLOF:</strong><br>{{ fields.plof }}</p>
-    <hr>
-    <p><strong>Pain</strong></p>
-    <ul>
-        <li>Area/Location: {{ fields.pain_location }}</li>
-        <li>Onset/Exacerbation Date: {{ fields.pain_onset }}</li>
-        <li>Condition of Injury: {{ fields.pain_condition }}</li>
-        <li>Mechanism of Injury: {{ fields.pain_mechanism }}</li>
-        <li>Pain Rating: {{ fields.pain_rating }}</li>
-        <li>Frequency: {{ fields.pain_frequency }}</li>
-        <li>Description: {{ fields.pain_description }}</li>
-        <li>Aggravating: {{ fields.pain_aggravating }}</li>
-        <li>Relieved By: {{ fields.pain_relieved }}</li>
-        <li>Interferes: {{ fields.pain_interferes }}</li>
-    </ul>
-    <hr>
-    <p><strong>Objective</strong></p>
-    <ul>
-        <li>Posture: {{ fields.posture }}</li>
-        <li>ROM: {{ fields.rom }}</li>
-        <li>Strength: {{ fields.strength }}</li>
-        <li>Palpation: {{ fields.palpation }}</li>
-        <li>Functional: {{ fields.functional }}</li>
-        <li>Special: {{ fields.special }}</li>
-        <li>Impairments: {{ fields.impairments }}</li>
-    </ul>
-    <hr>
-    <p><strong>PT Differential Diagnosis:</strong><br>{{ fields.diffdx }}</p>
-    <p><strong>Assessment Summary:</strong><br>{{ fields.summary }}</p>
-    <p><strong>Goals:</strong><br>{{ fields.goals }}</p>
-    <p><strong>Frequency/Duration:</strong> {{ fields.frequency }}</p>
-    <p><strong>Intervention:</strong><br>{{ fields.intervention }}</p>
-    <p><strong>Procedures:</strong><br>{{ fields.procedures }}</p>
-    {% else %}
-    <pre>{{ note.content }}</pre>
-    {% endif %}
-    <a href="{{ url_for('pt_notes') }}" class="btn btn-secondary mt-3">Back to Notes</a>
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-lg rounded-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Physical Therapy Evaluation</h4>
+          <button class="btn btn-outline-secondary" onclick="window.print();">
+            <i class="bi bi-printer"></i> Print
+          </button>
+        </div>
+        <div class="card-body">
+<pre style="font-family: 'Menlo', 'Consolas', monospace; font-size: 1rem; background: #f9f9f9; border: none; white-space: pre-wrap; margin-bottom: 0;">
+Patient Name: {{ fields.get('patient_name', '') }}
+DOB: {{ fields.get('dob', '') }}
+Gender: {{ fields.get('gender', '') }}
+Weight: {{ fields.get('weight', '') }} lbs
+Height: {{ fields.get('height', '') }}
+BMI: {{ fields.get('bmi', '') }} ({{ fields.get('bmi_category', '') }})
+Date of Eval: {{ fields.get('eval_date', '') }}
+
+------------------------------------------------------------------------------------------------------------------
+Medical Diagnosis: {{ fields.get('meddiag', '') }}
+------------------------------------------------------------------------------------------------------------------
+Medical History/HNP: {{ fields.get('history', '') }}
+------------------------------------------------------------------------------------------------------------------
+Subjective (HPI): {{ fields.get('subjective', '') }}
+------------------------------------------------------------------------------------------------------------------
+Pain:
+Area/Location of Injury: {{ fields.get('pain_location', '') }}
+Onset/Exacerbation Date: {{ fields.get('pain_onset', '') }}
+Condition of Injury: {{ fields.get('pain_condition', '') }}
+Mechanism of Injury: {{ fields.get('pain_mechanism', '') }}
+Pain Rating: {{ fields.get('pain_rating', '') }}
+Frequency: {{ fields.get('pain_frequency', '') }}
+Description: {{ fields.get('pain_description', '') }}
+Aggravating Factor: {{ fields.get('pain_aggravating', '') }}
+Relieved By: {{ fields.get('pain_relieved', '') }}
+Interferes With: {{ fields.get('pain_interferes', '') }}
+Current Medication(s): {{ fields.get('meds', '') }}
+Diagnostic Test(s): {{ fields.get('tests', '') }}
+DME/Assistive Device: {{ fields.get('dme', '') }}
+PLOF: {{ fields.get('plof', '') }}
+------------------------------------------------------------------------------------------------------------------
+Objective:
+Posture: {{ fields.get('posture', '') }}
+ROM: {{ fields.get('rom', '') }}
+Muscle Strength Test: {{ fields.get('strength', '') }}
+Palpation: {{ fields.get('palpation', '') }}
+Functional Test(s): {{ fields.get('functional', '') }}
+Special Test(s): {{ fields.get('special', '') }}
+Current Functional Mobility Impairment(s): {{ fields.get('impairments', '') }}
+------------------------------------------------------------------------------------------------------------------
+Assessment Summary: {{ fields.get('summary', '') }}
+------------------------------------------------------------------------------------------------------------------
+Goals: {{ fields.get('goals', '') }}
+------------------------------------------------------------------------------------------------------------------
+Frequency: {{ fields.get('frequency', '') }}
+------------------------------------------------------------------------------------------------------------------
+Intervention: {{ fields.get('intervention', '') }}
+------------------------------------------------------------------------------------------------------------------
+Treatment Procedures: {{ fields.get('procedures', '') }}
+------------------------------------------------------------------------------------------------------------------
+</pre>
+        </div>
+        <div class="card-footer text-end">
+          <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+@media print {
+  body * { visibility: hidden !important; }
+  .card, .card * { visibility: visible !important; }
+  .card { position: absolute; left: 0; top: 0; width: 100vw; box-shadow: none !important; border: none !important; }
+  .btn, .card-footer { display: none !important; }
+}
+</style>
 {% endblock %}

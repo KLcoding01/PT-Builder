@@ -221,6 +221,7 @@ def view_pt_notes(patient_id):
 @login_required
 def view_note(note_id):
     note = PTNote.query.get_or_404(note_id)
+    # Try to load fields_json (all form fields)
     fields = json.loads(note.fields_json) if note.fields_json else {}
     return render_template("view_note_structure.html", note=note, fields=fields)
 
