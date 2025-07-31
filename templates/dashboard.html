@@ -51,15 +51,71 @@
   .main-content {
     margin-left: 290px;
     padding: 2.5rem 2.5rem 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   @media (max-width: 900px) {
     .sidebar { position: static; width: 100%; border-radius: 0; box-shadow: none; }
     .main-content { margin-left: 0; padding: 1rem; }
   }
+
+  /* Chat box styles */
+  #chat-container {
+    width: 100%;
+    max-width: 800px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 16px;
+    background: white;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+  }
+  #chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 6px;
+    background-color: #fafafa;
+  }
+  #chat-input {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  #send-btn, #copy-btn {
+    font-weight: 600;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    flex: 1;
+    padding: 10px 20px;
+  }
+  #send-btn {
+    background-color: #1969ff;
+    color: white;
+  }
+  #send-btn:disabled {
+    background-color: #a0b9ff;
+    cursor: not-allowed;
+  }
+  #copy-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
 </style>
 <div class="main-bg">
   <div class="sidebar">
-    <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint=='dashboard' %}active{% endif %}">🏠 Dashboard</a>
+    <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint=='dashboard' %}active{% endif %}">🏠 Open AI</a>
     <a href="{{ url_for('view_patients') }}" class="nav-link {% if request.endpoint=='view_patients' %}active{% endif %}">👥 Patients</a>
     <a href="{{ url_for('pt_eval') }}" class="nav-link {% if request.endpoint=='pt_eval' %}active{% endif %}">📝 PT Eval Builder</a>
     <a href="{{ url_for('ot_eval') }}" class="nav-link {% if request.endpoint=='ot_eval' %}active{% endif %}">📝 OT Eval Builder</a>
@@ -67,7 +123,67 @@
   </div>
   <div class="main-content">
     <h2 style="font-weight:700; color:#1969ff; margin-bottom:1.7rem;">Welcome to PT/OT Builder</h2>
-    <!-- Add content here if needed -->
+
+    <div id="chat-container">
+      <div id="chat-messages"></div>
+      <textarea id="chat-input" placeholder="Type your message here..."></textarea>
+      <div style="display: flex; gap: 12px; margin-top: 8px;">
+        <button id="send-btn">Send</button>
+        <button id="copy-btn">Copy Chat</button>
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+  const chatMessages = document.getElementById('chat-messages');
+  const chatInput = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('send-btn');
+  const copyBtn = document.getElementById('copy-btn');
+
+  function appendMessage(sender, message) {
+    const msgDiv = document.createElement('div');
+    msgDiv.style.marginBottom = '12px';
+    msgDiv.innerHTML = `<strong>${sender}:</strong><br>${message}`;
+    chatMessages.appendChild(msgDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  sendBtn.addEventListener('click', async () => {
+    const userMessage = chatInput.value.trim();
+    if (!userMessage) return;
+
+    appendMessage('You', userMessage);
+    chatInput.value = '';
+    sendBtn.disabled = true;
+
+    try {
+      const response = await fetch('/chat_api', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage })
+      });
+      const data = await response.json();
+      appendMessage('ChatGPT', data.reply);
+    } catch (err) {
+      appendMessage('Error', 'Failed to get response. Try again.');
+    }
+
+    sendBtn.disabled = false;
+  });
+
+  copyBtn.addEventListener('click', () => {
+    let chatText = '';
+    chatMessages.querySelectorAll('div').forEach(msgDiv => {
+      chatText += msgDiv.innerText + '\n\n';
+    });
+    navigator.clipboard.writeText(chatText.trim())
+      .then(() => {
+        alert('Chat copied to clipboard!');
+      })
+      .catch(() => {
+        alert('Failed to copy chat.');
+      });
+  });
+</script>
 {% endblock %}

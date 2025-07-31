@@ -37,6 +37,31 @@ OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 client = OpenAI(api_key=OPENAI_API_KEY)
 MODEL = "gpt-4o-mini"
 
+# ==================================== CHATGPT BOX OPENAI ====================================
+@app.route('/chat_api', methods=['POST'])
+def chat_api():
+    user_message = request.json.get('message', '')
+    if not user_message:
+        return jsonify({'reply': "No message received."})
+
+    try:
+        completion = openai.ChatCompletion.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_message},
+            ],
+            max_tokens=500,
+            temperature=0.7,
+        )
+        reply = completion.choices[0].message['content'].strip()
+        return jsonify({'reply': reply})
+    except Exception as e:
+        return jsonify({'reply': f"Error: {str(e)}"})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
 # ==================================== LOGIN MANAGER ====================================
 login_manager = LoginManager()
 login_manager.login_view = 'login'
