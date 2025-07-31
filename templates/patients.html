@@ -1,16 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+  .main-content {
+    max-width: none !important;
+    width: auto !important;
+    margin: 40px 40px 40px 280px; /* space for sidebar */
+    padding: 36px 38px 28px 38px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 24px 0 rgba(35,72,207,0.08);
+  }
+</style>
+
 <div class="main-content">
   <h2 style="font-weight:700; color:#1969ff; margin-bottom:1.7rem;">Patient List</h2>
 
   <form method="GET" action="{{ url_for('view_patients') }}" style="margin-bottom: 18px; display:flex; align-items:center; gap: 10px;">
-    <input type="text" name="q" placeholder="Search by name..." value="{{ query }}" style="padding: 7px 11px; width: 250px; border-radius: 7px; border: 1px solid #d1d5db; font-size: 1rem;">
-    <button type="submit" class="btn btn-primary" style="padding: 7px 20px; font-weight: 600;">Search</button>
-    <a href="{{ url_for('add_patient') }}" class="btn btn-outline-primary" style="font-weight:700; margin-left:auto;">+ Add Patient</a>
+    <input type="text" name="q" placeholder="Search by name..." value="{{ query }}" class="form-control" style="max-width: 250px;">
+    <button type="submit" class="btn btn-primary" style="font-weight: 600;">Search</button>
+    <a href="{{ url_for('add_patient') }}" class="btn btn-outline-primary ms-auto" style="font-weight:700;">+ Add Patient</a>
   </form>
 
   <table class="table table-bordered table-hover" style="background:#fff;">
-    <thead>
+    <thead class="table-light">
       <tr>
         <th>Name</th>
         <th>DOB</th>
@@ -37,7 +49,7 @@
           </td>
         </tr>
       {% else %}
-        <tr><td colspan="7">No patients found.</td></tr>
+        <tr><td colspan="7" class="text-center">No patients found.</td></tr>
       {% endfor %}
     </tbody>
   </table>
