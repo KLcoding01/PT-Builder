@@ -297,7 +297,11 @@ def load_pt_note(note_id):
         loaded_fields = json.loads(note.fields_json or '{}')
     except Exception:
         loaded_fields = {}
-    return render_template('pt_eval.html', loaded_note=loaded_fields, loaded_doc_type=note.doc_type)
+
+    loaded_doc_type = note.doc_type if note.doc_type is not None else None
+
+    return render_template('pt_eval.html', loaded_note=loaded_fields, loaded_doc_type=loaded_doc_type)
+
 
 
 #==================================== PATIENT SEARCH ====================================
