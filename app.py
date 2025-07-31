@@ -405,6 +405,8 @@ def pt_generate_diffdx():
 @login_required
 def pt_generate_summary():
     f = request.json.get("fields", {})
+    summary_type = request.json.get("summary_type", "Evaluation")  # new parameter from frontend
+
     name = (
         f.get("name")
         or f.get("pt_patient_name")
@@ -438,24 +440,67 @@ def pt_generate_summary():
     impair = f.get("impairments", "")
     func = f.get("functional", "")
 
-    prompt = (
-        "Generate a concise, 7-8 sentence Physical Therapy assessment summary that is Medicare compliant for PT documentation. "
-        "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
-        "Never use 'the patient'; use 'Pt' as the subject. "
-        "Do NOT use parentheses, asterisks, or markdown formatting in your response. "
-        "Do NOT use 'Diagnosis:' as a label—refer directly to the diagnosis in clinical sentences. "
-        "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'symptoms and clinical findings are associated with' the medical diagnosis and PT clinical impression. "
-        f"Start with: \"{name}, a {age} y/o {gender} with relevant history of {pmh}.\" "
-        f"Include: PT initial eval on {today} for {subj}. "
-        f"If available, mention the mechanism of injury: {moi}. "
-        f"State: Pt has symptoms and clinical findings associated with the referring medical diagnosis of {meddiag}. Clinical findings are consistent with PT differential diagnosis of {dx} based on assessment. "
-        f"Summarize current impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}). "
-        f"Summarize functional/activity limitations: {func}. "
-        "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
-        "Do NOT use bulleted or numbered lists—compose a single, well-written summary paragraph."
-    )
+    if summary_type == "Evaluation":
+        prompt = (
+            "Generate a concise, 7-8 sentence Physical Therapy assessment summary that is Medicare compliant for PT documentation. "
+            "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
+            "Never use 'the patient'; use 'Pt' as the subject. "
+            "Do NOT use parentheses, asterisks, or markdown formatting in your response. "
+            "Do NOT use 'Diagnosis:' as a label—refer directly to the diagnosis in clinical sentences. "
+            "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'symptoms and clinical findings are associated with' the medical diagnosis and PT clinical impression. "
+            f"Start with: \"{name}, a {age} y/o {gender} with relevant history of {pmh}.\" "
+            f"Include: PT initial eval on {today} for {subj}. "
+            f"If available, mention the mechanism of injury: {moi}. "
+            f"State: Pt has symptoms and clinical findings associated with the referring medical diagnosis of {meddiag}. Clinical findings are consistent with PT differential diagnosis of {dx} based on assessment. "
+            f"Summarize current impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}). "
+            f"Summarize functional/activity limitations: {func}. "
+            "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
+            "Do NOT use bulleted or numbered lists—compose a single, well-written summary paragraph."
+        )
+    elif summary_type == "Progress Note":
+        prompt = (
+            "Generate a concise, 5-6 sentence Physical Therapy progress note summary that is Medicare compliant. "
+            "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
+            "Do NOT use 'the patient'; use 'Pt' as the subject. "
+            f"Start with: \"{name} continues skilled PT with relevant history of {pmh}.\" "
+            f"Describe progress toward goals, improvements or setbacks in impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}), and functional status: {func}. "
+            "Include details on interventions applied and patient tolerance. "
+            "Conclude with the continued medical necessity for skilled PT and plan for future care. "
+            "Do NOT use lists; provide a clear, professional paragraph."
+        )
+    elif summary_type == "Discharge":
+        prompt = (
+            "Generate a concise, 5-6 sentence Physical Therapy discharge summary that is Medicare compliant. "
+            "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
+            "Do NOT use 'the patient'; use 'Pt' as the subject. "
+            f"Start with: \"{name} completed skilled PT with relevant history of {pmh}.\" "
+            f"Summarize final status of impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}), functional gains: {func}, and goal achievement. "
+            "Include discharge interventions provided, patient education, and home program instructions. "
+            "Conclude with discharge status and any recommendations for follow-up care. "
+            "Do NOT use lists; provide a concise, professional paragraph."
+        )
+    else:
+        # fallback to evaluation
+        prompt = (
+            "Generate a concise, 7-8 sentence Physical Therapy assessment summary that is Medicare compliant for PT documentation. "
+            "Use only abbreviations (e.g., HEP, ADLs, LBP, STM, TherEx) and NEVER spell out abbreviations. "
+            "Never use 'the patient'; use 'Pt' as the subject. "
+            "Do NOT use parentheses, asterisks, or markdown formatting in your response. "
+            "Do NOT use 'Diagnosis:' as a label—refer directly to the diagnosis in clinical sentences. "
+            "Do NOT state or conclude a medical diagnosis—use clinical phrasing such as 'symptoms and clinical findings are associated with' the medical diagnosis and PT clinical impression. "
+            f"Start with: \"{name}, a {age} y/o {gender} with relevant history of {pmh}.\" "
+            f"Include: PT initial eval on {today} for {subj}. "
+            f"If available, mention the mechanism of injury: {moi}. "
+            f"State: Pt has symptoms and clinical findings associated with the referring medical diagnosis of {meddiag}. Clinical findings are consistent with PT differential diagnosis of {dx} based on assessment. "
+            f"Summarize current impairments (strength: {strg}; ROM: {rom}; balance/mobility: {impair}). "
+            f"Summarize functional/activity limitations: {func}. "
+            "End with a professional prognosis stating that skilled PT is medically necessary to address impairments and support return to PLOF. "
+            "Do NOT use bulleted or numbered lists—compose a single, well-written summary paragraph."
+        )
+
     result = gpt_call(prompt, max_tokens=500)
     return jsonify({"result": result})
+
     
 #==================================== AI GENERATE PT GOALS ====================================
 @app.route('/pt_generate_goals', methods=['POST'])
