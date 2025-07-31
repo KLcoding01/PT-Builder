@@ -213,10 +213,7 @@ def view_pt_notes(patient_id):
 @login_required
 def view_note(note_id):
     note = PTNote.query.get_or_404(note_id)
-    # Attempt to load fields_json, fallback to content if not present
-    fields = None
-    if hasattr(note, 'fields_json') and note.fields_json:
-        fields = json.loads(note.fields_json)
+    fields = json.loads(note.fields_json) if note.fields_json else None
     return render_template('view_note_structure.html', note=note, fields=fields)
 
 @app.route('/patients/<int:patient_id>/ot-notes')
@@ -461,7 +458,7 @@ def pt_eval_builder():
             content=generated_note,
             user_id=current_user.id,
             doc_type=doc_type,
-            fields_json=json.dumps(ptGetFields())
+            fields_json = json.dumps(dict(request.form))
         )
         db.session.add(note)
         db.session.commit()
