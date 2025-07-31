@@ -526,8 +526,18 @@ def pt_eval_builder():
             flash(f'Error saving note: {str(e)}', 'danger')
             return render_template('pt_eval_builder.html')
 
-    # For GET requests, optionally pass loaded_note if editing
-    return render_template('pt_eval_builder.html', loaded_note=None)
+    # For GET requests, try loading a saved note if note_id query param is provided
+    loaded_note = None
+    note_id = request.args.get('note_id')
+    if note_id:
+        note = PTNote.query.filter_by(id=note_id, user_id=current_user.id).first()
+        if note and note.fields_json:
+            try:
+                loaded_note = json.loads(note.fields_json)
+            except Exception:
+                loaded_note = None
+
+    return render_template('pt_eval_builder.html', loaded_note=loaded_note)
 
 
 @app.route('/pt_notes')
