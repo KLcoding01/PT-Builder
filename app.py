@@ -186,22 +186,27 @@ def view_patients():
 @app.route('/add_patient', methods=['GET', 'POST'])
 def add_patient():
     if request.method == 'POST':
-    name = request.form['name']
-    dob_str = request.form['dob']
-    gender = request.form['gender']
+        name = request.form['name']
+        dob_str = request.form['dob']
+        gender = request.form['gender']
 
-    try:
-        dob = datetime.strptime(dob_str, '%m/%d/%Y').date()
-    except ValueError:
-        error_message = "Invalid date format for DOB. Use MM/DD/YYYY."
-        return render_template('add_patient.html', error_message=error_message)
+        try:
+            dob = datetime.strptime(dob_str, '%m/%d/%Y').date()
+        except ValueError:
+            error_message = "Invalid date format for DOB. Use MM/DD/YYYY."
+            return render_template('add_patient.html', error_message=error_message)
 
-    new_patient = Patient(name=name, dob=dob, gender=gender)
-    db.session.add(new_patient)
-    db.session.commit()
+        new_patient = Patient(name=name, dob=dob, gender=gender)
+        db.session.add(new_patient)
+        db.session.commit()
 
-    flash('Patient added successfully!', 'success')
-    return redirect(url_for('view_patients'))
+        flash('Patient added successfully!', 'success')
+        return redirect(url_for('view_patients'))
+
+    # For GET request, render the form
+    return render_template('add_patient.html')
+
+
 
 
 #==================================== EDIT PATIENTS ====================================
