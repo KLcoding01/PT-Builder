@@ -1,46 +1,131 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Patient List</h2>
+<style>
+  body, .main-bg {
+    background: #f4f7fb !important;
+    min-height: 100vh;
+  }
+  .main-content {
+    margin-left: 290px;
+    padding: 2.5rem 2.5rem 2rem 2.5rem;
+    min-height: 90vh;
+  }
+  .patient-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 24px 0 rgba(35,72,207,0.08);
+    padding: 36px 38px 28px 38px;
+    max-width: 1100px;
+    margin: 40px auto;
+  }
+  .patient-table th, .patient-table td {
+    vertical-align: middle !important;
+  }
+  .patient-table th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #334862;
+    font-size: 1.07rem;
+    border-top: none;
+    border-bottom: 2px solid #e8ecf3;
+  }
+  .patient-table tr:last-child td {
+    border-bottom: none;
+  }
+  .btn-action {
+    margin-right: 7px;
+    min-width: 56px;
+  }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.2rem;
+  }
+  .search-bar input[type="text"] {
+    padding: 7px 11px;
+    width: 240px;
+    border-radius: 7px;
+    border: 1px solid #d1d5db;
+    font-size: 1rem;
+  }
+  .search-bar button[type="submit"] {
+    padding: 7px 20px;
+    border-radius: 7px;
+    background: #1969ff;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    margin-right: 0px;
+  }
+  .add-btn {
+    color: #226cff;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 7px 22px;
+    border-radius: 8px;
+    background: #f2f6ff;
+    transition: background 0.16s;
+    border: 1.2px solid #dde7ff;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+  .add-btn:hover {
+    background: #e8f0ff;
+    color: #1049b5;
+    text-decoration: none;
+  }
+  @media (max-width: 900px) {
+    .main-content, .patient-card { margin-left: 0 !important; padding: 1rem !important; }
+  }
+</style>
 
-  <form method="GET" action="{{ url_for('view_patients') }}" style="margin-bottom: 18px;">
-    <input type="text" name="q" placeholder="Search by name..." value="{{ query }}">
-    <button type="submit">Search</button>
-    <a href="{{ url_for('add_patient') }}" class="add-btn">+ Add Patient</a>
-    <div style="clear:both"></div>
-  </form>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>DOB</th>
-        <th>Gender</th>
-        <th>PT Notes</th>
-        <th>OT Notes</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for p in patients %}
-        <tr>
-          <td>{{ p.name }}</td>
-          <td>{{ p.dob.strftime('%Y-%m-%d') }}</td>
-          <td>{{ p.gender }}</td>
-          <td><a href="{{ url_for('view_pt_notes', patient_id=p.id) }}">View PT Notes</a></td>
-          <td><a href="{{ url_for('view_ot_notes', patient_id=p.id) }}">View OT Notes</a></td>
-          <td>
-            <a href="{{ url_for('edit_patient', patient_id=p.id) }}" class="btn btn-sm btn-primary">Edit</a>
-          </td>
-          <td>
-            <form method="POST" action="{{ url_for('delete_patient', patient_id=p.id) }}" style="display:inline;">
-              <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this patient? All related notes will also be removed.');">Delete</button>
-            </form>
-           </td>
-         </tr>
-       {% else %}
-         <tr><td colspan="7">No patients found.</td></tr>
-       {% endfor %}
-     </tbody>
-    </table>
+<div class="main-content">
+  <div class="patient-card">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h2 style="font-weight:700; color:#1969ff; margin-bottom:0;">Patient List</h2>
+      <a href="{{ url_for('add_patient') }}" class="add-btn">+ Add Patient</a>
+    </div>
+    <form method="GET" action="{{ url_for('view_patients') }}" class="search-bar">
+      <input type="text" name="q" placeholder="Search by name..." value="{{ query }}">
+      <button type="submit">Search</button>
+    </form>
+    <div class="table-responsive">
+      <table class="table patient-table align-middle">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>PT Notes</th>
+            <th>OT Notes</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in patients %}
+            <tr>
+              <td>{{ p.name }}</td>
+              <td>{{ p.dob.strftime('%Y-%m-%d') if p.dob else '' }}</td>
+              <td>{{ p.gender }}</td>
+              <td><a href="{{ url_for('view_pt_notes', patient_id=p.id) }}">View PT Notes</a></td>
+              <td><a href="{{ url_for('view_ot_notes', patient_id=p.id) }}">View OT Notes</a></td>
+              <td>
+                <a href="{{ url_for('edit_patient', patient_id=p.id) }}" class="btn btn-primary btn-sm btn-action">Edit</a>
+              </td>
+              <td>
+                <form method="POST" action="{{ url_for('delete_patient', patient_id=p.id) }}" style="display:inline;">
+                  <button type="submit" class="btn btn-danger btn-sm btn-action" onclick="return confirm('Delete this patient?');">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="7">No patients found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock %}
