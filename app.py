@@ -16,15 +16,22 @@ from reportlab.pdfgen import canvas
 from pt_templates import PT_TEMPLATES, OT_TEMPLATES, pt_parse_template, ot_parse_template
 from models import db, Therapist, Patient, PTNote, get_pt_note_for_patient
 
+
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_key_change_me")
 db_path = '/tmp/db.sqlite3'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.engine.execute('ALTER TABLE ptnote ADD COLUMN fields_json TEXT')
+
 
 db.init_app(app)
-
+with app.app_context():
+    try:
+        db.engine.execute('ALTER TABLE ptnote ADD COLUMN fields_json TEXT')
+        print("Migration succeeded!")
+    except Exception as e:
+        print("Migration failed or column already exists:", e)
+        
 # --- OPENAI SETUP ---
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 client = OpenAI(api_key=OPENAI_API_KEY)
