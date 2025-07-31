@@ -119,7 +119,7 @@
     <a href="{{ url_for('view_patients') }}" class="nav-link {% if request.endpoint=='view_patients' %}active{% endif %}">👥 Patients</a>
     <a href="{{ url_for('pt_eval') }}" class="nav-link {% if request.endpoint=='pt_eval' %}active{% endif %}">📝 PT Eval Builder</a>
     <a href="{{ url_for('ot_eval') }}" class="nav-link {% if request.endpoint=='ot_eval' %}active{% endif %}">📝 OT Eval Builder</a>
-    <a href="{{ url_for('exercise_builder') }}" class="nav-link {% if request.endpoint=='exercise_builder' %}active{% endif %}">💪 Exercise Builder</a>
+    <a href="{{ url_for('exercise_builder.exercise_builder') }}" class="nav-link {% if request.endpoint=='exercise_builder.exercise_builder' %}active{% endif %}">💪 Exercise Builder</a>
     <a href="{{ url_for('logout') }}" class="nav-link logout">Logout</a>
   </div>
   <div class="main-content">
