@@ -15,6 +15,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from pt_templates import PT_TEMPLATES, OT_TEMPLATES, pt_parse_template, ot_parse_template
 from models import db, Therapist, Patient, PTNote, get_pt_note_for_patient
+from exercise_builder import exercise_builder_bp
 
 
 app = Flask(__name__)
@@ -23,6 +24,8 @@ db_path = os.path.join(os.getcwd(), 'db.sqlite3')
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Register blueprint
+app.register_blueprint(exercise_builder_bp)
 
 db.init_app(app)
 with app.app_context():

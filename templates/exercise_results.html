@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .main-bg {
+    background: #f4f7fb !important;
+    min-height: 100vh;
+    padding: 2rem 2rem 2rem 2rem;
+  }
+  .results-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+  .exercise-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+  }
+  .exercise-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+  .exercise-info {
+    flex-grow: 1;
+  }
+  .exercise-info h3 {
+    margin: 0 0 6px 0;
+    color: #1969ff;
+  }
+  .exercise-info p {
+    margin: 2px 0;
+    font-size: 1rem;
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #1969ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .back-link:hover {
+    background-color: #154aab;
+  }
+</style>
+
+<div class="main-bg">
+  <div class="results-container">
+    <h2 style="color:#1969ff; text-align:center; margin-bottom: 20px;">Your Exercise Program</h2>
+    {% for ex in selected %}
+    <div class="exercise-card">
+      <img src="{{ ex.img_url }}" alt="{{ ex.name }}">
+      <div class="exercise-info">
+        <h3>{{ ex.name }} ({{ ex.vietnamese }})</h3>
+        <p><strong>Reps:</strong> {{ ex.reps }}</p>
+        <p><strong>Sets:</strong> {{ ex.sets }}</p>
+        <p><strong>Frequency:</strong> {{ ex.frequency }}</p>
+      </div>
+    </div>
+    {% endfor %}
+    <a href="{{ url_for('exercise_builder') }}" class="back-link">← Back to Builder</a>
+  </div>
+</div>
+{% endblock %}
