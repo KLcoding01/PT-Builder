@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Physical Therapy Evaluation</h2>
+    <hr>
+    <p><strong>Patient Name:</strong> {{ fields.patient_name }}</p>
+    <p><strong>DOB:</strong> {{ fields.dob }}</p>
+    <p><strong>Gender:</strong> {{ fields.gender }}</p>
+    <p><strong>Weight:</strong> {{ fields.weight }} lbs</p>
+    <p><strong>Height:</strong> {{ fields.height }}</p>
+    <p><strong>BMI:</strong> {{ fields.bmi }} ({{ fields.bmi_category }})</p>
+    <p><strong>Date of Eval:</strong> {{ fields.eval_date }}</p>
+    <hr>
+    <p><strong>Medical Diagnosis:</strong><br>{{ fields.meddiag }}</p>
+    <p><strong>Medical History/HNP:</strong><br>{{ fields.history }}</p>
+    <p><strong>Subjective:</strong><br>{{ fields.subjective }}</p>
+    <p><strong>Current Medication(s):</strong><br>{{ fields.meds }}</p>
+    <p><strong>Diagnostic Test(s):</strong><br>{{ fields.tests }}</p>
+    <p><strong>DME/Assistive Device:</strong><br>{{ fields.dme }}</p>
+    <p><strong>PLOF:</strong><br>{{ fields.plof }}</p>
+    <hr>
+    <p><strong>Pain</strong></p>
+    <ul>
+        <li>Area/Location of Injury: {{ fields.pain_location }}</li>
+        <li>Onset/Exacerbation Date: {{ fields.pain_onset }}</li>
+        <li>Condition of Injury: {{ fields.pain_condition }}</li>
+        <li>Mechanism of Injury: {{ fields.pain_mechanism }}</li>
+        <li>Pain Rating (P/B/W): {{ fields.pain_rating }}</li>
+        <li>Frequency: {{ fields.pain_frequency }}</li>
+        <li>Description: {{ fields.pain_description }}</li>
+        <li>Aggravating Factor: {{ fields.pain_aggravating }}</li>
+        <li>Relieved By: {{ fields.pain_relieved }}</li>
+        <li>Interferes With: {{ fields.pain_interferes }}</li>
+    </ul>
+    <hr>
+    <p><strong>Objective</strong></p>
+    <ul>
+        <li>Posture: {{ fields.posture }}</li>
+        <li>ROM: {{ fields.rom }}</li>
+        <li>Muscle Strength Test: {{ fields.strength }}</li>
+        <li>Palpation: {{ fields.palpation }}</li>
+        <li>Functional Test(s): {{ fields.functional }}</li>
+        <li>Special Test(s): {{ fields.special }}</li>
+        <li>Functional Mobility Impairment(s): {{ fields.impairments }}</li>
+    </ul>
+    <hr>
+    <p><strong>PT Differential Diagnosis:</strong><br>{{ fields.diffdx }}</p>
+    <p><strong>Assessment Summary:</strong><br>{{ fields.summary }}</p>
+    <p><strong>Goals:</strong><br>{{ fields.goals }}</p>
+    <p><strong>Frequency/Duration:</strong> {{ fields.frequency }}</p>
+    <p><strong>Intervention:</strong><br>{{ fields.intervention }}</p>
+    <p><strong>Procedures:</strong><br>{{ fields.procedures }}</p>
+</div>
+{% endblock %}
