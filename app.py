@@ -537,16 +537,16 @@ def pt_eval_builder():
     # GET request
     note_id = request.args.get('note_id')
     loaded_note = None
-    loaded_doc_type = None
+    loaded_doc_type = None  # default to None
+
     if note_id:
         note = PTNote.query.filter_by(id=note_id, user_id=current_user.id).first()
         if note:
-            if note.fields_json:
-                try:
-                    loaded_note = json.loads(note.fields_json)
-                except Exception:
-                    loaded_note = None
-            loaded_doc_type = note.doc_type
+            try:
+                loaded_note = json.loads(note.fields_json or '{}')
+            except Exception:
+                loaded_note = None
+            loaded_doc_type = note.doc_type if note.doc_type is not None else None
 
     return render_template('pt_eval_builder.html', loaded_note=loaded_note, loaded_doc_type=loaded_doc_type)
 
