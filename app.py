@@ -204,7 +204,7 @@ def add_patient():
 @app.route('/view_pt_notes/<int:patient_id>')
 def view_pt_notes(patient_id):
     note = get_pt_note_for_patient(patient_id)
-    return render_template('view_note.html', note=note)
+    return render_template('pt_notes.html', note=note)
 
 @app.route('/view_note/<int:note_id>')
 def view_note(note_id):
