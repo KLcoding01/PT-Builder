@@ -48,21 +48,19 @@
     background: #ffeaea;
     color: #c0392b !important;
   }
-    .main-content {
-      margin-left: 290px;
-      padding: 2.5rem 2.5rem 2rem 2.5rem;
-      /* Remove align-items: center to avoid horizontal centering */
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;  /* align children to the left */
+  .main-content {
+    margin-left: 290px;
+    padding: 2.5rem 2.5rem 2rem 1rem; /* reduced left padding */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* align children to left */
   }
-
   @media (max-width: 900px) {
     .sidebar { position: static; width: 100%; border-radius: 0; box-shadow: none; }
     .main-content { margin-left: 0; padding: 1rem; }
   }
 
-  /* Updated chat box styles */
+  /* Chat box styles */
   #chat-messages {
     width: 700px;
     height: 550px;
@@ -72,6 +70,7 @@
     background-color: #fafafa;
     overflow-y: auto;
     white-space: pre-wrap;
+    margin: 0; /* no centering margin */
   }
   #chat-input {
     width: 700px;
