@@ -81,4 +81,9 @@ def exercise_builder():
             return render_template('exercise_builder.html', exercises=EXERCISES, error=error)
         selected_exercises = [ex for ex in EXERCISES if ex["id"] in selected_ids]
         return render_template('exercise_results.html', selected=selected_exercises)
+    # On GET, just render the builder
     return render_template('exercise_builder.html', exercises=EXERCISES)
+
+# Example if you ever want to redirect inside this blueprint:
+# from flask import redirect, url_for
+# return redirect(url_for('exercise_builder.exercise_builder'))
