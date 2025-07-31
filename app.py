@@ -546,7 +546,7 @@ def pt_notes():
     return render_template('pt_notes.html', notes=notes)
 
         
-# ====== PT Export ======
+# ====== PT Export Word Doc ======
 @app.route('/pt_export_word', methods=['POST'])
 @login_required
 def pt_export_word():
@@ -650,31 +650,46 @@ def pt_export_to_word(data):
     doc.add_paragraph("Soap Assessment:")
     doc.add_paragraph("")
 
-    doc.add_paragraph("Pain:")
-    doc.add_paragraph(f"{data.get('pain_location', '')}")
-    doc.add_paragraph(f"{data.get('pain_rating', '')}")
-    doc.add_paragraph("")
+    # Pain section
+    pain_lines = [
+        "Pain:",
+        f"{data.get('pain_location', '')}",
+        f"{data.get('pain_rating', '')}",
+    ]
+    for line in pain_lines:
+        doc.add_paragraph(line)
+    doc.add_paragraph("")  # blank line after Pain
 
+    # ROM section (split into lines if needed)
     doc.add_paragraph("ROM:")
-    doc.add_paragraph(data.get('rom', ''))
+    for line in data.get('rom', '').split('\n'):
+        doc.add_paragraph(line)
     doc.add_paragraph("")
 
+    # Palpation section (split into lines if needed)
     doc.add_paragraph("Palpation:")
-    doc.add_paragraph(data.get('palpation', ''))
+    for line in data.get('palpation', '').split('\n'):
+        doc.add_paragraph(line)
     doc.add_paragraph("")
 
+    # Functional Tests section (split into lines if needed)
     doc.add_paragraph("Functional Test(s):")
-    doc.add_paragraph(data.get('functional', ''))
+    for line in data.get('functional', '').split('\n'):
+        doc.add_paragraph(line)
     doc.add_paragraph("")
 
+    # Goals section (split into lines if needed)
     doc.add_paragraph("Goals:")
-    doc.add_paragraph(data.get('goals', ''))
+    for line in data.get('goals', '').split('\n'):
+        doc.add_paragraph(line)
     doc.add_paragraph("")
 
     buf = BytesIO()
     doc.save(buf)
     buf.seek(0)
     return buf
+
+#======= PT Export PDF =========
 
 @app.route("/pt_export_pdf", methods=["POST"])
 @login_required
@@ -714,11 +729,15 @@ def pt_export_pdf():
         c.setFont("Helvetica", 11)
         for line in lines:
             for subline in line.split('\n'):
-                c.drawString(48, y, subline)
-                y -= 14
-                if y < 60:
-                    c.showPage()
-                    y = height - 40
+                if subline.strip() != "":
+                    c.drawString(48, y, subline)
+                    y -= 14
+                    if y < 60:
+                        c.showPage()
+                        y = height - 40
+            # Visual separation if blank line found
+            if line == "":
+                y -= 8
         add_separator()
 
     # Title
@@ -793,6 +812,42 @@ def pt_export_pdf():
     add_paragraph_block("Frequency:", data.get("frequency", ""))
     add_paragraph_block("Intervention:", data.get("intervention", ""))
     add_paragraph_block("Treatment Procedures:", data.get("procedures", ""))
+
+    # --- SOAP ASSESSMENT SECTION ---
+    # Format matches your Word/PDF: grouped, single blank line between sections.
+    soap_lines = [
+        "Soap Assessment:",
+        "",
+        "Pain:",
+        f"{data.get('pain_location', '')}",
+        f"{data.get('pain_rating', '')}",
+        "",
+        "ROM:",
+        *data.get('rom', '').split('\n') if data.get('rom', '') else [],
+        "",
+        "Palpation:",
+        *data.get('palpation', '').split('\n') if data.get('palpation', '') else [],
+        "",
+        "Functional Test(s):",
+        *data.get('functional', '').split('\n') if data.get('functional', '') else [],
+        "",
+        "Goals:",
+        *data.get('goals', '').split('\n') if data.get('goals', '') else [],
+    ]
+    # Print the SOAP section, group-visual, no separator at the end:
+    c.setFont("Helvetica-Bold", 13)
+    c.drawString(40, y, "Soap Assessment:")
+    y -= 18
+    c.setFont("Helvetica", 11)
+    for line in soap_lines[2:]:
+        if line == "":
+            y -= 8
+        else:
+            c.drawString(48, y, line)
+            y -= 14
+            if y < 60:
+                c.showPage()
+                y = height - 40
 
     c.save()
     buffer.seek(0)
@@ -952,7 +1007,7 @@ Long-Term Goals (13–25 visits):
     result = gpt_call(prompt, max_tokens=400)
     return jsonify({"result": result})
 
-# ====== OT Export ======
+# ====== OT Export Word Doc ======
 
 @app.route('/ot_export_word', methods=['POST'])
 @login_required
@@ -972,7 +1027,7 @@ def ot_export_to_word(data):
     def add_separator():
         doc.add_paragraph('-' * 114)
 
-    # Header line (customize if needed)
+    # Header
     weight = data.get('weight', '')
     height = data.get('height', '')
     bmi = data.get('bmi', '')
@@ -1018,8 +1073,7 @@ def ot_export_to_word(data):
     doc.add_paragraph(data.get('rom', ''))
 
     doc.add_paragraph("Muscle Strength Test:")
-    doc.add_paragraph(f"Gross UE Strength: {data.get('strength_ue', '')}")
-    doc.add_paragraph(f"Gross LE Strength: {data.get('strength_le', '')}")
+    doc.add_paragraph(data.get('strength', ''))
 
     doc.add_paragraph("Palpation:")
     doc.add_paragraph(data.get('palpation', ''))
@@ -1058,25 +1112,38 @@ def ot_export_to_word(data):
     doc.add_paragraph("Soap Assessment:")
     doc.add_paragraph("")
 
-    doc.add_paragraph("Pain:")
-    doc.add_paragraph(f"{data.get('pain_location', '')}")
-    doc.add_paragraph(f"{data.get('pain_rating', '')}")
-    doc.add_paragraph("")
+    # Pain section
+    pain_lines = [
+        "Pain:",
+        f"{data.get('pain_location', '')}",
+        f"{data.get('pain_rating', '')}",
+    ]
+    for line in pain_lines:
+        doc.add_paragraph(line)
+    doc.add_paragraph("")  # blank line after Pain
 
+    # ROM section (split into lines if needed)
     doc.add_paragraph("ROM:")
-    doc.add_paragraph(data.get('rom', ''))
+    for line in data.get('rom', '').split('\n'):
+        doc.add_paragraph(line)
     doc.add_paragraph("")
 
+    # Palpation section (split into lines if needed)
     doc.add_paragraph("Palpation:")
-    doc.add_paragraph(data.get('palpation', ''))
+    for line in data.get('palpation', '').split('\n'):
+        doc.add_paragraph(line)
     doc.add_paragraph("")
 
+    # Functional Tests section (split into lines if needed)
     doc.add_paragraph("Functional Test(s):")
-    doc.add_paragraph(data.get('functional', ''))
+    for line in data.get('functional', '').split('\n'):
+        doc.add_paragraph(line)
     doc.add_paragraph("")
 
+    # Goals section (split into lines if needed)
     doc.add_paragraph("Goals:")
-    doc.add_paragraph(data.get('goals', ''))
+    for line in data.get('goals', '').split('\n'):
+        doc.add_paragraph(line)
     doc.add_paragraph("")
 
     buf = BytesIO()
@@ -1084,6 +1151,7 @@ def ot_export_to_word(data):
     buf.seek(0)
     return buf
 
+#======= OT Export PDF =========
 @app.route("/ot_export_pdf", methods=["POST"])
 @login_required
 def ot_export_pdf():
@@ -1122,11 +1190,15 @@ def ot_export_pdf():
         c.setFont("Helvetica", 11)
         for line in lines:
             for sub_line in line.split('\n'):
-                c.drawString(48, y, sub_line)
-                y -= 14
-                if y < 60:
-                    c.showPage()
-                    y = height - 40
+                if sub_line.strip() != "":
+                    c.drawString(48, y, sub_line)
+                    y -= 14
+                    if y < 60:
+                        c.showPage()
+                        y = height - 40
+            # Add blank line between groupings (not after every line)
+            if line == "":
+                y -= 8
         add_separator()
 
     # Title
@@ -1151,7 +1223,7 @@ def ot_export_pdf():
     # Main Sections
     add_section("Medical Diagnosis:", data.get("meddiag", ""))
     add_section("Medical History/HNP:", data.get("history", ""))
-    add_section("Subjective:", data.get("ot_subjective", ""))
+    add_section("Subjective:", data.get("subjective", ""))  # Use 'subjective', not 'ot_subjective' unless your frontend uses that key
 
     # Pain Section
     pain_lines = [
@@ -1205,6 +1277,41 @@ def ot_export_pdf():
     add_section("Intervention:", data.get("intervention", ""))
     add_section("Treatment Procedures:", data.get("procedures", ""))
 
+    # SOAP Assessment Section (visual separation like your Word export)
+    soap_lines = [
+        "Soap Assessment:",
+        "",
+        "Pain:",
+        f"{data.get('pain_location', '')}",
+        f"{data.get('pain_rating', '')}",
+        "",
+        "ROM:",
+        *data.get('rom', '').split('\n') if data.get('rom', '') else [],
+        "",
+        "Palpation:",
+        *data.get('palpation', '').split('\n') if data.get('palpation', '') else [],
+        "",
+        "Functional Test(s):",
+        *data.get('functional', '').split('\n') if data.get('functional', '') else [],
+        "",
+        "Goals:",
+        *data.get('goals', '').split('\n') if data.get('goals', '') else [],
+    ]
+    # Print the SOAP section without adding a separator at the end:
+    c.setFont("Helvetica-Bold", 13)
+    c.drawString(40, y, "Soap Assessment:")
+    y -= 18
+    c.setFont("Helvetica", 11)
+    for line in soap_lines[2:]:
+        if line == "":
+            y -= 8
+        else:
+            c.drawString(48, y, line)
+            y -= 14
+            if y < 60:
+                c.showPage()
+                y = height - 40
+
     c.save()
     buffer.seek(0)
     return send_file(
@@ -1213,7 +1320,6 @@ def ot_export_pdf():
         download_name="OT_Eval.pdf",
         mimetype="application/pdf"
     )
-
 
 # ========== GPT HELPER ==========
 
