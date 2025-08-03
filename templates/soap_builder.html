@@ -498,6 +498,7 @@
   });
 
   // Generate Assessment
+  
   document.getElementById('generate-assessment-btn').addEventListener('click', async () => {
     const status = document.getElementById('assessment-status');
     let values = getCheckedValues('assessment');
@@ -506,9 +507,6 @@
     if (summaryLengths.length > 0) {
       values.push(`Summary Length: ${summaryLengths.join(' ')}`);
     }
-
-    const assessmentOtherText = getTextInputValue('assessment_other');
-    if (assessmentOtherText) values.push(`Other Assessment: ${assessmentOtherText}`);
 
     if (values.length === 0) {
       alert('Please select some assessment checkboxes or enter other information first.');
@@ -524,7 +522,12 @@
       });
       const data = await response.json();
       if (data.text) {
-        document.getElementById('assessment-text').value = data.text;
+        let resultText = data.text.trim();
+        // Remove "Assessment:" from the start if present (case insensitive)
+        if (resultText.toLowerCase().startsWith('assessment:')) {
+          resultText = resultText.substring('assessment:'.length).trim();
+        }
+        document.getElementById('assessment-text').value = resultText;
         status.textContent = 'Done.';
       } else {
         status.textContent = '';
@@ -535,6 +538,7 @@
       alert('Error generating assessment text.');
     }
   });
+
 
   // Generate Plan
   document.getElementById('generate-plan-btn').addEventListener('click', async () => {
