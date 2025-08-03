@@ -4,13 +4,33 @@
 
 {% block head %}
 <style>
-  /* Keep styles scoped to SOAP Builder page */
   fieldset { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
   legend { font-weight: bold; }
   .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
   label { user-select: none; }
-  textarea { width: 100%; height: 120px; margin-top: 10px; font-family: monospace; }
-  button { margin-top: 10px; padding: 8px 15px; cursor: pointer; }
+  textarea {
+    width: 100%;
+    height: 120px;
+    margin-top: 10px;
+    font-family: Calibri, sans-serif;
+    font-size: 11pt;
+  }
+  .btn-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  button {
+    padding: 8px 15px;
+    cursor: pointer;
+  }
+  .status-text {
+    font-style: italic;
+    color: #555;
+    font-size: 0.9em;
+  }
 </style>
 {% endblock %}
 
@@ -118,7 +138,12 @@
   </div>
 
   <textarea id="subjective-text" placeholder="Subjective Field: Final Text"></textarea>
-  <button id="generate-subjective-btn">AI Regenerate Subjective</button>
+
+  <div class="btn-row">
+    <button id="generate-subjective-btn">AI Regenerate Subjective</button>
+    <button id="copy-subjective-btn" type="button">Copy</button>
+    <span id="subjective-status" class="status-text"></span>
+  </div>
 </fieldset>
 
 <!-- Assessment Category -->
@@ -189,7 +214,12 @@
   </div>
 
   <textarea id="assessment-text" placeholder="Assessment Summary Text"></textarea>
-  <button id="generate-assessment-btn">AI Generate Assessment Summary</button>
+
+  <div class="btn-row">
+    <button id="generate-assessment-btn">AI Generate Assessment Summary</button>
+    <button id="copy-assessment-btn" type="button">Copy</button>
+    <span id="assessment-status" class="status-text"></span>
+  </div>
 </fieldset>
 {% endblock %}
 
@@ -200,56 +230,91 @@
     return Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(cb => cb.value);
   }
 
-  // On clicking generate subjective button
+  // Copy text helper
+  function copyText(id) {
+    const textArea = document.getElementById(id);
+    if (textArea.value.trim() === "") {
+      alert("Nothing to copy!");
+      return;
+    }
+    textArea.select();
+    textArea.setSelectionRange(0, 99999); // For mobile devices
+    navigator.clipboard.writeText(textArea.value)
+      .then(() => alert("Copied to clipboard!"))
+      .catch(() => alert("Failed to copy."));
+  }
+
+  // Subjective generate button
   document.getElementById('generate-subjective-btn').addEventListener('click', async () => {
+    const subjectiveStatus = document.getElementById('subjective-status');
     const subjectiveValues = getCheckedValues('therapist').concat(getCheckedValues('subjective'));
     if (subjectiveValues.length === 0) {
       alert('Please select some subjective checkboxes first.');
       return;
     }
-
-    const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes:\n\n${subjectiveValues.join(', ')}`;
-
-    // Call your backend OpenAI route (to be implemented)
-    const response = await fetch('/api/generate-subjective', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
-
-    if (response.ok) {
+    subjectiveStatus.textContent = "Generating...";
+    try {
+      const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes:\n\n${subjectiveValues.join(', ')}`;
+      const response = await fetch('/api/generate-subjective', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      if (!response.ok) throw new Error("Server error");
       const data = await response.json();
-      document.getElementById('subjective-text').value = data.text;
-    } else {
+      if (data.text) {
+        document.getElementById('subjective-text').value = data.text;
+        subjectiveStatus.textContent = "Done.";
+      } else {
+        subjectiveStatus.textContent = "";
+        alert('Error generating subjective text.');
+      }
+    } catch (err) {
+      subjectiveStatus.textContent = "";
       alert('Error generating subjective text.');
     }
   });
 
-  // On clicking generate assessment button
+  // Subjective copy button
+  document.getElementById('copy-subjective-btn').addEventListener('click', () => {
+    copyText('subjective-text');
+  });
+
+  // Assessment generate button
   document.getElementById('generate-assessment-btn').addEventListener('click', async () => {
+    const assessmentStatus = document.getElementById('assessment-status');
     const assessmentValues = getCheckedValues('assessment');
     const summaryLength = document.querySelector('input[name="summary-length"]:checked').value;
-
     if (assessmentValues.length === 0) {
       alert('Please select some assessment checkboxes first.');
       return;
     }
-
-    const prompt = `Generate a Medicare-appropriate treatment session summary based on the following assessment information. The summary should be ${summaryLength} long:\n\n${assessmentValues.join(', ')}`;
-
-    // Call your backend OpenAI route (to be implemented)
-    const response = await fetch('/api/generate-assessment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
-
-    if (response.ok) {
+    assessmentStatus.textContent = "Generating...";
+    try {
+      const prompt = `Generate a Medicare-appropriate treatment session summary based on the following assessment information. The summary should be ${summaryLength} long:\n\n${assessmentValues.join(', ')}`;
+      const response = await fetch('/api/generate-assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      if (!response.ok) throw new Error("Server error");
       const data = await response.json();
-      document.getElementById('assessment-text').value = data.text;
-    } else {
+      if (data.text) {
+        document.getElementById('assessment-text').value = data.text;
+        assessmentStatus.textContent = "Done.";
+      } else {
+        assessmentStatus.textContent = "";
+        alert('Error generating assessment summary.');
+      }
+    } catch (err) {
+      assessmentStatus.textContent = "";
       alert('Error generating assessment summary.');
     }
+  });
+
+  // Assessment copy button
+  document.getElementById('copy-assessment-btn').addEventListener('click', () => {
+    copyText('assessment-text');
   });
 </script>
 {% endblock %}
