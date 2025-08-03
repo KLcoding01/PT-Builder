@@ -6,8 +6,29 @@
 <style>
   fieldset { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
   legend { font-weight: bold; }
-  .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
   label { user-select: none; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Calibri, sans-serif;
+    font-size: 11pt;
+    margin-bottom: 1rem;
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 6px;
+    vertical-align: top;
+  }
+  th {
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+  }
+  input[type="text"] {
+    width: 150px;
+    font-family: Calibri, sans-serif;
+    font-size: 11pt;
+  }
   textarea {
     width: 100%;
     height: 120px;
@@ -31,6 +52,9 @@
     color: #555;
     font-size: 0.9em;
   }
+  .checkbox-label {
+    margin-right: 1em;
+  }
 </style>
 {% endblock %}
 
@@ -40,102 +64,132 @@
 <!-- Therapist Category -->
 <fieldset>
   <legend>Therapist</legend>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="therapist" value="PT" /> PT</label>
-    <label><input type="checkbox" name="therapist" value="OT" /> OT</label>
+  <div>
+    <label class="checkbox-label"><input type="checkbox" name="therapist" value="PT" /> PT</label>
+    <label class="checkbox-label"><input type="checkbox" name="therapist" value="OT" /> OT</label>
   </div>
 </fieldset>
 
-<!-- Subjective Category -->
+<!-- Subjective Table -->
 <fieldset>
   <legend>Subjective</legend>
-
-  <strong>Pt States / Pt Reports:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="Pt states" /> Pt states</label>
-    <label><input type="checkbox" name="subjective" value="Pt reports" /> Pt reports</label>
-  </div>
-
-  <strong>Sides:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="right" /> right</label>
-    <label><input type="checkbox" name="subjective" value="left" /> left</label>
-  </div>
-
-  <strong>Location of Pain:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="neck" /> neck</label>
-    <label><input type="checkbox" name="subjective" value="shoulder" /> shoulder</label>
-    <label><input type="checkbox" name="subjective" value="arm" /> arm</label>
-    <label><input type="checkbox" name="subjective" value="elbow" /> elbow</label>
-    <label><input type="checkbox" name="subjective" value="wrist" /> wrist</label>
-    <label><input type="checkbox" name="subjective" value="hand" /> hand</label>
-    <label><input type="checkbox" name="subjective" value="mid back" /> mid back</label>
-    <label><input type="checkbox" name="subjective" value="low back" /> low back</label>
-    <label><input type="checkbox" name="subjective" value="hip" /> hip</label>
-    <label><input type="checkbox" name="subjective" value="thigh" /> thigh</label>
-    <label><input type="checkbox" name="subjective" value="knee" /> knee</label>
-    <label><input type="checkbox" name="subjective" value="calf" /> calf</label>
-    <label><input type="checkbox" name="subjective" value="ankle" /> ankle</label>
-    <label><input type="checkbox" name="subjective" value="foot" /> foot</label>
-  </div>
-
-  <strong>Sensation:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="pain" /> pain</label>
-    <label><input type="checkbox" name="subjective" value="numbness" /> numbness</label>
-    <label><input type="checkbox" name="subjective" value="ache" /> ache</label>
-    <label><input type="checkbox" name="subjective" value="tightness" /> tightness</label>
-  </div>
-
-  <strong>Feeling Today:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="no new changes" /> no new changes</label>
-    <label><input type="checkbox" name="subjective" value="okay" /> okay</label>
-    <label><input type="checkbox" name="subjective" value="generalized weakness" /> generalized weakness</label>
-  </div>
-
-  <strong>Functional Limitations:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="sleeping" /> sleeping</label>
-    <label><input type="checkbox" name="subjective" value="lying" /> lying</label>
-    <label><input type="checkbox" name="subjective" value="sitting" /> sitting</label>
-    <label><input type="checkbox" name="subjective" value="standing" /> standing</label>
-    <label><input type="checkbox" name="subjective" value="walking" /> walking</label>
-    <label><input type="checkbox" name="subjective" value="stairs/steps negotiation" /> stairs/steps negotiation</label>
-    <label><input type="checkbox" name="subjective" value="bending" /> bending</label>
-    <label><input type="checkbox" name="subjective" value="movement" /> movement</label>
-  </div>
-
-  <strong>Activities Limitations:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="cooking" /> cooking</label>
-    <label><input type="checkbox" name="subjective" value="cleaning" /> cleaning</label>
-    <label><input type="checkbox" name="subjective" value="grooming" /> grooming</label>
-    <label><input type="checkbox" name="subjective" value="dressing" /> dressing</label>
-    <label><input type="checkbox" name="subjective" value="gardening" /> gardening</label>
-    <label><input type="checkbox" name="subjective" value="laundry" /> laundry</label>
-    <label><input type="checkbox" name="subjective" value="sweeping" /> sweeping</label>
-    <label><input type="checkbox" name="subjective" value="watching grand kids" /> watching grand kids</label>
-  </div>
-
-  <strong>Pain:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="pain: Yes" /> Yes</label>
-    <label><input type="checkbox" name="subjective" value="pain: No" /> No</label>
-  </div>
-
-  <strong>Tolerance:</strong>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="tolerance: decrease" /> decrease</label>
-    <label><input type="checkbox" name="subjective" value="tolerance: limited" /> limited</label>
-    <label><input type="checkbox" name="subjective" value="tolerance: improved" /> improved</label>
-    <label><input type="checkbox" name="subjective" value="symptom increased" /> symptom increased</label>
-  </div>
-
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="subjective" value="Pt agrees to tx today" /> Pt agrees to tx today</label>
-  </div>
+  <table>
+    <tr>
+      <th>Patient:</th>
+      <td>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Pt states" /> Pt states</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Pt reports" /> Pt reports</label>
+      </td>
+      <th>Sides:</th>
+      <td>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Right" /> Right</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Left" /> Left</label>
+      </td>
+      <th>Pain:</th>
+      <td>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Yes" /> Yes</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="No" /> No</label>
+      </td>
+    </tr>
+    <tr>
+      <th>Location:</th>
+      <td colspan="5">
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Neck" /> Neck</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Shoulder" /> Shoulder</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Arm" /> Arm</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Elbow" /> Elbow</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Wrist" /> Wrist</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Hand" /> Hand</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Mid Back" /> Mid Back</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Low Back" /> Low Back</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Hip" /> Hip</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Thigh" /> Thigh</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Knee" /> Knee</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Calves" /> Calves</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Ankle" /> Ankle</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Foot" /> Foot</label>
+      </td>
+    </tr>
+    <tr>
+      <th>Sensation:</th>
+      <td colspan="5">
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Tension" /> Tension</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Dull pain" /> Dull pain</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Sharp Pain" /> Sharp Pain</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Ache Pain" /> Ache Pain</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Numbness" /> Numbness</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Tingle" /> Tingle</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Shooting" /> Shooting</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Throbbing" /> Throbbing</label>
+        Other: <input type="text" name="subjective_sensation_other" />
+      </td>
+    </tr>
+    <tr>
+      <th>Feeling:</th>
+      <td colspan="5">
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Tired" /> Tired</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Soreness" /> Soreness</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="In Different" /> In Different</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="No Changes" /> No Changes</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Eager" /> Eager</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Motivated" /> Motivated</label>
+        Other: <input type="text" name="subjective_feeling_other" />
+      </td>
+    </tr>
+    <tr>
+      <th>Movement Limitations:</th>
+      <td colspan="5">
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Sleeping" /> Sleeping</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Lying" /> Lying</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Sitting" /> Sitting</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Standing" /> Standing</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Walking" /> Walking</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Stairs/steps Negotiation" /> Stairs/steps Negotiation</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Forward Bending" /> Forward Bending</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="General Movement" /> General Movement</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Holding" /> Holding</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Gripping" /> Gripping</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Pulling" /> Pulling</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Pushing" /> Pushing</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Reach Behind" /> Reach Behind</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Reach Above" /> Reach Above</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Immobility" /> Immobility</label>
+      </td>
+    </tr>
+    <tr>
+      <th>Activity Limitations:</th>
+      <td colspan="5">
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Cooking" /> Cooking</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Cleaning Grooming" /> Cleaning Grooming</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Dressing" /> Dressing</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Brushing" /> Brushing</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Gardening" /> Gardening</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Laundry" /> Laundry</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Sweeping" /> Sweeping</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Driving" /> Driving</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Gym" /> Gym</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Community" /> Community</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Participation" /> Participation</label>
+        Other: <input type="text" name="subjective_activity_other" />
+      </td>
+    </tr>
+    <tr>
+      <th>Tolerance:</th>
+      <td colspan="5">
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Symptom Decrease" /> Symptom Decrease</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Symptom Increase" /> Symptom Increase</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Improved" /> Improved</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Progressing" /> Progressing</label>
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="No Changes" /> No Changes</label>
+      </td>
+    </tr>
+    <tr>
+      <th>Consent:</th>
+      <td colspan="5">
+        <label class="checkbox-label"><input type="checkbox" name="subjective" value="Pt agrees to tx and POC today" /> Pt agrees to tx and POC today.</label>
+      </td>
+    </tr>
+  </table>
 
   <textarea id="subjective-text" placeholder="Subjective Field: Final Text"></textarea>
 
@@ -146,7 +200,7 @@
   </div>
 </fieldset>
 
-<!-- Assessment Category -->
+<!-- Assessment Section -->
 <fieldset>
   <legend>Assessment</legend>
 
@@ -230,6 +284,15 @@
     return Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(cb => cb.value);
   }
 
+  // Helper to get trimmed text input value if not empty
+  function getTextInputValue(name) {
+    const el = document.querySelector(`input[name="${name}"]`);
+    if (el && el.value.trim() !== "") {
+      return el.value.trim();
+    }
+    return null;
+  }
+
   // Copy text helper
   function copyText(id) {
     const textArea = document.getElementById(id);
@@ -247,11 +310,23 @@
   // Subjective generate button
   document.getElementById('generate-subjective-btn').addEventListener('click', async () => {
     const subjectiveStatus = document.getElementById('subjective-status');
+    // Collect checked checkboxes
     const subjectiveValues = getCheckedValues('therapist').concat(getCheckedValues('subjective'));
+
+    // Collect "Other" text input values if present
+    const sensationOther = getTextInputValue('subjective_sensation_other');
+    const feelingOther = getTextInputValue('subjective_feeling_other');
+    const activityOther = getTextInputValue('subjective_activity_other');
+
+    if (sensationOther) subjectiveValues.push(`Sensation Other: ${sensationOther}`);
+    if (feelingOther) subjectiveValues.push(`Feeling Other: ${feelingOther}`);
+    if (activityOther) subjectiveValues.push(`Activity Limitations Other: ${activityOther}`);
+
     if (subjectiveValues.length === 0) {
-      alert('Please select some subjective checkboxes first.');
+      alert('Please select some subjective checkboxes or enter other information first.');
       return;
     }
+
     subjectiveStatus.textContent = "Generating...";
     try {
       const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes:\n\n${subjectiveValues.join(', ')}`;
