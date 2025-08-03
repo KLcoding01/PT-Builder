@@ -392,6 +392,13 @@ def pt_eval():
     loaded_note = None
     # fetch loaded_note if needed
     return render_template('pt_eval.html', loaded_note=loaded_note)
+
+
+#==================================== PT RENDER SOAP ====================================
+
+@app.route('/soap-builder')
+def soap_builder():
+    return render_template('soap_builder.html')
         
     
 #========================== AI GENERATE PT DIFFERENTIAL DX ==============================
@@ -531,6 +538,7 @@ def pt_generate_summary():
 
     
 #==================================== AI GENERATE PT GOALS ====================================
+
 @app.route('/pt_generate_goals', methods=['POST'])
 @login_required
 def pt_generate_goals():
@@ -574,7 +582,45 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
 
     result = gpt_call(prompt, max_tokens=400)
     return jsonify({"result": result})
+    
+#==================================== AI GENERATE SOAP NOTES ====================================
 
+@app.route('/api/generate-subjective', methods=['POST'])
+def generate_subjective():
+    data = request.json
+    prompt = data.get("prompt", "")
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=150,
+            temperature=0.7,
+            n=1,
+            stop=None,
+        )
+        text = response.choices[0].text.strip()
+        return jsonify({"text": text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/generate-assessment', methods=['POST'])
+def generate_assessment():
+    data = request.json
+    prompt = data.get("prompt", "")
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=200,
+            temperature=0.7,
+            n=1,
+            stop=None,
+        )
+        text = response.choices[0].text.strip()
+        return jsonify({"text": text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+        
 #==================================== PT SAVE NOTES ====================================
 
 @app.route('/pt_eval_builder', methods=['GET', 'POST'])
