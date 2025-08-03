@@ -585,20 +585,21 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
     
 #==================================== AI GENERATE SOAP NOTES ====================================
 
+
 @app.route('/api/generate-subjective', methods=['POST'])
 def generate_subjective():
     data = request.json
     prompt = data.get("prompt", "")
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=150,
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
             temperature=0.7,
-            n=1,
-            stop=None,
+            max_tokens=300,
         )
-        text = response.choices[0].text.strip()
+        text = response.choices[0].message.content.strip()
         return jsonify({"text": text})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -608,18 +609,21 @@ def generate_assessment():
     data = request.json
     prompt = data.get("prompt", "")
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=200,
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
             temperature=0.7,
-            n=1,
-            stop=None,
+            max_tokens=300,
         )
-        text = response.choices[0].text.strip()
+        text = response.choices[0].message.content.strip()
         return jsonify({"text": text})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
         
 #==================================== PT SAVE NOTES ====================================
 
