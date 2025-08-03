@@ -585,12 +585,20 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
     
 #==================================== AI GENERATE SOAP NOTES ====================================
 
-
 @app.route('/api/generate-subjective', methods=['POST'])
 @login_required
 def generate_subjective():
     data = request.json
-    prompt = data.get("prompt", "")
+    user_prompt = data.get("prompt", "")
+
+    prompt = (
+        "Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes. "
+        "Use abbreviations when appropriate, introducing them once with the full term (e.g., Home Exercise Program (HEP)) "
+        "and do not repeat abbreviations unnecessarily. Use 'Pt' or 'Patient' as the subject. "
+        "Avoid using 'the patient' or 'they' to refer to the patient.\n\n"
+        + user_prompt
+    )
+
     try:
         response = client.chat.completions.create(
             model=MODEL,
@@ -603,11 +611,21 @@ def generate_subjective():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @app.route('/api/generate-assessment', methods=['POST'])
 @login_required
 def generate_assessment():
     data = request.json
-    prompt = data.get("prompt", "")
+    user_prompt = data.get("prompt", "")
+
+    prompt = (
+        "Rewrite this assessment into a professional clinical note narrative. "
+        "Use common abbreviations where appropriate, introducing them in parentheses after the full term on first mention (e.g., Soft Tissue Mobilization (STM)). "
+        "Do not repeat the abbreviation multiple times. Avoid redundant or duplicate abbreviations. Use abbreviations consistently afterward. "
+        "Use 'Pt' or 'Patient' as the subject. Do NOT use 'The patient' or 'they' to refer to the patient.\n\n"
+        + user_prompt
+    )
+
     try:
         response = client.chat.completions.create(
             model=MODEL,
@@ -624,7 +642,17 @@ def generate_assessment():
 @login_required
 def generate_plan():
     data = request.json
-    prompt = data.get("prompt", "")
+    user_prompt = data.get("prompt", "")
+
+    prompt = (
+        "Rewrite this plan of care into a clear professional narrative suitable for clinical notes. "
+        "Use common abbreviations where appropriate, introducing them in parentheses after the full term on first mention "
+        "(e.g., Soft Tissue Mobilization (STM)). Do not repeat abbreviations redundantly or multiple times. "
+        "Use abbreviations consistently after introduction. "
+        "Use 'Pt' or 'Patient' as the subject. Do NOT use 'the patient' or 'they' to refer to the patient.\n\n"
+        + user_prompt
+    )
+
     try:
         response = client.chat.completions.create(
             model=MODEL,

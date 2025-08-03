@@ -477,7 +477,7 @@
     }
     status.textContent = 'Generating...';
     try {
-      const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes. Do not use 'The patient':\n\n${values.join(' ')}`;
+      const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
       const response = await fetch('/api/generate-subjective', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -516,7 +516,7 @@
     }
     status.textContent = 'Generating...';
     try {
-      const prompt = `Rewrite this assessment into a professional clinical note narrative. don't use 'The patient'.:\n\n${values.join(' ')}`;
+      const prompt = `Rewrite this assessment into a professional clinical note narrative:\n\n${values.join(' ')}`;
       const response = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -555,7 +555,7 @@
     }
     status.textContent = 'Generating...';
     try {
-      const prompt = `Rewrite this plan of care into a clear professional narrative suitable for clinical notes. Don't use 'The patient':\n\n${values.join(' ')}`;
+      const prompt = `Rewrite this plan of care into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
       const response = await fetch('/api/generate-plan', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
