@@ -593,7 +593,7 @@ def generate_subjective():
 
     prompt = (
         "Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes. "
-        "Use abbreviations when appropriate, introducing them once with the full term (e.g., Home Exercise Program (HEP)) "
+        "Use abbreviations when appropriate, introducing them once with the full term (e.g., plan of care (POC), Home Exercise Program (HEP)) "
         "and do not repeat abbreviations unnecessarily. Use 'Pt' or 'Patient' as the subject. "
         "Avoid using 'the patient' or 'they' to refer to the patient.\n\n"
         + user_prompt
