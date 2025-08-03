@@ -587,15 +587,14 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
 
 
 @app.route('/api/generate-subjective', methods=['POST'])
+@login_required
 def generate_subjective():
     data = request.json
     prompt = data.get("prompt", "")
     try:
         response = client.chat.completions.create(
             model=MODEL,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
+            messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
             max_tokens=300,
         )
@@ -605,15 +604,14 @@ def generate_subjective():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/generate-assessment', methods=['POST'])
+@login_required
 def generate_assessment():
     data = request.json
     prompt = data.get("prompt", "")
     try:
         response = client.chat.completions.create(
             model=MODEL,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
+            messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
             max_tokens=300,
         )
@@ -621,7 +619,7 @@ def generate_assessment():
         return jsonify({"text": text})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-        
+
 @app.route('/api/generate-plan', methods=['POST'])
 @login_required
 def generate_plan():

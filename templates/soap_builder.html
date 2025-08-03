@@ -8,382 +8,297 @@
 <title>SOAP Builder</title>
 <style>
   body {
-    font-family: Calibri, sans-serif;
-    font-size: 11pt;
-    margin: 20px;
-    background: #f9f9f9;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 1100px;
+    margin: auto;
+    background: #f4f7fb;
   }
-  label {
-    font-weight: bold;
+  h1, h2 {
+    font-family: Calibri, sans-serif;
   }
   .section {
     background: white;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 6px;
-    box-shadow: 0 0 8px #ccc;
-  }
-  .section h2 {
-    margin-top: 0;
-    margin-bottom: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    font-family: Calibri, sans-serif;
-    font-size: 11pt;
   }
-  th, td {
-    border: 1px solid #666;
-    padding: 6px 8px;
+  td, th {
+    padding: 8px 6px;
     vertical-align: top;
   }
   th {
-    background-color: #eee;
-    font-weight: bold;
-    width: 150px;
-    white-space: nowrap;
-  }
-  .checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 18px;
-    align-items: center;
+    text-align: right;
+    width: 180px;
+    font-weight: 600;
+    font-family: Calibri, sans-serif;
   }
   .checkbox-group label {
-    font-weight: normal;
-    white-space: nowrap;
-  }
-  input[type="text"] {
+    margin-right: 15px;
     font-family: Calibri, sans-serif;
     font-size: 11pt;
-    padding: 3px 6px;
-    width: 180px;
-    margin-left: 6px;
+    user-select: none;
   }
   textarea {
     width: 100%;
-    height: 120px;
-    font-family: Calibri, sans-serif;
+    height: 140px;
+    margin-top: 10px;
+    font-family: Calibri, monospace;
     font-size: 11pt;
     padding: 8px;
-    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid #ccc;
     resize: vertical;
   }
   .button-row {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    margin-top: 8px;
-    gap: 12px;
+    gap: 10px;
+    margin-top: 10px;
   }
-  .button-row button {
+  button {
+    cursor: pointer;
+    padding: 8px 18px;
     font-family: Calibri, sans-serif;
     font-size: 11pt;
-    padding: 6px 14px;
-    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    background-color: #1969ff;
+    color: white;
+    transition: background-color 0.3s ease;
   }
-  .status-text {
-    font-style: italic;
-    color: #555;
+  button:hover {
+    background-color: #0047d4;
   }
   .copy-button {
-    margin-left: auto;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    border-radius: 3px;
+    background-color: #555;
   }
   .copy-button:hover {
-    background-color: #0056b3;
+    background-color: #333;
   }
-  select {
+  .status-text {
     font-family: Calibri, sans-serif;
     font-size: 11pt;
-    margin-left: 5px;
-    padding: 3px 6px;
+    font-style: italic;
+    color: #555;
+    min-width: 80px;
   }
 </style>
 </head>
 <body>
 
+<h1>SOAP Builder</h1>
+
 <div class="section" id="subjective-section">
   <h2>Subjective</h2>
   <table>
     <tr>
-      <th>Patient:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="therapist" value="Pt states" /> Pt states</label>
-        <label><input type="checkbox" name="therapist" value="Pt reports" /> Pt reports</label>
+      <th>Therapist:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="therapist" value="PT" /> PT</label>
+        <label><input type="checkbox" name="therapist" value="OT" /> OT</label>
+      </td>
+    </tr>
+    <tr>
+      <th>Pt States / Pt Reports:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="Pt states" /> Pt states</label>
+        <label><input type="checkbox" name="subjective" value="Pt reports" /> Pt reports</label>
       </td>
     </tr>
     <tr>
       <th>Sides:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Right" /> Right</label>
-        <label><input type="checkbox" name="subjective" value="Left" /> Left</label>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="right" /> right</label>
+        <label><input type="checkbox" name="subjective" value="left" /> left</label>
       </td>
     </tr>
     <tr>
-      <th>Pain:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Yes" /> Yes</label>
-        <label><input type="checkbox" name="subjective" value="No" /> No</label>
-      </td>
-    </tr>
-    <tr>
-      <th>Location:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Neck" /> Neck</label>
-        <label><input type="checkbox" name="subjective" value="Shoulder" /> Shoulder</label>
-        <label><input type="checkbox" name="subjective" value="Arm" /> Arm</label>
-        <label><input type="checkbox" name="subjective" value="Elbow" /> Elbow</label>
-        <label><input type="checkbox" name="subjective" value="Wrist" /> Wrist</label>
-        <label><input type="checkbox" name="subjective" value="Hand" /> Hand</label>
-        <label><input type="checkbox" name="subjective" value="Mid Back" /> Mid Back</label>
-        <label><input type="checkbox" name="subjective" value="Low Back" /> Low Back</label>
-        <label><input type="checkbox" name="subjective" value="Hip" /> Hip</label>
-        <label><input type="checkbox" name="subjective" value="Thigh" /> Thigh</label>
-        <label><input type="checkbox" name="subjective" value="Knee" /> Knee</label>
-        <label><input type="checkbox" name="subjective" value="Calves" /> Calves</label>
-        <label><input type="checkbox" name="subjective" value="Ankle" /> Ankle</label>
-        <label><input type="checkbox" name="subjective" value="Foot" /> Foot</label>
+      <th>Location of Pain:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="neck" /> neck</label>
+        <label><input type="checkbox" name="subjective" value="shoulder" /> shoulder</label>
+        <label><input type="checkbox" name="subjective" value="arm" /> arm</label>
+        <label><input type="checkbox" name="subjective" value="elbow" /> elbow</label>
+        <label><input type="checkbox" name="subjective" value="wrist" /> wrist</label>
+        <label><input type="checkbox" name="subjective" value="hand" /> hand</label>
+        <label><input type="checkbox" name="subjective" value="mid back" /> mid back</label>
+        <label><input type="checkbox" name="subjective" value="low back" /> low back</label>
+        <label><input type="checkbox" name="subjective" value="hip" /> hip</label>
+        <label><input type="checkbox" name="subjective" value="thigh" /> thigh</label>
+        <label><input type="checkbox" name="subjective" value="knee" /> knee</label>
+        <label><input type="checkbox" name="subjective" value="calf" /> calf</label>
+        <label><input type="checkbox" name="subjective" value="ankle" /> ankle</label>
+        <label><input type="checkbox" name="subjective" value="foot" /> foot</label>
       </td>
     </tr>
     <tr>
       <th>Sensation:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Tension" /> Tension</label>
-        <label><input type="checkbox" name="subjective" value="Dull pain" /> Dull pain</label>
-        <label><input type="checkbox" name="subjective" value="Sharp Pain" /> Sharp Pain</label>
-        <label><input type="checkbox" name="subjective" value="Ache Pain" /> Ache Pain</label>
-        <label><input type="checkbox" name="subjective" value="Numbness" /> Numbness</label>
-        <label><input type="checkbox" name="subjective" value="Tingle" /> Tingle</label>
-        <label><input type="checkbox" name="subjective" value="Shooting" /> Shooting</label>
-        <label><input type="checkbox" name="subjective" value="Throbbing" /> Throbbing</label>
-        <label>Other: <input type="text" name="subjective_sensation_other" /></label>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="pain" /> pain</label>
+        <label><input type="checkbox" name="subjective" value="numbness" /> numbness</label>
+        <label><input type="checkbox" name="subjective" value="ache" /> ache</label>
+        <label><input type="checkbox" name="subjective" value="tightness" /> tightness</label>
+        <input type="text" name="subjective_sensation_other" placeholder="Other sensation" style="font-family: Calibri; font-size: 11pt; margin-left:10px; width:200px;"/>
       </td>
     </tr>
     <tr>
-      <th>Feeling:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Tired" /> Tired</label>
-        <label><input type="checkbox" name="subjective" value="Soreness" /> Soreness</label>
-        <label><input type="checkbox" name="subjective" value="In Different" /> In Different</label>
-        <label><input type="checkbox" name="subjective" value="No Changes" /> No Changes</label>
-        <label><input type="checkbox" name="subjective" value="Eager" /> Eager</label>
-        <label><input type="checkbox" name="subjective" value="Motivated" /> Motivated</label>
-        <label>Other: <input type="text" name="subjective_feeling_other" /></label>
+      <th>Feeling Today:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="no new changes" /> no new changes</label>
+        <label><input type="checkbox" name="subjective" value="okay" /> okay</label>
+        <label><input type="checkbox" name="subjective" value="generalized weakness" /> generalized weakness</label>
+        <input type="text" name="subjective_feeling_other" placeholder="Other feeling" style="font-family: Calibri; font-size: 11pt; margin-left:10px; width:200px;"/>
       </td>
     </tr>
     <tr>
-      <th>Movement Limitations:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Sleeping" /> Sleeping</label>
-        <label><input type="checkbox" name="subjective" value="Lying" /> Lying</label>
-        <label><input type="checkbox" name="subjective" value="Sitting" /> Sitting</label>
-        <label><input type="checkbox" name="subjective" value="Standing" /> Standing</label>
-        <label><input type="checkbox" name="subjective" value="Walking" /> Walking</label>
-        <label><input type="checkbox" name="subjective" value="Stairs/steps Negotiation" /> Stairs/steps Negotiation</label>
-        <label><input type="checkbox" name="subjective" value="Forward Bending" /> Forward Bending</label>
-        <label><input type="checkbox" name="subjective" value="General Movement" /> General Movement</label>
-        <label><input type="checkbox" name="subjective" value="Holding" /> Holding</label>
-        <label><input type="checkbox" name="subjective" value="Gripping" /> Gripping</label>
-        <label><input type="checkbox" name="subjective" value="Pulling" /> Pulling</label>
-        <label><input type="checkbox" name="subjective" value="Pushing" /> Pushing</label>
-        <label><input type="checkbox" name="subjective" value="Reach Behind" /> Reach Behind</label>
-        <label><input type="checkbox" name="subjective" value="Reach Above" /> Reach Above</label>
-        <label><input type="checkbox" name="subjective" value="Immobility" /> Immobility</label>
+      <th>Functional Limitations:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="sleeping" /> sleeping</label>
+        <label><input type="checkbox" name="subjective" value="lying" /> lying</label>
+        <label><input type="checkbox" name="subjective" value="sitting" /> sitting</label>
+        <label><input type="checkbox" name="subjective" value="standing" /> standing</label>
+        <label><input type="checkbox" name="subjective" value="walking" /> walking</label>
+        <label><input type="checkbox" name="subjective" value="stairs/steps negotiation" /> stairs/steps negotiation</label>
+        <label><input type="checkbox" name="subjective" value="bending" /> bending</label>
+        <label><input type="checkbox" name="subjective" value="movement" /> movement</label>
       </td>
     </tr>
     <tr>
-      <th>Activity Limitations:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Cooking" /> Cooking</label>
-        <label><input type="checkbox" name="subjective" value="Cleaning" /> Cleaning</label>
-        <label><input type="checkbox" name="subjective" value="Grooming" /> Grooming</label>
-        <label><input type="checkbox" name="subjective" value="Dressing" /> Dressing</label>
-        <label><input type="checkbox" name="subjective" value="Brushing" /> Brushing</label>
-        <label><input type="checkbox" name="subjective" value="Gardening" /> Gardening</label>
-        <label><input type="checkbox" name="subjective" value="Laundry" /> Laundry</label>
-        <label><input type="checkbox" name="subjective" value="Sweeping" /> Sweeping</label>
-        <label><input type="checkbox" name="subjective" value="Driving" /> Driving</label>
-        <label><input type="checkbox" name="subjective" value="Gym" /> Gym</label>
-        <label><input type="checkbox" name="subjective" value="Community" /> Community</label>
-        <label><input type="checkbox" name="subjective" value="Participation" /> Participation</label>
-        <label>Other: <input type="text" name="subjective_activity_other" /></label>
+      <th>Activities Limitations:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="cooking" /> cooking</label>
+        <label><input type="checkbox" name="subjective" value="cleaning" /> cleaning</label>
+        <label><input type="checkbox" name="subjective" value="grooming" /> grooming</label>
+        <label><input type="checkbox" name="subjective" value="dressing" /> dressing</label>
+        <label><input type="checkbox" name="subjective" value="gardening" /> gardening</label>
+        <label><input type="checkbox" name="subjective" value="laundry" /> laundry</label>
+        <label><input type="checkbox" name="subjective" value="sweeping" /> sweeping</label>
+        <label><input type="checkbox" name="subjective" value="watching grand kids" /> watching grand kids</label>
+        <input type="text" name="subjective_activity_other" placeholder="Other activity limitation" style="font-family: Calibri; font-size: 11pt; margin-left:10px; width:200px;"/>
+      </td>
+    </tr>
+    <tr>
+      <th>Pain:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="pain: Yes" /> Yes</label>
+        <label><input type="checkbox" name="subjective" value="pain: No" /> No</label>
       </td>
     </tr>
     <tr>
       <th>Tolerance:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Symptom Decrease" /> Symptom Decrease</label>
-        <label><input type="checkbox" name="subjective" value="Symptom Increase" /> Symptom Increase</label>
-        <label><input type="checkbox" name="subjective" value="Improved" /> Improved</label>
-        <label><input type="checkbox" name="subjective" value="Progressing" /> Progressing</label>
-        <label><input type="checkbox" name="subjective" value="No Changes" /> No Changes</label>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="tolerance: decrease" /> decrease</label>
+        <label><input type="checkbox" name="subjective" value="tolerance: limited" /> limited</label>
+        <label><input type="checkbox" name="subjective" value="tolerance: improved" /> improved</label>
+        <label><input type="checkbox" name="subjective" value="symptom increased" /> symptom increased</label>
       </td>
     </tr>
     <tr>
-      <th>Consent:</th>
-      <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Pt agrees to tx and POC today." /> Pt agrees to tx and POC today.</label>
+      <th>Pt agrees to tx today:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="subjective" value="Pt agrees to tx today" /> Yes</label>
       </td>
     </tr>
   </table>
+
+  <textarea id="subjective-text" placeholder="Subjective Field: Final Text"></textarea>
+
   <div class="button-row">
-    <button id="generate-subjective-btn">AI Generate Subjective</button>
+    <button id="generate-subjective-btn">AI Regenerate Subjective</button>
     <span id="subjective-status" class="status-text"></span>
     <button class="copy-button" data-target="subjective-text">Copy</button>
   </div>
-  <textarea id="subjective-text" placeholder="Subjective Field: Final Text"></textarea>
 </div>
 
 <div class="section" id="assessment-section">
   <h2>Assessment</h2>
   <table>
     <tr>
-      <th>Area of Interest:</th>
+      <th>Assessment Category:</th>
       <td class="checkbox-group">
-        <label><input type="checkbox" name="assessment" value="L-spine" /> L-spine</label>
-        <label><input type="checkbox" name="assessment" value="C-spine" /> C-spine</label>
-        <label><input type="checkbox" name="assessment" value="T-spine" /> T-spine</label>
-        <label><input type="checkbox" name="assessment" value="Shoulder" /> Shoulder</label>
-        <label><input type="checkbox" name="assessment" value="Scapula" /> Scapula</label>
-        <label><input type="checkbox" name="assessment" value="Hip" /> Hip</label>
-        <label><input type="checkbox" name="assessment" value="Knee" /> Knee</label>
-        <label><input type="checkbox" name="assessment" value="Ankle" /> Ankle</label>
-        <label><input type="checkbox" name="assessment" value="Foot" /> Foot</label>
-        <label><input type="checkbox" name="assessment" value="Arm" /> Arm</label>
-        <label><input type="checkbox" name="assessment" value="Forearm" /> Forearm</label>
-        <label><input type="checkbox" name="assessment" value="Elbow" /> Elbow</label>
-        <label><input type="checkbox" name="assessment" value="Wrist" /> Wrist</label>
-        <label><input type="checkbox" name="assessment" value="Hand" /> Hand</label>
-        <label><input type="checkbox" name="assessment" value="Leg" /> Leg</label>
-        <label><input type="checkbox" name="assessment" value="Thigh" /> Thigh</label>
-        <label><input type="checkbox" name="assessment" value="Glute" /> Glute</label>
-        <label><input type="checkbox" name="assessment" value="Core" /> Core</label>
-        <label><input type="checkbox" name="assessment" value="Quads" /> Quads</label>
-        <label><input type="checkbox" name="assessment" value="Hamstring" /> Hamstring</label>
-        <label><input type="checkbox" name="assessment" value="IT band" /> IT band</label>
-        <label><input type="checkbox" name="assessment" value="Tibialis/Fibularis" /> Tibialis/Fibularis</label>
-        <label><input type="checkbox" name="assessment" value="Gastroc/Soleus" /> Gastroc/Soleus</label>
-        <label><input type="checkbox" name="assessment" value="Fingers" /> Fingers</label>
-        <label><input type="checkbox" name="assessment" value="Toes" /> Toes</label>
-        <label>Other: <input type="text" name="assessment_other" /></label>
-      </td>
-    </tr>
-    <tr>
-      <th>Assessment:</th>
-      <td class="checkbox-group">
-        <label><input type="checkbox" name="assessment" value="Tender To Palpation" /> Tender To Palpation</label>
-        <label><input type="checkbox" name="assessment" value="Soft Tissue Adhesion/Restriction" /> Soft Tissue Adhesion/Restriction</label>
+        <label><input type="checkbox" name="assessment" value="Tenderness with Palpation" /> Tenderness with Palpation</label>
+        <label><input type="checkbox" name="assessment" value="Pain with functional movement" /> Pain with functional movement</label>
+        <label><input type="checkbox" name="assessment" value="Pain with sitting" /> Pain with sitting</label>
+        <label><input type="checkbox" name="assessment" value="Soft Tissue Restriction" /> Soft Tissue Restriction</label>
         <label><input type="checkbox" name="assessment" value="Myotension" /> Myotension</label>
-        <label><input type="checkbox" name="assessment" value="Joint Hypomobility" /> Joint Hypomobility</label>
-        <label><input type="checkbox" name="assessment" value="Movement Restriction" /> Movement Restriction</label>
-        <label><input type="checkbox" name="assessment" value="Compensated Movement" /> Compensated Movement</label>
-        <label><input type="checkbox" name="assessment" value="Antalgic Movement" /> Antalgic Movement</label>
-        <label><input type="checkbox" name="assessment" value="Decrease Pain w/ Movement" /> Decrease Pain w/ Movement</label>
-        <label><input type="checkbox" name="assessment" value="Forward Lean" /> Forward Lean</label>
-        <label><input type="checkbox" name="assessment" value="Slouch Posture" /> Slouch Posture</label>
-        <label><input type="checkbox" name="assessment" value="Guard Movement" /> Guard Movement</label>
-        <label><input type="checkbox" name="assessment" value="Fear of Falling" /> Fear of Falling</label>
-        <label><input type="checkbox" name="assessment" value="Apprehension w/ Movement" /> Apprehension w/ Movement</label>
-        <label><input type="checkbox" name="assessment" value="Decrease Step Length" /> Decrease Step Length</label>
-        <label><input type="checkbox" name="assessment" value="Parkinson’s Gait" /> Parkinson’s Gait</label>
-        <label><input type="checkbox" name="assessment" value="Hemiplegia Gait" /> Hemiplegia Gait</label
-        <label><input type="checkbox" name="assessment" value="Other" /> Other: <input type="text" name="assessment_other_text" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
       </td>
     </tr>
     <tr>
-      <th>Tx Intervention:</th>
+      <th>Treatment Intervention:</th>
       <td class="checkbox-group">
         <label><input type="checkbox" name="assessment" value="Manual Therapy" /> Manual Therapy</label>
-        <label><input type="checkbox" name="assessment" value="STM" /> STM</label>
-        <label><input type="checkbox" name="assessment" value="Stretch" /> Stretch</label>
-        <label><input type="checkbox" name="assessment" value="MFR" /> MFR</label>
-        <label><input type="checkbox" name="assessment" value="Trigger Point Release" /> Trigger Point Release</label>
-        <label><input type="checkbox" name="assessment" value="Joint Mobilization" /> Joint Mobilization</label>
-        <label><input type="checkbox" name="assessment" value="Movement With Mobility" /> Movement With Mobility</label>
-        <label><input type="checkbox" name="assessment" value="HVLA" /> HVLA</label>
         <label><input type="checkbox" name="assessment" value="Therapeutic Exercises" /> Therapeutic Exercises</label>
         <label><input type="checkbox" name="assessment" value="Therapeutic Activity" /> Therapeutic Activity</label>
         <label><input type="checkbox" name="assessment" value="Gait Training" /> Gait Training</label>
         <label><input type="checkbox" name="assessment" value="Neuromuscular Re-education" /> Neuromuscular Re-education</label>
-        <label><input type="checkbox" name="assessment" value="Contract Relax" /> Contract Relax</label>
-        <label><input type="checkbox" name="assessment" value="Hold Relax" /> Hold Relax</label>
-        <label><input type="checkbox" name="assessment" value="Ice x 10 min" /> Ice x 10 min</label>
-        <label><input type="checkbox" name="assessment" value="Heat x 10 min" /> Heat x 10 min</label>
-        <label><input type="checkbox" name="assessment" value="LLPS x 10 min" /> LLPS x 10 min</label>
-        <label>Other: <input type="text" name="assessment_intervention_other" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
+        <label><input type="checkbox" name="assessment" value="Stretching" /> Stretching</label>
+        <label><input type="checkbox" name="assessment" value="STM" /> STM</label>
+        <label><input type="checkbox" name="assessment" value="Trigger Point Release" /> Trigger Point Release</label>
       </td>
     </tr>
     <tr>
-      <th>Tx Tolerance:</th>
+      <th>Tolerance:</th>
       <td class="checkbox-group">
         <label><input type="checkbox" name="assessment" value="Good" /> Good</label>
-        <label><input type="checkbox" name="assessment" value="Good-" /> Good-</label>
-        <label><input type="checkbox" name="assessment" value="Fair+" /> Fair+</label>
         <label><input type="checkbox" name="assessment" value="Fair" /> Fair</label>
-        <label><input type="checkbox" name="assessment" value="Fair-" /> Fair-</label>
-        <label><input type="checkbox" name="assessment" value="Poor+" /> Poor+</label>
         <label><input type="checkbox" name="assessment" value="Poor" /> Poor</label>
-        <label><input type="checkbox" name="assessment" value="Improve" /> Improve</label>
-        <label><input type="checkbox" name="assessment" value="Progressing" /> Progressing</label>
-        <label><input type="checkbox" name="assessment" value="Regressing" /> Regressing</label>
-        <label><input type="checkbox" name="assessment" value="No Changes" /> No Changes</label>
-        <label>Other: <input type="text" name="assessment_tolerance_other" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
       </td>
     </tr>
     <tr>
-      <th>Functional Activity Training:</th>
+      <th>Training Cues:</th>
       <td class="checkbox-group">
         <label><input type="checkbox" name="assessment" value="Verbal Cue" /> Verbal Cue</label>
         <label><input type="checkbox" name="assessment" value="Tactile Cue" /> Tactile Cue</label>
         <label><input type="checkbox" name="assessment" value="Demonstration" /> Demonstration</label>
         <label><input type="checkbox" name="assessment" value="Education" /> Education</label>
-        <label><input type="checkbox" name="assessment" value="Illustration" /> Illustration</label>
-        <label><input type="checkbox" name="assessment" value="Therapist Guidance" /> Therapist Guidance</label>
-        <label><input type="checkbox" name="assessment" value="Tap Facilitation" /> Tap Facilitation</label>
-        <label>Other: <input type="text" name="assessment_functional_other" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
       </td>
     </tr>
     <tr>
       <th>Outcome:</th>
       <td class="checkbox-group">
-        <label><input type="checkbox" name="assessment" value="Decrease Tension" /> Decrease Tension</label>
-        <label><input type="checkbox" name="assessment" value="Symptoms Reduction" /> Symptoms Reduction</label>
-        <label><input type="checkbox" name="assessment" value="Pain Reduction" /> Pain Reduction</label>
-        <label><input type="checkbox" name="assessment" value="Improved Tissue Mobility" /> Improved Tissue Mobility</label>
-        <label><input type="checkbox" name="assessment" value="Acknowledge Education/Instruction" /> Acknowledge Education/Instruction</label>
+        <label><input type="checkbox" name="assessment" value="Acknowledge" /> Acknowledge</label>
         <label><input type="checkbox" name="assessment" value="Comprehend" /> Comprehend</label>
-        <label><input type="checkbox" name="assessment" value="Improved Movement Tolerance" /> Improved Movement Tolerance</label>
+        <label><input type="checkbox" name="assessment" value="Decrease Symptoms" /> Decrease Symptoms</label>
+        <label><input type="checkbox" name="assessment" value="Pain Reduction" /> Pain Reduction</label>
+        <label><input type="checkbox" name="assessment" value="Decrease Tension" /> Decrease Tension</label>
+        <label><input type="checkbox" name="assessment" value="Decrease Tissue Restriction" /> Decrease Tissue Restriction</label>
+        <label><input type="checkbox" name="assessment" value="Improved movement tolerance" /> Improved movement tolerance</label>
         <label><input type="checkbox" name="assessment" value="Improve safety awareness" /> Improve safety awareness</label>
-        <label><input type="checkbox" name="assessment" value="Review HEP" /> Review HEP</label>
-        <label><input type="checkbox" name="assessment" value="Benefit Adhere POC" /> Benefit Adhere POC</label>
-        <label>Other: <input type="text" name="assessment_outcome_other" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
+      </td>
+    </tr>
+    <tr>
+      <th>Plan:</th>
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="assessment" value="Continue with tx to meet goals" /> Continue with tx to meet goals</label>
+        <label><input type="checkbox" name="assessment" value="Need further treatment" /> Need further treatment</label>
+        <label><input type="checkbox" name="assessment" value="Will continue to benefit" /> Will continue to benefit</label>
+        <label><input type="checkbox" name="assessment" value="Essential to further improve and return to PLOF" /> Essential to further improve and return to PLOF</label>
       </td>
     </tr>
     <tr>
       <th>Summary Length:</th>
-      <td>
-        <select name="assessment_summary_length" id="assessment_summary_length" style="font-family:Calibri; font-size:11pt; padding: 3px 6px;">
-          <option value="4 Sentences">4 Sentences Summary</option>
-          <option value="5 Sentences">5 Sentences Summary</option>
-          <option value="6 Sentences">6 Sentences Summary</option>
-          <option value="7 Sentences">7 Sentences Summary</option>
-          <option value="Other">Other: Text Box</option>
-        </select>
-        <input type="text" name="assessment_summary_other" id="assessment_summary_other" style="display:none; width:150px; font-family:Calibri; font-size:11pt; margin-left:8px;" placeholder="Enter custom summary length" />
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="assessment_summary_length" value="4 Sentences Summary" /> 4 Sentences Summary</label>
+        <label><input type="checkbox" name="assessment_summary_length" value="5 Sentences Summary" /> 5 Sentences Summary</label>
+        <label><input type="checkbox" name="assessment_summary_length" value="6 Sentences Summary" /> 6 Sentences Summary</label>
+        <label><input type="checkbox" name="assessment_summary_length" value="7 Sentences Summary" /> 7 Sentences Summary</label>
       </td>
     </tr>
   </table>
+
+  <textarea id="assessment-text" placeholder="Assessment Field: Final Text"></textarea>
+
   <div class="button-row">
     <button id="generate-assessment-btn">AI Generate Assessment</button>
     <span id="assessment-status" class="status-text"></span>
     <button class="copy-button" data-target="assessment-text">Copy</button>
   </div>
-  <textarea id="assessment-text" placeholder="Assessment Field: Final Text"></textarea>
 </div>
 
 <div class="section" id="plan-section">
@@ -413,76 +328,59 @@
         <label><input type="checkbox" name="plan" value="Fall/Safety Training" /> Fall/Safety Training</label>
         <label><input type="checkbox" name="plan" value="Energy Conservation Training" /> Energy Conservation Training</label>
         <label><input type="checkbox" name="plan" value="Task/Dual Task Training" /> Task/Dual Task Training</label>
-        <label>Other: <input type="text" name="plan_other" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
       </td>
     </tr>
     <tr>
       <th>Summary Length:</th>
-      <td>
-        <select name="plan_summary_length" id="plan_summary_length" style="font-family:Calibri; font-size:11pt; padding: 3px 6px;">
-          <option value="1 Sentence">1 Sentence Summary</option>
-          <option value="2 Sentences">2 Sentences Summary</option>
-          <option value="3 Sentences">3 Sentences Summary</option>
-          <option value="4 Sentences">4 Sentences Summary</option>
-          <option value="Other">Other: Text Box</option>
-        </select>
-        <input type="text" name="plan_summary_other" id="plan_summary_other" style="display:none; width:150px; font-family:Calibri; font-size:11pt; margin-left:8px;" placeholder="Enter custom summary length" />
+      <td class="checkbox-group">
+        <label><input type="checkbox" name="plan_summary_length" value="1 Sentence Summary" /> 1 Sentence Summary</label>
+        <label><input type="checkbox" name="plan_summary_length" value="2 Sentences Summary" /> 2 Sentences Summary</label>
+        <label><input type="checkbox" name="plan_summary_length" value="3 Sentences Summary" /> 3 Sentences Summary</label>
+        <label><input type="checkbox" name="plan_summary_length" value="4 Sentences Summary" /> 4 Sentences Summary</label>
       </td>
     </tr>
   </table>
+
+  <textarea id="plan-text" placeholder="Plan Field: Final Text"></textarea>
+
   <div class="button-row">
     <button id="generate-plan-btn">AI Generate Plan</button>
     <span id="plan-status" class="status-text"></span>
     <button class="copy-button" data-target="plan-text">Copy</button>
   </div>
-  <textarea id="plan-text" placeholder="Plan Field: Final Text"></textarea>
 </div>
 
 <script>
-  // Show/hide "Other" text box for assessment summary length
-  document.getElementById('assessment_summary_length').addEventListener('change', function() {
-    const otherBox = document.getElementById('assessment_summary_other');
-    otherBox.style.display = (this.value === 'Other') ? 'inline-block' : 'none';
+  // Copy button functionality
+  function copyToClipboard(textareaId) {
+    const textarea = document.getElementById(textareaId);
+    textarea.select();
+    textarea.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    alert('Copied to clipboard');
+  }
+  document.querySelectorAll('.copy-button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      copyToClipboard(btn.getAttribute('data-target'));
+    });
   });
 
-  // Show/hide "Other" text box for plan summary length
-  document.getElementById('plan_summary_length').addEventListener('change', function() {
-    const otherBox = document.getElementById('plan_summary_other');
-    otherBox.style.display = (this.value === 'Other') ? 'inline-block' : 'none';
-  });
-
-  // Helper to get checked values for a group
+  // Helper to get checked values by name
   function getCheckedValues(name) {
-    return Array.from(document.querySelectorAll('input[name="' + name + '"]:checked')).map(cb => cb.value);
+    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
   }
 
-  // Helper to get trimmed text input value if not empty
+  // Helper to get trimmed text input value if present
   function getTextInputValue(name) {
     const el = document.querySelector(`input[name="${name}"]`);
     return el && el.value.trim() !== '' ? el.value.trim() : null;
   }
 
-  // Copy to clipboard helper
-  function copyToClipboard(textareaId) {
-    const textarea = document.getElementById(textareaId);
-    textarea.select();
-    textarea.setSelectionRange(0, 99999); // For mobile
-    document.execCommand('copy');
-    alert('Copied to clipboard');
-  }
-
-  // Attach copy button events
-  document.querySelectorAll('.copy-button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.getAttribute('data-target');
-      copyToClipboard(targetId);
-    });
-  });
-
-  // AI generate Subjective
+  // Generate Subjective
   document.getElementById('generate-subjective-btn').addEventListener('click', async () => {
     const status = document.getElementById('subjective-status');
-    const values = getCheckedValues('therapist').concat(getCheckedValues('subjective'));
+    let values = getCheckedValues('therapist').concat(getCheckedValues('subjective'));
+
     const sensationOther = getTextInputValue('subjective_sensation_other');
     const feelingOther = getTextInputValue('subjective_feeling_other');
     const activityOther = getTextInputValue('subjective_activity_other');
@@ -495,16 +393,15 @@
       alert('Please select some subjective checkboxes or enter other information first.');
       return;
     }
-
     status.textContent = 'Generating...';
     try {
       const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
-      const res = await fetch('/api/generate-subjective', {
+      const response = await fetch('/api/generate-subjective', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({prompt}),
       });
-      const data = await res.json();
+      const data = await response.json();
       if (data.text) {
         document.getElementById('subjective-text').value = data.text;
         status.textContent = 'Done.';
@@ -518,45 +415,29 @@
     }
   });
 
-  // AI generate Assessment
+  // Generate Assessment
   document.getElementById('generate-assessment-btn').addEventListener('click', async () => {
     const status = document.getElementById('assessment-status');
     let values = getCheckedValues('assessment');
 
-    const otherText = getTextInputValue('assessment_other_text');
-    const interventionOther = getTextInputValue('assessment_intervention_other');
-    const toleranceOther = getTextInputValue('assessment_tolerance_other');
-    const functionalOther = getTextInputValue('assessment_functional_other');
-    const outcomeOther = getTextInputValue('assessment_outcome_other');
-
-    if (otherText) values.push(`Other: ${otherText}`);
-    if (interventionOther) values.push(`Tx Intervention Other: ${interventionOther}`);
-    if (toleranceOther) values.push(`Tx Tolerance Other: ${toleranceOther}`);
-    if (functionalOther) values.push(`Functional Activity Other: ${functionalOther}`);
-    if (outcomeOther) values.push(`Outcome Other: ${outcomeOther}`);
-
-    const summaryLengthSelect = document.getElementById('assessment_summary_length');
-    if (summaryLengthSelect.value === 'Other') {
-      const otherLength = getTextInputValue('assessment_summary_other');
-      if (otherLength) values.push(`Summary Length: ${otherLength}`);
-    } else {
-      values.push(`Summary Length: ${summaryLengthSelect.value}`);
+    const summaryLengths = getCheckedValues('assessment_summary_length');
+    if (summaryLengths.length > 0) {
+      values.push(`Summary Length: ${summaryLengths.join(' ')}`);
     }
 
     if (values.length === 0) {
       alert('Please select some assessment checkboxes or enter other information first.');
       return;
     }
-
     status.textContent = 'Generating...';
     try {
       const prompt = `Rewrite this assessment into a professional clinical note narrative:\n\n${values.join(' ')}`;
-      const res = await fetch('/api/generate-assessment', {
+      const response = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({prompt}),
       });
-      const data = await res.json();
+      const data = await response.json();
       if (data.text) {
         document.getElementById('assessment-text').value = data.text;
         status.textContent = 'Done.';
@@ -570,39 +451,29 @@
     }
   });
 
-  // AI generate Plan
+  // Generate Plan
   document.getElementById('generate-plan-btn').addEventListener('click', async () => {
     const status = document.getElementById('plan-status');
     let values = getCheckedValues('plan');
 
-    const planOther = getTextInputValue('plan_other');
-
-    if (planOther) values.push(`Other: ${planOther}`);
-
-    const summaryLengthSelect = document.getElementById('plan_summary_length');
-    if (summaryLengthSelect.value === 'Other') {
-      const otherLength = getTextInputValue('plan_summary_other');
-      if (otherLength) values.push(`Summary Length: ${otherLength}`);
-    } else {
-      values.push(`Summary Length: ${summaryLengthSelect.value}`);
+    const summaryLengths = getCheckedValues('plan_summary_length');
+    if (summaryLengths.length > 0) {
+      values.push(`Summary Length: ${summaryLengths.join(' ')}`);
     }
 
-    if (values.length === 0) {
-      alert('Please select some plan check
     if (values.length === 0) {
       alert('Please select some plan checkboxes or enter other information first.');
       return;
     }
-
     status.textContent = 'Generating...';
     try {
       const prompt = `Rewrite this plan of care into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
-      const res = await fetch('/api/generate-plan', {
+      const response = await fetch('/api/generate-plan', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({prompt}),
       });
-      const data = await res.json();
+      const data = await response.json();
       if (data.text) {
         document.getElementById('plan-text').value = data.text;
         status.textContent = 'Done.';
