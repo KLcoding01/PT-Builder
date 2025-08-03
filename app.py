@@ -621,6 +621,23 @@ def generate_assessment():
         return jsonify({"text": text})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+        
+@app.route('/api/generate-plan', methods=['POST'])
+@login_required
+def generate_plan():
+    data = request.json
+    prompt = data.get("prompt", "")
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=300,
+        )
+        text = response.choices[0].message.content.strip()
+        return jsonify({"text": text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
