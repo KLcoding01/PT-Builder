@@ -590,14 +590,13 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
 def generate_subjective():
     data = request.json
     user_prompt = data.get("prompt", "")
-    starter_phrase = data.get("starter", "")
+    starter = data.get("starter", "")
 
     prompt = (
-        f"Rewrite this subjective information into a clear, professional narrative suitable for clinical notes. "
-        f"Always start the first sentence with exactly this phrase: '{starter_phrase}' and do not substitute or rephrase it. "
-        "Use PT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, use the full term. "
-        "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
-        "Use 'Pt' as the subject. Avoid using 'the patient' or 'they' to refer to Pt.\n\n"
+        f"Rewrite the following subjective information as a clear, professional clinical note. "
+        f"The FIRST sentence must start with exactly this phrase: '{starter}'. "
+        f"Do NOT use a synonym, do NOT change, add, or skip the phrase. Use it verbatim. "
+        "Use PT-approved abbreviations only. Use 'Pt' as the subject. Avoid using 'the patient' or 'they'.\n\n"
         + user_prompt
     )
 
@@ -612,6 +611,7 @@ def generate_subjective():
         return jsonify({"text": text})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 # No change needed to assessment/plan unless you want custom starters there too
 @app.route('/api/generate-assessment', methods=['POST'])
@@ -676,12 +676,13 @@ if __name__ == '__main__':
 def generate_subjective_ot():
     data = request.json
     user_prompt = data.get("prompt", "")
+    starter = data.get("starter", "")
 
     prompt = (
-        "Rewrite this subjective information into a clear, professional narrative suitable for clinical notes. "
-        "Use OT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, use the full term. "
-        "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
-        "Use 'Pt' as the subject. Avoid using 'the patient' or 'they' to refer to Pt.\n\n"
+        f"Rewrite the following subjective information as a clear, professional clinical OT note. "
+        f"The FIRST sentence must start with exactly this phrase: '{starter}'. "
+        f"Do NOT use a synonym, do NOT change, add, or skip the phrase. Use it verbatim. "
+        "Use OT-approved abbreviations only. Use 'Pt' as the subject. Avoid using 'the patient' or 'they'.\n\n"
         + user_prompt
     )
 
@@ -696,7 +697,6 @@ def generate_subjective_ot():
         return jsonify({"text": text})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 @app.route('/api/generate-assessment-ot', methods=['POST'])
 @login_required

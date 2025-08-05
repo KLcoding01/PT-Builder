@@ -646,10 +646,9 @@
    const status = document.getElementById('subjective-status');
    let values = getCheckedValues('therapist').concat(getCheckedValues('subjective'));
 
-   // Collect "Other" fields if needed
    const sensationOther = getTextInputValue('subjective_sensation_other');
    const feelingOther = getTextInputValue('subjective_feeling_other');
-   const activityOther = getTextInputValue('subjective_activity_limitations_other');
+   const activityOther = getTextInputValue('subjective_activity_limitations_other'); // Make sure this matches your input name
 
    if (sensationOther) values.push(`Sensation Other: ${sensationOther}`);
    if (feelingOther) values.push(`Feeling Other: ${feelingOther}`);
@@ -660,19 +659,18 @@
      return;
    }
 
-   // Get the first checked starter phrase, default to "Pt reports"
+   // Get the starter phrase (first checked therapist checkbox, or default to 'Pt reports')
    const therapistPhrases = getCheckedValues('therapist');
    const starter = therapistPhrases.length > 0 ? therapistPhrases[0] : 'Pt reports';
 
    status.textContent = 'Generating...';
-
    try {
      const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
      const endpoint = selectedTherapy === 'ot' ? '/api/generate-subjective-ot' : '/api/generate-subjective';
      const response = await fetch(endpoint, {
        method: 'POST',
        headers: {'Content-Type': 'application/json'},
-       body: JSON.stringify({ prompt, starter }),
+       body: JSON.stringify({ prompt, starter }), // Always sends starter!
      });
      const data = await response.json();
      if (data.text) {
