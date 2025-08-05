@@ -237,14 +237,14 @@
         <label><input type="checkbox" name="subjective" value="Stable" /> Stable</label>
         <label><input type="checkbox" name="subjective" value="Soreness" /> Soreness</label>
         <label><input type="checkbox" name="subjective" value="Flare-up" /> Flare-Up</label>
-        <label><input type="checkbox" name="subjective" value="Indifferent" /> Indfferent</label>
+        <label><input type="checkbox" name="subjective" value="Indifferent" /> Indifferent</label>
         <label><input type="checkbox" name="subjective" value="No Changes" /> No Changes</label>
         <label><input type="checkbox" name="subjective" value="Concerns" /> Concerns</label>
         <label><input type="checkbox" name="subjective" value="Fine" /> Fine</label>
         <label><input type="checkbox" name="subjective" value="Anxious" /> Anxious</label>
         <label><input type="checkbox" name="subjective" value="Motivated" /> Motivated</label>
         <label><input type="checkbox" name="subjective" value="Hopeful" /> Hopeful</label>
-        <label><input type="checkbox" name="subjective" value="Mnmotivated" /> Unmotivated</label>
+        <label><input type="checkbox" name="subjective" value="Unmotivated" /> Unmotivated</label>
         <label>Other: <input type="text" name="subjective_feeling_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
@@ -268,7 +268,7 @@
         <label><input type="checkbox" name="subjective" value="Lifting" /> Lifting</label>
         <label><input type="checkbox" name="subjective" value="Reach Behind" /> Reach Behind</label>
         <label><input type="checkbox" name="subjective" value="Reach Above" /> Reach Above</label>
-        <label><input type="checkbox" name="subjective" value="Reach Above" /> Reach Forward</label>
+        <label><input type="checkbox" name="subjective" value="Reach Forward" /> Reach Forward</label>
         <label><input type="checkbox" name="subjective" value="Fine Motor Tasks" /> Fine Motor Tasks</label>
         <label><input type="checkbox" name="subjective" value="ADLs" /> ADLs</label>
         <label>Other: <input type="text" name="subjective_Movement_Limitations_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
@@ -287,10 +287,10 @@
         <label><input type="checkbox" name="subjective" value="Laundry" /> Laundry</label>
         <label><input type="checkbox" name="subjective" value="Sweeping" /> Sweeping</label>
         <label><input type="checkbox" name="subjective" value="Driving" /> Driving</label>
-        <label><input type="checkbox" name="subjective" value="Gym" /> Gyming</label>
+        <label><input type="checkbox" name="subjective" value="Gym" /> Gym</label>
         <label><input type="checkbox" name="subjective" value="Shopping" /> Shopping</label>
         <label><input type="checkbox" name="subjective" value="Recreation" /> Recreation</label>
-        <label><input type="checkbox" name="subjective" value="Community Acvities" /> Community Activities</label>
+        <label><input type="checkbox" name="subjective" value="Community Activities" /> Community Activities</label>
         <label><input type="checkbox" name="subjective" value="Household Management" /> Household Management</label>
         <label>Other: <input type="text" name="subjective_activity_limitations_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
@@ -720,6 +720,14 @@
    } catch {
      status.textContent = '';
      alert('Error generating assessment text.');
+   }
+   // Show/hide Assessment custom summary length input
+   const summaryOtherCheckbox = document.getElementById('assessment_summary_other_cb');
+   const summaryOtherInput = document.getElementById('assessment_summary_other_text');
+   if (summaryOtherCheckbox && summaryOtherInput) {
+     summaryOtherCheckbox.addEventListener('change', function() {
+       summaryOtherInput.style.display = this.checked ? 'inline-block' : 'none';
+     });
    }
  });
 
