@@ -136,6 +136,16 @@
       <td colspan="3" class="checkbox-group">
         <label><input type="checkbox" name="therapist" value="Pt states" /> Pt states</label>
         <label><input type="checkbox" name="therapist" value="Pt reports" /> Pt reports</label>
+        <label><input type="checkbox" name="therapist" value="Pt verbalizes" /> Pt verbalizes</label>
+        <label><input type="checkbox" name="therapist" value="Pt mentions" /> Pt mentions</label>
+        <label><input type="checkbox" name="therapist" value="Pt describes" /> Pt describes</label>
+        <label><input type="checkbox" name="therapist" value="Pt expresses" /> Pt expresses</label>
+        <label><input type="checkbox" name="therapist" value="Pt complains of" /> Pt complains of</label>
+        <label><input type="checkbox" name="therapist" value="Pt requests" /> Pt requests</label>
+        <label><input type="checkbox" name="therapist" value="Pt acknowledges" /> Pt acknowledges</label>
+        <label><input type="checkbox" name="therapist" value="Pt admits" /> Pt admits</label>
+        <label><input type="checkbox" name="therapist" value="Pt notes" /> Pt notes</label>
+        <label>Other: <input type="text" name="subjective_patient_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
     <tr>
@@ -143,6 +153,24 @@
       <td colspan="3" class="checkbox-group">
         <label><input type="checkbox" name="subjective" value="Right" /> Right</label>
         <label><input type="checkbox" name="subjective" value="Left" /> Left</label>
+        <label><input type="checkbox" name="subjective" value="Both" /> Both</label>
+        <label><input type="checkbox" name="subjective" value="Anterior" /> Anterior</label>
+        <label><input type="checkbox" name="subjective" value="Posterior" /> Posterior</label>
+        <label><input type="checkbox" name="subjective" value="Medial" /> Medial</label>
+        <label><input type="checkbox" name="subjective" value="Lateral" /> Lateral</label>
+        <label><input type="checkbox" name="subjective" value="Proximal" /> Proximal</label>
+        <label><input type="checkbox" name="subjective" value="Distal" /> Distal</label>
+        <label><input type="checkbox" name="subjective" value="Superior" /> Superior</label>
+        <label><input type="checkbox" name="subjective" value="Inferior" /> Inferior</label>
+        <label><input type="checkbox" name="subjective" value="Central" /> Central</label>
+        <label><input type="checkbox" name="subjective" value="Peripheral" /> Peripheral</label>
+        <label><input type="checkbox" name="subjective" value="Upper" /> Upper</label>
+        <label><input type="checkbox" name="subjective" value="Lower" /> Lower</label>
+        <label><input type="checkbox" name="subjective" value="Radial" /> Radial</label>
+        <label><input type="checkbox" name="subjective" value="Ulnar" /> Ulnar</label>
+        <label><input type="checkbox" name="subjective" value="Dorsal" /> Dorsal</label>
+        <label><input type="checkbox" name="subjective" value="Ventral" /> Ventral</label>
+        <label>Other: <input type="text" name="subjective_sides_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
     <tr>
@@ -150,6 +178,13 @@
       <td colspan="3" class="checkbox-group">
         <label><input type="checkbox" name="subjective" value="Yes" /> Yes</label>
         <label><input type="checkbox" name="subjective" value="No" /> No</label>
+        <label>Pain Level (0-10): <input type="number" name="pain_scale" min="0" max="10" style="width: 40px;" /></label>
+        <label><input type="checkbox" name="subjective" value="Pain at rest" /> At rest</label>
+        <label><input type="checkbox" name="subjective" value="Pain with activity" /> With activity</label>
+        <label><input type="checkbox" name="subjective" value="Constant" /> Constant</label>
+        <label><input type="checkbox" name="subjective" value="Intermittent" /> Intermittent</label>
+        <label><input type="checkbox" name="subjective" value="Worse at night" /> Worse at night</label>
+        <label>Other: <input type="text" name="subjective_pain_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
     <tr>
@@ -165,35 +200,51 @@
         <label><input type="checkbox" name="subjective" value="Low Back" /> Low Back</label>
         <label><input type="checkbox" name="subjective" value="Hip" /> Hip</label>
         <label><input type="checkbox" name="subjective" value="Thigh" /> Thigh</label>
+        <label><input type="checkbox" name="subjective" value="Leg" /> Leg</label>
         <label><input type="checkbox" name="subjective" value="Knee" /> Knee</label>
         <label><input type="checkbox" name="subjective" value="Calves" /> Calves</label>
         <label><input type="checkbox" name="subjective" value="Ankle" /> Ankle</label>
         <label><input type="checkbox" name="subjective" value="Foot" /> Foot</label>
+        <label>Other: <input type="text" name="subjective_location_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
     <tr>
       <th>Sensation:</th>
       <td colspan="3" class="checkbox-group">
         <label><input type="checkbox" name="subjective" value="Tension" /> Tension</label>
+        <label><input type="checkbox" name="subjective" value="Stiffness" /> Stiffness</label>
+        <label><input type="checkbox" name="subjective" value="Weakness" /> Weakness</label>
+        <label><input type="checkbox" name="subjective" value="Instability" /> Instability</label>
+        <label><input type="checkbox" name="subjective" value="Numbness" /> Numbness</label>
+        <label><input type="checkbox" name="subjective" value="Cramping" /> Cramping</label>
+        <label><input type="checkbox" name="subjective" value="Spasm" /> Spasm</label>
         <label><input type="checkbox" name="subjective" value="Dull pain" /> Dull pain</label>
         <label><input type="checkbox" name="subjective" value="Sharp Pain" /> Sharp Pain</label>
         <label><input type="checkbox" name="subjective" value="Ache Pain" /> Ache Pain</label>
-        <label><input type="checkbox" name="subjective" value="Numbness" /> Numbness</label>
-        <label><input type="checkbox" name="subjective" value="Tingle" /> Tingle</label>
+        <label><input type="checkbox" name="subjective" value="Tingling" /> Tingling</label>
         <label><input type="checkbox" name="subjective" value="Shooting" /> Shooting</label>
         <label><input type="checkbox" name="subjective" value="Throbbing" /> Throbbing</label>
+        <label><input type="checkbox" name="subjective" value="pins and needles" /> Pins and Needles</label>
         <label>Other: <input type="text" name="subjective_sensation_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
     <tr>
       <th>Feeling:</th>
       <td colspan="3" class="checkbox-group">
-        <label><input type="checkbox" name="subjective" value="Tired" /> Tired</label>
+        <label><input type="checkbox" name="subjective" value="Improved" /> Improved</label>
+        <label><input type="checkbox" name="subjective" value="Satisfied" /> Satisfied</label>
+        <label><input type="checkbox" name="subjective" value="Fatigue" /> Fatigue</label>
+        <label><input type="checkbox" name="subjective" value="Stable" /> Stable</label>
         <label><input type="checkbox" name="subjective" value="Soreness" /> Soreness</label>
-        <label><input type="checkbox" name="subjective" value="In Different" /> In Different</label>
+        <label><input type="checkbox" name="subjective" value="Flare-up" /> Flare-Up</label>
+        <label><input type="checkbox" name="subjective" value="Indifferent" /> Indfferent</label>
         <label><input type="checkbox" name="subjective" value="No Changes" /> No Changes</label>
-        <label><input type="checkbox" name="subjective" value="Eager" /> Eager</label>
+        <label><input type="checkbox" name="subjective" value="Concerns" /> Concerns</label>
+        <label><input type="checkbox" name="subjective" value="Fine" /> Fine</label>
+        <label><input type="checkbox" name="subjective" value="Anxious" /> Anxious</label>
         <label><input type="checkbox" name="subjective" value="Motivated" /> Motivated</label>
+        <label><input type="checkbox" name="subjective" value="Hopeful" /> Hopeful</label>
+        <label><input type="checkbox" name="subjective" value="Mnmotivated" /> Unmotivated</label>
         <label>Other: <input type="text" name="subjective_feeling_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
@@ -205,16 +256,22 @@
         <label><input type="checkbox" name="subjective" value="Sitting" /> Sitting</label>
         <label><input type="checkbox" name="subjective" value="Standing" /> Standing</label>
         <label><input type="checkbox" name="subjective" value="Walking" /> Walking</label>
-        <label><input type="checkbox" name="subjective" value="Stairs/steps Negotiation" /> Stairs/steps Negotiation</label>
+        <label><input type="checkbox" name="subjective" value="Stairs/Steps" /> Stairs/Steps</label>
         <label><input type="checkbox" name="subjective" value="Forward Bending" /> Forward Bending</label>
         <label><input type="checkbox" name="subjective" value="General Movement" /> General Movement</label>
+        <label><input type="checkbox" name="subjective" value="Crouching" /> Crouching</label>
         <label><input type="checkbox" name="subjective" value="Holding" /> Holding</label>
         <label><input type="checkbox" name="subjective" value="Gripping" /> Gripping</label>
         <label><input type="checkbox" name="subjective" value="Pulling" /> Pulling</label>
         <label><input type="checkbox" name="subjective" value="Pushing" /> Pushing</label>
+        <label><input type="checkbox" name="subjective" value="Carrying" /> Carrying</label>
+        <label><input type="checkbox" name="subjective" value="Lifting" /> Lifting</label>
         <label><input type="checkbox" name="subjective" value="Reach Behind" /> Reach Behind</label>
         <label><input type="checkbox" name="subjective" value="Reach Above" /> Reach Above</label>
-        <label><input type="checkbox" name="subjective" value="Immobility" /> Immobility</label>
+        <label><input type="checkbox" name="subjective" value="Reach Above" /> Reach Forward</label>
+        <label><input type="checkbox" name="subjective" value="Fine Motor Tasks" /> Fine Motor Tasks</label>
+        <label><input type="checkbox" name="subjective" value="ADLs" /> ADLs</label>
+        <label>Other: <input type="text" name="subjective_Movement_Limitations_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
     <tr>
@@ -225,14 +282,17 @@
         <label><input type="checkbox" name="subjective" value="Grooming" /> Grooming</label>
         <label><input type="checkbox" name="subjective" value="Dressing" /> Dressing</label>
         <label><input type="checkbox" name="subjective" value="Brushing" /> Brushing</label>
+        <label><input type="checkbox" name="subjective" value="Bathing/Shower" /> Bathing/Shower</label>
         <label><input type="checkbox" name="subjective" value="Gardening" /> Gardening</label>
         <label><input type="checkbox" name="subjective" value="Laundry" /> Laundry</label>
         <label><input type="checkbox" name="subjective" value="Sweeping" /> Sweeping</label>
         <label><input type="checkbox" name="subjective" value="Driving" /> Driving</label>
-        <label><input type="checkbox" name="subjective" value="Gym" /> Gym</label>
-        <label><input type="checkbox" name="subjective" value="Community" /> Community</label>
-        <label><input type="checkbox" name="subjective" value="Participation" /> Participation</label>
-        <label>Other: <input type="text" name="subjective_activity_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
+        <label><input type="checkbox" name="subjective" value="Gym" /> Gyming</label>
+        <label><input type="checkbox" name="subjective" value="Shopping" /> Shopping</label>
+        <label><input type="checkbox" name="subjective" value="Recreation" /> Recreation</label>
+        <label><input type="checkbox" name="subjective" value="Community Acvities" /> Community Activities</label>
+        <label><input type="checkbox" name="subjective" value="Household Management" /> Household Management</label>
+        <label>Other: <input type="text" name="subjective_activity_limitations_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
     <tr>
@@ -243,12 +303,29 @@
         <label><input type="checkbox" name="subjective" value="Improved" /> Improved</label>
         <label><input type="checkbox" name="subjective" value="Progressing" /> Progressing</label>
         <label><input type="checkbox" name="subjective" value="No Changes" /> No Changes</label>
+        <label><input type="checkbox" name="subjective" value="Worsened" /> Worsened</label>
+        <label><input type="checkbox" name="subjective" value="Declined" /> Declined</label>
+        <label><input type="checkbox" name="subjective" value="Symptom-Free" /> Symptom-Free</label>
+        <label><input type="checkbox" name="subjective" value="Plateaued" /> Plateaued</label>
+        <label><input type="checkbox" name="subjective" value="Good Tolerance" /> Good Tolerance</label>
+        <label><input type="checkbox" name="subjective" value="Poor Tolerance" /> Poor Tolerance</label>
+        <label><input type="checkbox" name="subjective" value="Fatigued" /> Fatigued</label>
+        <label><input type="checkbox" name="subjective" value="Symptom Fluctuation" /> Symptom Fluctuation</label>
+        <label><input type="checkbox" name="subjective" value="Minimal Change" /> Minimal Change</label>
+        <label><input type="checkbox" name="subjective" value="Soreness After" /> Soreness After</label>
+        <label><input type="checkbox" name="subjective" value="Required Rest Breaks" /> Required Rest Breaks</label>
+        <label><input type="checkbox" name="subjective" value="Delayed Onset Symptoms" /> Delayed Onset Symptoms</label>
+        <label><input type="checkbox" name="subjective" value="Unable to Tolerate" /> Unable to Tolerate</label>
+        <label>Other: <input type="text" name="subjective_activity_tolerance_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
     <tr>
       <th>Consent:</th>
       <td colspan="3" class="checkbox-group">
         <label><input type="checkbox" name="subjective" value="Pt agrees to tx and POC today." /> Pt agrees to tx and POC today.</label>
+        <label><input type="checkbox" name="subjective" value="Pt provided verbal consent." /> Pt provided verbal consent.</label>
+        <label><input type="checkbox" name="subjective" value="Pt/family provided consent." /> Pt/family provided consent.</label>
+        <label>Other: <input type="text" name="subjective_activity_consent_other" style="font-family:Calibri; font-size:11pt; width:150px;" /></label>
       </td>
     </tr>
   </table>
@@ -267,10 +344,11 @@
     <tr>
       <th>Area of Interest:</th>
       <td class="checkbox-group">
-        <label><input type="checkbox" name="assessment" value="L-spine" /> L-spine</label>
         <label><input type="checkbox" name="assessment" value="C-spine" /> C-spine</label>
         <label><input type="checkbox" name="assessment" value="T-spine" /> T-spine</label>
+        <label><input type="checkbox" name="assessment" value="L-spine" /> L-spine</label>
         <label><input type="checkbox" name="assessment" value="Shoulder" /> Shoulder</label>
+        <label><input type="checkbox" name="assessment" value="Ribs" /> Ribs</label>
         <label><input type="checkbox" name="assessment" value="Scapula" /> Scapula</label>
         <label><input type="checkbox" name="assessment" value="Hip" /> Hip</label>
         <label><input type="checkbox" name="assessment" value="Knee" /> Knee</label>
@@ -282,16 +360,37 @@
         <label><input type="checkbox" name="assessment" value="Wrist" /> Wrist</label>
         <label><input type="checkbox" name="assessment" value="Hand" /> Hand</label>
         <label><input type="checkbox" name="assessment" value="Leg" /> Leg</label>
-        <label><input type="checkbox" name="assessment" value="Thigh" /> Thigh</label>
-        <label><input type="checkbox" name="assessment" value="Glute" /> Glute</label>
+        <label>
+          <input type="checkbox" name="assessment" value="Paraspinals, Qudratus Lumborum, Gluteus Medius, Piriformis,TFL" />
+          Paraspinals, QL, Gluteus Medius, Piriformis, TFL
+        </label>
+        <label>
+          <input type="checkbox" name="assessment" value="Quadriceps_TFL_Sartorius_IT_Band" />
+          Quadriceps, TFL, Sartorius, IT Band
+        </label>
+        <label>
+          <input type="checkbox" name="assessment" value="Hamstring, Gastrocnemius, Soleus, Posterior Tibialis" />
+          Hamstring, Gastrocnemius, Soleus, Posterior Tibialis
+        </label>
+        <label>
+          <input type="checkbox" name="assessment" value="Tibialis Anterior, Fibularis" />
+          Tibialis Anterior, Fibularis
+        </label>
+        <label><input type="checkbox" name="assessment" value="Deltoid" /> Deltoid</label>
+        <label><input type="checkbox" name="assessment" value="Rotator Cuff" /> Rotator Cuff</label>
+        <label><input type="checkbox" name="assessment" value="Trapezius" /> Trapezius</label>
+        <label><input type="checkbox" name="assessment" value="Levator Scapulae" /> Levator Scapulae</label>
+        <label><input type="checkbox" name="assessment" value="Rhomboids" /> Rhomboids</label>
+        <label><input type="checkbox" name="assessment" value="Pectoralis Major" /> Pectoralis Major</label>
+        <label><input type="checkbox" name="assessment" value="Biceps Brachii" /> Biceps Brachii</label>
+        <label><input type="checkbox" name="assessment" value="Triceps Brachii" /> Triceps Brachii</label>
+        <label><input type="checkbox" name="assessment" value="Latissimus Dorsi" /> Latissimus Dorsi</label>
         <label><input type="checkbox" name="assessment" value="Core" /> Core</label>
-        <label><input type="checkbox" name="assessment" value="Quads" /> Quads</label>
         <label><input type="checkbox" name="assessment" value="Hamstring" /> Hamstring</label>
+        <label><input type="checkbox" name="assessment" value="TFL" /> TFL</label>
         <label><input type="checkbox" name="assessment" value="IT band" /> IT band</label>
         <label><input type="checkbox" name="assessment" value="Tibialis/Fibularis" /> Tibialis/Fibularis</label>
         <label><input type="checkbox" name="assessment" value="Gastroc/Soleus" /> Gastroc/Soleus</label>
-        <label><input type="checkbox" name="assessment" value="Fingers" /> Fingers</label>
-        <label><input type="checkbox" name="assessment" value="Toes" /> Toes</label>
         <label>Other: <input type="text" name="assessment_other" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
       </td>
     </tr>
@@ -302,16 +401,27 @@
         <label><input type="checkbox" name="assessment" value="Soft Tissue Adhesion/Restriction" /> Soft Tissue Adhesion/Restriction</label>
         <label><input type="checkbox" name="assessment" value="Myotension" /> Myotension</label>
         <label><input type="checkbox" name="assessment" value="Joint Hypomobility" /> Joint Hypomobility</label>
+        <label><input type="checkbox" name="assessment" value="Joint Hypermobility" /> Joint Hypermobility</label>
         <label><input type="checkbox" name="assessment" value="Movement Restriction" /> Movement Restriction</label>
         <label><input type="checkbox" name="assessment" value="Compensated Movement" /> Compensated Movement</label>
+        
         <label><input type="checkbox" name="assessment" value="Antalgic Movement" /> Antalgic Movement</label>
-        <label><input type="checkbox" name="assessment" value="Decrease Pain w/ Movement" /> Decrease Pain w/ Movement</label>
+        <label><input type="checkbox" name="assessment" value="Poor Balance" /> Poor Balance</label>
+        <label><input type="checkbox" name="assessment" value="Decreased Coordination" /> Decreased Coordination</label>
+        <label><input type="checkbox" name="assessment" value="Difficulty w/ Dual Tasking" /> Difficulty w/ Dual Tasking</label>
+        <label><input type="checkbox" name="assessment" value="Pain with Palpation" /> Pain with Palpation</label>
+        <label><input type="checkbox" name="assessment" value="Pain with Movement" /> Pain with Movement</label>
+        <label><input type="checkbox" name="assessment" value="Pain at End Range" /> Pain at End Range</label>
+        <label><input type="checkbox" name="assessment" value="Crepitus" /> Crepitus</label>
+        <label><input type="checkbox" name="assessment" value="Instability" /> Instability</label>
+        <label><input type="checkbox" name="assessment" value="Laxity" /> Laxity</label>
         <label><input type="checkbox" name="assessment" value="Forward Lean" /> Forward Lean</label>
         <label><input type="checkbox" name="assessment" value="Slouch Posture" /> Slouch Posture</label>
         <label><input type="checkbox" name="assessment" value="Guard Movement" /> Guard Movement</label>
         <label><input type="checkbox" name="assessment" value="Fear of Falling" /> Fear of Falling</label>
         <label><input type="checkbox" name="assessment" value="Apprehension w/ Movement" /> Apprehension w/ Movement</label>
         <label><input type="checkbox" name="assessment" value="Decrease Step Length" /> Decrease Step Length</label>
+        <label><input type="checkbox" name="assessment" value="Trendelenburg Gait" /> Trendelenburg Gait</label>
         <label><input type="checkbox" name="assessment" value="Parkinson’s Gait" /> Parkinson’s Gait</label>
         <label><input type="checkbox" name="assessment" value="Hemiplegia Gait" /> Hemiplegia Gait</label>
         <label>Other: <input type="text" name="assessment_other_text" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
@@ -321,15 +431,23 @@
       <th>Tx Intervention:</th>
       <td class="checkbox-group">
         <label><input type="checkbox" name="assessment" value="Manual Therapy" /> Manual Therapy</label>
-        <label><input type="checkbox" name="assessment" value="STM" /> STM</label>
         <label><input type="checkbox" name="assessment" value="Stretch" /> Stretch</label>
-        <label><input type="checkbox" name="assessment" value="MFR" /> MFR</label>
         <label><input type="checkbox" name="assessment" value="Trigger Point Release" /> Trigger Point Release</label>
+        <label><input type="checkbox" name="assessment" value="MFR" /> Myofascia Release</label>
         <label><input type="checkbox" name="assessment" value="Joint Mobilization" /> Joint Mobilization</label>
-        <label><input type="checkbox" name="assessment" value="Movement With Mobility" /> Movement With Mobility</label>
         <label><input type="checkbox" name="assessment" value="HVLA" /> HVLA</label>
-        <label><input type="checkbox" name="assessment" value="Therapeutic Exercises" /> Therapeutic Exercises</label>
-        <label><input type="checkbox" name="assessment" value="Therapeutic Activity" /> Therapeutic Activity</label>
+        <label><input type="checkbox" name="assessment" value="Movement With Mobility" /> Movement With Mobility</label>
+        <label><input type="checkbox" name="assessment" value="Ther Ex" /> Ther Ex</label>
+        <label><input type="checkbox" name="assessment" value="Ther Act" /> Ther Act</label>
+        <label><input type="checkbox" name="assessment" value="Balance Training" /> Balance Training</label>
+        <label><input type="checkbox" name="assessment" value="Proprioceptive Training" /> Proprioceptive Training</label>
+        <label><input type="checkbox" name="assessment" value="Core Stabilization" /> Core Stabilization</label>
+        <label><input type="checkbox" name="assessment" value="Postural Training" /> Postural Training</label>
+        <label><input type="checkbox" name="assessment" value="Functional Training" /> Functional Training</label>
+        <label><input type="checkbox" name="assessment" value="Task-specific Training" /> Task-specific Training</label>
+        <label><input type="checkbox" name="assessment" value="Vestibular Rehab" /> Vestibular Rehab</label>
+        <label><input type="checkbox" name="assessment" value="PNF Patterns" /> PNF Patterns</label>
+        <label><input type="checkbox" name="assessment" value="IASTM" /> IASTM</label>
         <label><input type="checkbox" name="assessment" value="Gait Training" /> Gait Training</label>
         <label><input type="checkbox" name="assessment" value="Neuromuscular Re-education" /> Neuromuscular Re-education</label>
         <label><input type="checkbox" name="assessment" value="Contract Relax" /> Contract Relax</label>
@@ -377,12 +495,31 @@
         <label><input type="checkbox" name="assessment" value="Symptoms Reduction" /> Symptoms Reduction</label>
         <label><input type="checkbox" name="assessment" value="Pain Reduction" /> Pain Reduction</label>
         <label><input type="checkbox" name="assessment" value="Improved Tissue Mobility" /> Improved Tissue Mobility</label>
-        <label><input type="checkbox" name="assessment" value="Acknowledge Education/Instruction" /> Acknowledge Education/Instruction</label>
-        <label><input type="checkbox" name="assessment" value="Comprehend" /> Comprehend</label>
+        <label><input type="checkbox" name="assessment" value="Acknowledged Education/Instruction" /> Acknowledged Education/Instruction</label>
+        <label><input type="checkbox" name="assessment" value="Demonstrated Understanding" /> Demonstrated Understanding</label>
         <label><input type="checkbox" name="assessment" value="Improved Movement Tolerance" /> Improved Movement Tolerance</label>
-        <label><input type="checkbox" name="assessment" value="Improve safety awareness" /> Improve safety awareness</label>
-        <label><input type="checkbox" name="assessment" value="Review HEP" /> Review HEP</label>
-        <label><input type="checkbox" name="assessment" value="Benefit Adhere POC" /> Benefit Adhere POC</label>
+        <label><input type="checkbox" name="assessment" value="Improved Safety Awareness" /> Improved Safety Awareness</label>
+        <label><input type="checkbox" name="assessment" value="Adhered to HEP" /> Adhered to HEP</label>
+        <label><input type="checkbox" name="assessment" value="Benefit from Adherence to POC" /> Benefit from Adherence to POC</label>
+        <label><input type="checkbox" name="assessment" value="Improved Strength" /> Improved Strength</label>
+        <label><input type="checkbox" name="assessment" value="Improved ROM" /> Improved ROM</label>
+        <label><input type="checkbox" name="assessment" value="Improved Endurance" /> Improved Endurance</label>
+        <label><input type="checkbox" name="assessment" value="Improved Functional Mobility" /> Improved Functional Mobility</label>
+        <label><input type="checkbox" name="assessment" value="Improved Balance" /> Improved Balance</label>
+        <label><input type="checkbox" name="assessment" value="Improved Coordination" /> Improved Coordination</label>
+        <label><input type="checkbox" name="assessment" value="Improved Posture" /> Improved Posture</label>
+        <label><input type="checkbox" name="assessment" value="Decreased Swelling/Edema" /> Decreased Swelling/Edema</label>
+        <label><input type="checkbox" name="assessment" value="Increased Independence" /> Increased Independence</label>
+        <label><input type="checkbox" name="assessment" value="Improved Gait" /> Improved Gait</label>
+        <label><input type="checkbox" name="assessment" value="Improved Transfers" /> Improved Transfers</label>
+        <label><input type="checkbox" name="assessment" value="Improved ADL Participation" /> Improved ADL Participation</label>
+        <label><input type="checkbox" name="assessment" value="Achieved Short-term Goals" /> Achieved Short-term Goals</label>
+        <label><input type="checkbox" name="assessment" value="Achieved Long-term Goals" /> Achieved Long-term Goals</label>
+        <label><input type="checkbox" name="assessment" value="Patient Demonstrated Correct Technique" /> Patient Demonstrated Correct Technique</label>
+        <label><input type="checkbox" name="assessment" value="No Significant Change" /> No Significant Change</label>
+        <label><input type="checkbox" name="assessment" value="Regression in Function" /> Regression in Function</label>
+        <label><input type="checkbox" name="assessment" value="Requires Continued Skilled Therapy" /> Requires Continued Skilled Therapy</label>
+        <label><input type="checkbox" name="assessment" value="Patient Able to Verbalize POC" /> Patient Able to Verbalize POC</label>
         <label>Other: <input type="text" name="assessment_outcome_other" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
       </td>
     </tr>
@@ -428,6 +565,14 @@
         <label><input type="checkbox" name="plan" value="Pain Management" /> Pain Management</label>
         <label><input type="checkbox" name="plan" value="Gait Training" /> Gait Training</label>
         <label><input type="checkbox" name="plan" value="Neuromuscular Training" /> Neuromuscular Training</label>
+        <label><input type="checkbox" name="plan" value="Core Stabilization Training" /> Core Stabilization Training</label>
+        <label><input type="checkbox" name="plan" value="Postural Training" /> Postural Training</label>
+        <label><input type="checkbox" name="plan" value="Body Mechanics Training" /> Body Mechanics Training</label>
+        <label><input type="checkbox" name="plan" value="Functional Training" /> Functional Training</label>
+        <label><input type="checkbox" name="plan" value="Task-Specific Training" /> Task-Specific Training</label>
+        <label><input type="checkbox" name="plan" value="Vestibular Rehab" /> Vestibular Rehab</label>
+        <label><input type="checkbox" name="plan" value="PNF Training" /> PNF Training</label>
+        <label><input type="checkbox" name="plan" value="IASTM" /> IASTM</label>
         <label><input type="checkbox" name="plan" value="Ice" /> Ice</label>
         <label><input type="checkbox" name="plan" value="Heat" /> Heat</label>
         <label><input type="checkbox" name="plan" value="E-Stim" /> E-Stim</label>
@@ -436,6 +581,7 @@
         <label><input type="checkbox" name="plan" value="HEP Review" /> HEP Review</label>
         <label><input type="checkbox" name="plan" value="Fall/Safety Training" /> Fall/Safety Training</label>
         <label><input type="checkbox" name="plan" value="Energy Conservation Training" /> Energy Conservation Training</label>
+        <label><input type="checkbox" name="plan" value="Patient/Family Goals Review" /> Patient/Family Goals Review</label>
         <label><input type="checkbox" name="plan" value="Task/Dual Task Training" /> Task/Dual Task Training</label>
         <label>Other: <input type="text" name="plan_other" style="width:150px; font-size:11pt; font-family:Calibri;" /></label>
       </td>
