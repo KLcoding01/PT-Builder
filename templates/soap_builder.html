@@ -97,9 +97,35 @@
   .copy-button:hover {
     background-color: #0056b3;
   }
+  /* PT/OT tab styles */
+  #therapy-tabs {
+    margin-bottom: 20px;
+  }
+  .therapy-tab {
+    font-family: Calibri, sans-serif;
+    font-size: 11pt;
+    padding: 6px 14px;
+    cursor: pointer;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    background: #eee;
+    border-radius: 3px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .therapy-tab.active {
+    background: #007bff;
+    color: white;
+    border-color: #0056b3;
+  }
 </style>
 </head>
 <body>
+
+<!-- PT/OT Toggle Tabs -->
+<div id="therapy-tabs">
+  <button class="therapy-tab active" data-therapy="pt" type="button">PT</button>
+  <button class="therapy-tab" data-therapy="ot" type="button">OT</button>
+</div>
 
 <!-- Subjective Section -->
 <div class="section" id="subjective-section">
@@ -433,151 +459,163 @@
 </div>
 
 <script>
-  // Copy button functionality
-  function copyToClipboard(textareaId) {
-    const textarea = document.getElementById(textareaId);
-    textarea.select();
-    textarea.setSelectionRange(0, 99999);
-    document.execCommand('copy');
-    alert('Copied to clipboard');
-  }
-  document.querySelectorAll('.copy-button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      copyToClipboard(btn.getAttribute('data-target'));
-    });
-  });
+// --- PT/OT tab selection ---
+ let selectedTherapy = 'pt'; // default PT
 
-  // Helper to get checked values by name
-  function getCheckedValues(name) {
-    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
-  }
+ document.querySelectorAll('.therapy-tab').forEach(btn => {
+   btn.addEventListener('click', () => {
+     document.querySelectorAll('.therapy-tab').forEach(b => b.classList.remove('active'));
+     btn.classList.add('active');
+     selectedTherapy = btn.dataset.therapy;
+   });
+ });
 
-  // Helper to get trimmed text input value if present
-  function getTextInputValue(name) {
-    const el = document.querySelector(`input[name="${name}"]`);
-    return el && el.value.trim() !== '' ? el.value.trim() : null;
-  }
+ // Copy button functionality
+ function copyToClipboard(textareaId) {
+   const textarea = document.getElementById(textareaId);
+   textarea.select();
+   textarea.setSelectionRange(0, 99999);
+   document.execCommand('copy');
+   alert('Copied to clipboard');
+ }
+ document.querySelectorAll('.copy-button').forEach(btn => {
+   btn.addEventListener('click', () => {
+     copyToClipboard(btn.getAttribute('data-target'));
+   });
+ });
 
-  // Generate Subjective
-  document.getElementById('generate-subjective-btn').addEventListener('click', async () => {
-    const status = document.getElementById('subjective-status');
-    let values = getCheckedValues('therapist').concat(getCheckedValues('subjective'));
+ // Helper to get checked values by name
+ function getCheckedValues(name) {
+   return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
+ }
 
-    const sensationOther = getTextInputValue('subjective_sensation_other');
-    const feelingOther = getTextInputValue('subjective_feeling_other');
-    const activityOther = getTextInputValue('subjective_activity_other');
+ // Helper to get trimmed text input value if present
+ function getTextInputValue(name) {
+   const el = document.querySelector(`input[name="${name}"]`);
+   return el && el.value.trim() !== '' ? el.value.trim() : null;
+ }
 
-    if (sensationOther) values.push(`Sensation Other: ${sensationOther}`);
-    if (feelingOther) values.push(`Feeling Other: ${feelingOther}`);
-    if (activityOther) values.push(`Activity Limitations Other: ${activityOther}`);
+ // Generate Subjective
+ document.getElementById('generate-subjective-btn').addEventListener('click', async () => {
+   const status = document.getElementById('subjective-status');
+   let values = getCheckedValues('therapist').concat(getCheckedValues('subjective'));
 
-    if (values.length === 0) {
-      alert('Please select some subjective checkboxes or enter other information first.');
-      return;
-    }
-    status.textContent = 'Generating...';
-    try {
-      const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
-      const response = await fetch('/api/generate-subjective', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({prompt}),
-      });
-      const data = await response.json();
-      if (data.text) {
-        document.getElementById('subjective-text').value = data.text;
-        status.textContent = 'Done.';
-      } else {
-        status.textContent = '';
-        alert('Error generating subjective text.');
-      }
-    } catch {
-      status.textContent = '';
-      alert('Error generating subjective text.');
-    }
-  });
+   const sensationOther = getTextInputValue('subjective_sensation_other');
+   const feelingOther = getTextInputValue('subjective_feeling_other');
+   const activityOther = getTextInputValue('subjective_activity_other');
 
-  // Generate Assessment
-  
-  document.getElementById('generate-assessment-btn').addEventListener('click', async () => {
-    const status = document.getElementById('assessment-status');
-    let values = getCheckedValues('assessment');
+   if (sensationOther) values.push(`Sensation Other: ${sensationOther}`);
+   if (feelingOther) values.push(`Feeling Other: ${feelingOther}`);
+   if (activityOther) values.push(`Activity Limitations Other: ${activityOther}`);
 
-    const summaryLengths = getCheckedValues('assessment_summary_length');
-    if (summaryLengths.length > 0) {
-      values.push(`Summary Length: ${summaryLengths.join(' ')}`);
-    }
+   if (values.length === 0) {
+     alert('Please select some subjective checkboxes or enter other information first.');
+     return;
+   }
+   status.textContent = 'Generating...';
+   try {
+     const prompt = `Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
+     const endpoint = selectedTherapy === 'ot' ? '/api/generate-subjective-ot' : '/api/generate-subjective';
+     const response = await fetch(endpoint, {
+       method: 'POST',
+       headers: {'Content-Type': 'application/json'},
+       body: JSON.stringify({prompt}),
+     });
+     const data = await response.json();
+     if (data.text) {
+       document.getElementById('subjective-text').value = data.text;
+       status.textContent = 'Done.';
+     } else {
+       status.textContent = '';
+       alert('Error generating subjective text.');
+     }
+   } catch {
+     status.textContent = '';
+     alert('Error generating subjective text.');
+   }
+ });
 
-    if (values.length === 0) {
-      alert('Please select some assessment checkboxes or enter other information first.');
-      return;
-    }
-    status.textContent = 'Generating...';
-    try {
-      const prompt = `Rewrite this assessment into a professional clinical note narrative:\n\n${values.join(' ')}`;
-      const response = await fetch('/api/generate-assessment', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({prompt}),
-      });
-      const data = await response.json();
-      if (data.text) {
-        let resultText = data.text.trim();
-        // Remove "Assessment:" from the start if present (case insensitive)
-        if (resultText.toLowerCase().startsWith('assessment:')) {
-          resultText = resultText.substring('assessment:'.length).trim();
-        }
-        document.getElementById('assessment-text').value = resultText;
-        status.textContent = 'Done.';
-      } else {
-        status.textContent = '';
-        alert('Error generating assessment text.');
-      }
-    } catch {
-      status.textContent = '';
-      alert('Error generating assessment text.');
-    }
-  });
+ // Generate Assessment
+ document.getElementById('generate-assessment-btn').addEventListener('click', async () => {
+   const status = document.getElementById('assessment-status');
+   let values = getCheckedValues('assessment');
 
+   const summaryLengths = getCheckedValues('assessment_summary_length');
+   if (summaryLengths.length > 0) {
+     values.push(`Summary Length: ${summaryLengths.join(' ')}`);
+   }
 
-  // Generate Plan
-  document.getElementById('generate-plan-btn').addEventListener('click', async () => {
-    const status = document.getElementById('plan-status');
-    let values = getCheckedValues('plan');
+   if (values.length === 0) {
+     alert('Please select some assessment checkboxes or enter other information first.');
+     return;
+   }
+   status.textContent = 'Generating...';
+   try {
+     const prompt = `Rewrite this assessment into a professional clinical note narrative:\n\n${values.join(' ')}`;
+     const endpoint = selectedTherapy === 'ot' ? '/api/generate-assessment-ot' : '/api/generate-assessment';
+     const response = await fetch(endpoint, {
+       method: 'POST',
+       headers: {'Content-Type': 'application/json'},
+       body: JSON.stringify({prompt}),
+     });
+     const data = await response.json();
+     if (data.text) {
+       let resultText = data.text.trim();
+       // Remove "Assessment:" from the start if present (case insensitive)
+       if (resultText.toLowerCase().startsWith('assessment:')) {
+         resultText = resultText.substring('assessment:'.length).trim();
+       }
+       document.getElementById('assessment-text').value = resultText;
+       status.textContent = 'Done.';
+     } else {
+       status.textContent = '';
+       alert('Error generating assessment text.');
+     }
+   } catch {
+     status.textContent = '';
+     alert('Error generating assessment text.');
+   }
+ });
 
-    const summaryLengths = getCheckedValues('plan_summary_length');
-    if (summaryLengths.length > 0) {
-      values.push(`Summary Length: ${summaryLengths.join(' ')}`);
-    }
+ // Generate Plan
+ document.getElementById('generate-plan-btn').addEventListener('click', async () => {
+   const status = document.getElementById('plan-status');
+   let values = getCheckedValues('plan');
 
-    const planOtherText = getTextInputValue('plan_other');
-    if (planOtherText) values.push(`Other Plan: ${planOtherText}`);
+   const summaryLengths = getCheckedValues('plan_summary_length');
+   if (summaryLengths.length > 0) {
+     values.push(`Summary Length: ${summaryLengths.join(' ')}`);
+   }
 
-    if (values.length === 0) {
-      alert('Please select some plan checkboxes or enter other information first.');
-      return;
-    }
-    status.textContent = 'Generating...';
-    try {
-      const prompt = `Rewrite this plan of care into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
-      const response = await fetch('/api/generate-plan', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({prompt}),
-      });
-      const data = await response.json();
-      if (data.text) {
-        document.getElementById('plan-text').value = data.text;
-        status.textContent = 'Done.';
-      } else {
-        status.textContent = '';
-        alert('Error generating plan text.');
-      }
-    } catch {
-      status.textContent = '';
-      alert('Error generating plan text.');
-    }
-  });
+   const planOtherText = getTextInputValue('plan_other');
+   if (planOtherText) values.push(`Other Plan: ${planOtherText}`);
+
+   if (values.length === 0) {
+     alert('Please select some plan checkboxes or enter other information first.');
+     return;
+   }
+   status.textContent = 'Generating...';
+   try {
+     const prompt = `Rewrite this plan of care into a clear professional narrative suitable for clinical notes:\n\n${values.join(' ')}`;
+     const endpoint = selectedTherapy === 'ot' ? '/api/generate-plan-ot' : '/api/generate-plan';
+     const response = await fetch(endpoint, {
+       method: 'POST',
+       headers: {'Content-Type': 'application/json'},
+       body: JSON.stringify({prompt}),
+     });
+     const data = await response.json();
+     if (data.text) {
+       document.getElementById('plan-text').value = data.text;
+       status.textContent = 'Done.';
+     } else {
+       status.textContent = '';
+       alert('Error generating plan text.');
+     }
+   } catch {
+     status.textContent = '';
+     alert('Error generating plan text.');
+   }
+ });
 </script>
 
 </body>

@@ -592,10 +592,10 @@ def generate_subjective():
     user_prompt = data.get("prompt", "")
 
     prompt = (
-        "Rewrite this patient's subjective information into a clear professional narrative suitable for clinical notes. "
-        "Use abbreviations when appropriate, introducing them once with the full term (e.g., plan of care (POC), Home Exercise Program (HEP)) "
-        "and do not repeat abbreviations unnecessarily. Use 'Pt' or 'Patient' as the subject. "
-        "Avoid using 'the patient' or 'they' to refer to the patient.\n\n"
+        "Rewrite this subjective information into a clear, professional narrative suitable for clinical notes. "
+        "Use PT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, use the full term. "
+        "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
+        "Use 'Pt' as the subject. Avoid using 'the patient' or 'they' to refer to Pt.\n\n"
         + user_prompt
     )
 
@@ -620,9 +620,9 @@ def generate_assessment():
 
     prompt = (
         "Rewrite this assessment into a professional clinical note narrative. "
-        "Use common abbreviations where appropriate, introducing them in parentheses after the full term on first mention (e.g., Soft Tissue Mobilization (STM)). "
-        "Do not repeat the abbreviation multiple times. Avoid redundant or duplicate abbreviations. Use abbreviations consistently afterward. "
-        "Use 'Pt' or 'Patient' as the subject. Do NOT use 'The patient' or 'they' to refer to the patient.\n\n"
+        "Use common PT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, use the full term. "
+        "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
+        "Use 'Pt' as the subject. Avoid using 'The patient' or 'they' to refer to Pt.\n\n"
         + user_prompt
     )
 
@@ -645,11 +645,10 @@ def generate_plan():
     user_prompt = data.get("prompt", "")
 
     prompt = (
-        "Rewrite this plan of care into a clear professional narrative suitable for clinical notes. "
-        "Use common abbreviations where appropriate, introducing them in parentheses after the full term on first mention "
-        "(e.g., Soft Tissue Mobilization (STM)). Do not repeat abbreviations redundantly or multiple times. "
-        "Use abbreviations consistently after introduction. "
-        "Use 'Pt' or 'Patient' as the subject. Do NOT use 'the patient' or 'they' to refer to the patient.\n\n"
+        "Rewrite this plan of care into a clear, professional narrative suitable for clinical notes. "
+        "Use common PT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, spell out the full term. "
+        "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
+        "Use 'Pt' as the subject. Avoid using 'the patient' or 'they' to refer to Pt.\n\n"
         + user_prompt
     )
 
@@ -667,7 +666,93 @@ def generate_plan():
 
 if __name__ == '__main__':
     app.run(debug=True)
-        
+
+#==================================== AI GENERATE OT SOAP NOTES ====================================
+
+@app.route('/api/generate-subjective-ot', methods=['POST'])
+@login_required
+def generate_subjective_ot():
+    data = request.json
+    user_prompt = data.get("prompt", "")
+
+    prompt = (
+        "Rewrite this subjective information into a clear, professional narrative suitable for clinical notes. "
+        "Use OT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, use the full term. "
+        "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
+        "Use 'Pt' as the subject. Avoid using 'the patient' or 'they' to refer to Pt.\n\n"
+        + user_prompt
+    )
+
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=300,
+        )
+        text = response.choices[0].message.content.strip()
+        return jsonify({"text": text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/generate-assessment-ot', methods=['POST'])
+@login_required
+def generate_assessment_ot():
+    data = request.json
+    user_prompt = data.get("prompt", "")
+
+    prompt = (
+        "Rewrite this assessment into a professional clinical note narrative. "
+        "Use OT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, use the full term. "
+        "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
+        "Use 'Pt' as the subject. Avoid using 'The patient' or 'they' to refer to Pt.\n\n"
+        + user_prompt
+    )
+
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=300,
+        )
+        text = response.choices[0].message.content.strip()
+        return jsonify({"text": text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/generate-plan-ot', methods=['POST'])
+@login_required
+def generate_plan_ot():
+    data = request.json
+    user_prompt = data.get("prompt", "")
+
+    prompt = (
+        "Rewrite this plan of care into a clear, professional narrative suitable for clinical notes. "
+        "Use OT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, spell out the full term. "
+        "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
+        "Use 'Pt' as the subject. Avoid using 'the patient' or 'they' to refer to Pt.\n\n"
+        + user_prompt
+    )
+
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=300,
+        )
+        text = response.choices[0].message.content.strip()
+        return jsonify({"text": text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
 #==================================== PT SAVE NOTES ====================================
 
 @app.route('/pt_eval_builder', methods=['GET', 'POST'])
