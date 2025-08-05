@@ -583,16 +583,18 @@ ALWAYS use this structure, always begin each statement with 'Pt will', and do NO
     result = gpt_call(prompt, max_tokens=400)
     return jsonify({"result": result})
     
-#==================================== AI GENERATE SOAP NOTES ====================================
+#==================================== AI GENERATE PT SOAP NOTES ====================================
 
 @app.route('/api/generate-subjective', methods=['POST'])
 @login_required
 def generate_subjective():
     data = request.json
     user_prompt = data.get("prompt", "")
+    starter_phrase = data.get("starter", "")
 
     prompt = (
-        "Rewrite this subjective information into a clear, professional narrative suitable for clinical notes. "
+        f"Rewrite this subjective information into a clear, professional narrative suitable for clinical notes. "
+        f"Always start the first sentence with exactly this phrase: '{starter_phrase}' and do not substitute or rephrase it. "
         "Use PT-approved abbreviations only. If an abbreviation exists, use it consistently; if not, use the full term. "
         "Do not introduce abbreviations in parentheses or repeat them unnecessarily. "
         "Use 'Pt' as the subject. Avoid using 'the patient' or 'they' to refer to Pt.\n\n"
@@ -611,7 +613,7 @@ def generate_subjective():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
+# No change needed to assessment/plan unless you want custom starters there too
 @app.route('/api/generate-assessment', methods=['POST'])
 @login_required
 def generate_assessment():
